@@ -4,16 +4,17 @@
   "description": "App for IGCSE and A Level Practice",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Synic-dx/Asterisk.git"
   },
   "keywords": [
-    "igcse;",
-    "a-levels;",
-    "mcqs;",
+    "igcse",
+    "a-levels",
+    "mcqs",
     "testing-application"
   ],
   "author": "Shinjan",
