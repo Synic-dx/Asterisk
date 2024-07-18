@@ -8,7 +8,7 @@ const paperSchema = new mongoose.Schema({
     year: {type: Number, required: true},
     component: {type: Number, required: true},
     variant: {type: Number, required: true},
-    paperID: {type: String, required: true}, //should be equal to {subjectCode-year-examSession-component+variant eg 9709-2023-MJ-12}
+    paperID: {type: String, required: true},
     userMarks: {
         type: Number,
         required: true,
@@ -18,15 +18,21 @@ const paperSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    userTime: {
+    userPaperTime: {
         type: Number,
         required: true,
         default: null
     },
-    totalTime: {
+    totalPaperTime: {
         type: Number,
         required: true
     }
 })
+
+//paperID should be equal to {subjectCode-year-examSession-component+variant eg 9709-2023-MJ-12}
+paperSchema.pre('save', function(next) {
+    this.paperID = `${this.subjectCode}-${this.year}-${this.examSession}-${this.component}${this.variant}`;
+    next();
+  });
 
 export const Paper = mongoose.model('Paper', paperSchema)
