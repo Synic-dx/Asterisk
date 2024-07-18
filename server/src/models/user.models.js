@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
     unrestrictedSubjects: { type: Boolean, required: true, default: false },
     graderAccess: { type: Boolean, required: true, default: false },
     newUser: { type: Boolean, required: true, default: true },
-    paperSolvedDetails: [
+    papersSolvedDetails: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Paper" },
     ],
     questionsSolvedDetails: [

@@ -11,7 +11,8 @@ const paperSchema = new mongoose.Schema({
     paperID: {type: String, required: true}, //should be equal to {subjectCode-year-examSession-component+variant eg 9709-2023-MJ-12}
     userMarks: {
         type: Number,
-        required: true
+        required: true,
+        default: null
     },
     totalMarks: {
         type: Number,
@@ -19,7 +20,8 @@ const paperSchema = new mongoose.Schema({
     },
     userTime: {
         type: Number,
-        required: true
+        required: true,
+        default: null
     },
     totalTime: {
         type: Number,
