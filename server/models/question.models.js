@@ -8,7 +8,9 @@ const questionSchema = new mongoose.Schema({
     image: {type: String},
     options: {type: [Object], required: true},
     correctAnswer: {type: Object, required: true},
-    userAnswer: {type: Object}
+    userAnswer: {type: Object},
+    userCorrect: {type: Boolean},
+    userTime: {type: Number} // Time taken by user to answer in seconds
 })
 
-export const Paper = mongoose.model('Paper', paperSchema)
+export const Question = mongoose.model('Question', questionSchema)
