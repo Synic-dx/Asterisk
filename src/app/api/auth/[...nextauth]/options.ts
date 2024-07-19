@@ -45,15 +45,14 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
 
+  //storing these values within a token per login to reduce server usage
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         token._id = user._id?.toString();
         token.isVerified = user.isVerified;
         token.userName = user.userName;
-        token.unrestrictedSums = user.unrestrictedSums;
-        token.unrestrictedSubjects = user.unrestrictedSubjects;
-        token.graderAccess = user.graderAccess;
+        token.premiumAccess = user.premiumAccess;
         token.papersSolvedDetails = user.papersSolvedDetails;
         token.questionsSolvedDetails = user.questionsSolvedDetails;
         token.selectedSubjects = user.selectedSubjects;
@@ -65,9 +64,7 @@ export const authOptions: NextAuthOptions = {
         session.user._id = token._id;
         session.user.isVerified = token.isVerified;
         session.user.userName = token.userName;
-        session.user.unrestrictedSums = token.unrestrictedSums;
-        session.user.unrestrictedSubjects = token.unrestrictedSubjects;
-        session.user.graderAccess = token.graderAccess;
+        session.user.premiumAccess = token.premiumAccess;
         session.user.papersSolvedDetails = token.papersSolvedDetails;
         session.user.questionsSolvedDetails = token.questionsSolvedDetails;
         session.user.selectedSubjects = token.selectedSubjects;

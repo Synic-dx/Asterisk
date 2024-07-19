@@ -7,10 +7,7 @@ export interface User extends Document {
   verificationCode: string;
   verificationCodeExpiry: Date;
   isVerified: boolean;
-  unrestrictedSums: boolean;
-  unrestrictedSubjects: boolean;
-  graderAccess: boolean;
-  memberSince: Date;
+  premiumAccess: boolean;
   papersSolvedDetails: mongoose.Types.ObjectId[];
   questionsSolvedDetails: mongoose.Types.ObjectId[];
   selectedSubjects: number[];
@@ -24,9 +21,7 @@ const UserSchema = new Schema(
     password: { type: String, required: [true, 'Password is required'] },
 
     // Membership details
-    unrestrictedSums: { type: Boolean, required: true, default: false },
-    unrestrictedSubjects: { type: Boolean, required: true, default: false },
-    graderAccess: { type: Boolean, required: true, default: false },
+    premiumAccess: { type: Boolean, default: false},
 
     // Stats
     papersSolvedDetails: [{ type: Schema.Types.ObjectId, ref: "Paper" }],

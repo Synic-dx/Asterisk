@@ -5,9 +5,7 @@ declare module "next-auth" {
     _id?: string;
     isVerified?: boolean;
     userName?: string;
-    unrestrictedSums?: boolean;
-    unrestrictedSubjects?: boolean;
-    graderAccess?: boolean;
+    premiumAccess?: boolean;
     papersSolvedDetails?: mongoose.Types.ObjectId[];
     questionsSolvedDetails?: mongoose.Types.ObjectId[];
     selectedSubjects?: number[];
@@ -18,9 +16,7 @@ declare module "next-auth" {
       _id?: string;
       isVerified?: boolean;
       userName?: string;
-      unrestrictedSums?: boolean;
-      unrestrictedSubjects?: boolean;
-      graderAccess?: boolean;
+      premiumAccess?: boolean;
       papersSolvedDetails?: mongoose.Types.ObjectId[];
       questionsSolvedDetails?: mongoose.Types.ObjectId[];
       selectedSubjects?: number[];
@@ -33,9 +29,7 @@ declare module "next-auth/jwt" {
     _id?: string;
     isVerified?: boolean;
     userName?: string;
-    unrestrictedSums?: boolean;
-    unrestrictedSubjects?: boolean;
-    graderAccess?: boolean;
+    premiumAccess?: boolean;
     papersSolvedDetails?: mongoose.Types.ObjectId[];
     questionsSolvedDetails?: mongoose.Types.ObjectId[];
     selectedSubjects?: number[];
