@@ -22,6 +22,12 @@ export interface Question extends Document {
   userQuestionTime?: number; // Time taken by user to answer in seconds
 }
 
+const OptionSchema = new Schema({
+  option: { type: String, enum: ["A", "B", "C", "D"], required: true },
+  text: { type: String, required: true },
+  image: { type: String }
+});
+
 const QuestionSchema = new Schema({
   paper: { type: Schema.Types.ObjectId, ref: "Paper", required: true },
   questionID: { type: String, required: true },
@@ -35,26 +41,25 @@ const QuestionSchema = new Schema({
   questionNumber: { type: Number, required: true },
   questionText: { type: String, required: true },
   image: { type: String },
-  options: { type: [Object], required: true },
-  correctOption: { type: Object, required: true },
-  userAnswer: { type: Object, default: null },
+  options: { type: [OptionSchema], required: true },
+  correctOption: { type: OptionSchema, required: true },
+  userAnswer: { type: OptionSchema, default: null },
   userCorrect: { type: Boolean, default: null },
   userQuestionTime: { type: Number, default: null },
 });
 
 // Should be equal to paperID-QquestionNumber e.g., 9709-2023-MJ-12-Q6 for 6th question, everything before Q6 is imported via paperID
 QuestionSchema.pre("save", async function (next) {
-    if (this.isNew || this.isModified("questionNumber")) {
-      const paper = await mongoose.model('Paper').findById(this.paper);
-      if (paper) {
-        this.questionID = `${paper.paperID}-Q${this.questionNumber}`;
-      }
+  if (this.isNew || this.isModified("questionNumber")) {
+    const paper = await mongoose.model('Paper').findById(this.paper);
+    if (paper) {
+      this.questionID = `${paper.paperID}-Q${this.questionNumber}`;
     }
-    next();
-  });
+  }
+  next();
+});
 
-const QuestionModel =
-  (mongoose.models.Question as mongoose.Model<Question>) ||
-  mongoose.model<Question>("Question", QuestionSchema);
+const QuestionModel = mongoose.models.Question as mongoose.Model<Question> || mongoose.model<Question>("Question", QuestionSchema);
 
 export default QuestionModel;
+
