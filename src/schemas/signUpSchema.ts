@@ -1,5 +1,7 @@
 import {z} from 'zod'
 
+// ZOD is a server-side validator which validates based on types, minimum, maximum length, regex etc
+// This particular code is for validating signup data entry
 export const userNameValidation = z
   .string()
   .min(3, {message: 'Username must be at least 3 characters long'})

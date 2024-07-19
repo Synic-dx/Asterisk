@@ -1,3 +1,8 @@
+// This code is there just to tackle the nextauthjs's User tokens being too simple
+// (just accepting a few datapoints) while not even specifying their types.
+// This code will set the types for the User datapoints, which are themselves
+// added in src\app\api\auth\[...nextauth]\options.ts file
+
 import "next-auth";
 
 declare module "next-auth" {
@@ -20,7 +25,7 @@ declare module "next-auth" {
       papersSolvedDetails?: mongoose.Types.ObjectId[];
       questionsSolvedDetails?: mongoose.Types.ObjectId[];
       selectedSubjects?: number[];
-    } & DefaultSession['user'];
+    } & DefaultSession["user"];
   }
 }
 

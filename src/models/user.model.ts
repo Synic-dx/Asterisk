@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
+// in TypeScript we have a buffer measure (Type Safety) to ensure all datapoints are entered in the intended types
 export interface User extends Document {
   userName: string;
   email: string;
@@ -33,9 +34,11 @@ const UserSchema = new Schema(
     verificationCodeExpiry: { type: Date, required: [true, 'Verify Code Expiry is required'] },
     isVerified: { type: Boolean, default: false }
   },
-  { timestamps: true }
+  { timestamps: true } // automatically creates a createdAt and updatedAt datapoints based on user creation and modified dates
 );
 
 const UserModel = mongoose.models.User as mongoose.Model<User> || mongoose.model<User>('User', UserSchema);
+// this export syntax is useful cuz nextjs apps arent connected to database the whole time, only when neccessary
+// so it checks if the data is present already or not (if so then just modifies) or else creates another object
 
 export default UserModel;

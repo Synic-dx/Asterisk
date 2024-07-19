@@ -2,8 +2,8 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface Option {
   option: "A" | "B" | "C" | "D";
-  text: string;
-  image?: string; // Optional
+  text?: string;
+  image?: string; // The ? is appended to each optional datapoint
 }
 
 export interface Question extends Document {
@@ -14,7 +14,7 @@ export interface Question extends Document {
   subtopic?: string; // Subtopic of the question (if applicable)
   questionNumber: number; // Question number within the paper
   questionText: string; // The question text
-  image?: string; // URL or path to the question image (if applicable)
+  questionImages?: string[]; // URL or path to the question image (if applicable)
   options: Option[]; // Array of options with text and image (if applicable)
   correctOption: Option; // The correct option with text and image (if applicable)
   userAnswer?: Option; // The user's answer with text and image (if applicable)
@@ -24,13 +24,13 @@ export interface Question extends Document {
 
 const OptionSchema = new Schema({
   option: { type: String, enum: ["A", "B", "C", "D"], required: true },
-  text: { type: String, required: true },
-  image: { type: String }
+  text: { type: String },
+  optionImage: { type: String }
 });
 
-const QuestionSchema = new Schema({
+const QuestionSchema = new Schema<Question>({
   paper: { type: Schema.Types.ObjectId, ref: "Paper", required: true },
-  questionID: { type: String, required: true },
+  questionID: { type: String, required: true, unique: true },
   difficultyLevel: {
     type: String,
     enum: ["conceptual", "easy", "medium", "hard"]
@@ -39,7 +39,7 @@ const QuestionSchema = new Schema({
   subtopic: { type: String },
   questionNumber: { type: Number, required: true },
   questionText: { type: String, required: true },
-  image: { type: String },
+  questionImages: { type: [String] }, // This is an array cuz some questions have multiple images. The images will be served via a CDN/Gitub Raw file link
   options: { type: [OptionSchema], required: true },
   correctOption: { type: OptionSchema, required: true },
   userAnswer: { type: OptionSchema, default: null },
@@ -47,18 +47,22 @@ const QuestionSchema = new Schema({
   userQuestionTime: { type: Number, default: null },
 });
 
-// Should be equal to paperID-QquestionNumber e.g., 9709-2023-MJ-12-Q6 for 6th question, everything before Q6 is imported via paperID
+// Middleware to ensure questionID is equal to paperID-QquestionNumber e.g., 9709-2023-MJ-12-Q6 for 6th question, everything before Q6 is imported via paperID
 QuestionSchema.pre("save", async function (next) {
-  if (this.isNew || this.isModified("questionNumber")) {
-    const paper = await mongoose.model('Paper').findById(this.paper);
+  const question = this as Question;
+  if (question.isNew || question.isModified("questionNumber")) {
+    const paper = await mongoose.model('Paper').findById(question.paper);
     if (paper) {
-      this.questionID = `${paper.paperID}-Q${this.questionNumber}`;
+      question.questionID = `${paper.paperID}-Q${question.questionNumber}`;
     }
   }
   next();
 });
 
 const QuestionModel = mongoose.models.Question as mongoose.Model<Question> || mongoose.model<Question>("Question", QuestionSchema);
+// this export syntax is useful cuz nextjs apps arent connected to database the whole time, only when neccessary
+// so it checks if the data is present already or not (if so then just modifies) or else creates another object
 
 export default QuestionModel;
+
 
