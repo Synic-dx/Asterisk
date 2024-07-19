@@ -10,7 +10,7 @@ export interface Question extends Document {
   paper: mongoose.Types.ObjectId; // Reference to the Paper document
   questionID: string; // Unique identifier for the question
   difficultyLevel: "conceptual" | "easy" | "medium" | "hard"; // Difficulty level
-  topic: string; // Main topic of the question
+  topic?: string; // Main topic of the question (if applicable)
   subtopic?: string; // Subtopic of the question (if applicable)
   questionNumber: number; // Question number within the paper
   questionText: string; // The question text
@@ -33,10 +33,9 @@ const QuestionSchema = new Schema({
   questionID: { type: String, required: true },
   difficultyLevel: {
     type: String,
-    enum: ["conceptual", "easy", "medium", "hard"],
-    required: true,
+    enum: ["conceptual", "easy", "medium", "hard"]
   },
-  topic: { type: String, required: true },
+  topic: { type: String },
   subtopic: { type: String },
   questionNumber: { type: Number, required: true },
   questionText: { type: String, required: true },
