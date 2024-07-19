@@ -1,5 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/user.model";
@@ -18,7 +19,7 @@ export const authOptions: NextAuthOptions = {
 
         try {
           const user = await UserModel.findOne({
-            email: credentials.identifier.email
+            email: credentials.identifier.email,
           });
           if (!user) {
             throw new Error("No user found with this email");
@@ -39,13 +40,24 @@ export const authOptions: NextAuthOptions = {
             throw new Error("Incorrect password");
           }
         } catch (error: any) {
-          throw new Error(error.message); // Corrected to error.message
+          throw new Error(error.message);
         }
       },
     }),
+
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID || '',
+      clientSecret: process.env.GOOGLE_SECRET || '',
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code"
+        }
+      }
+    })
   ],
 
-  //storing these values within a token per login to reduce server usage
   callbacks: {
     async jwt({ token, user }) {
       if (user) {

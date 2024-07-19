@@ -25,7 +25,7 @@ export interface Question extends Document {
 const OptionSchema = new Schema({
   option: { type: String, enum: ["A", "B", "C", "D"], required: true },
   text: { type: String },
-  optionImage: { type: String }
+  optionImage: { type: String },
 });
 
 const QuestionSchema = new Schema<Question>({
@@ -33,7 +33,7 @@ const QuestionSchema = new Schema<Question>({
   questionID: { type: String, required: true, unique: true },
   difficultyLevel: {
     type: String,
-    enum: ["conceptual", "easy", "medium", "hard"]
+    enum: ["conceptual", "easy", "medium", "hard"],
   },
   topic: { type: String },
   subtopic: { type: String },
@@ -51,7 +51,7 @@ const QuestionSchema = new Schema<Question>({
 QuestionSchema.pre("save", async function (next) {
   const question = this as Question;
   if (question.isNew || question.isModified("questionNumber")) {
-    const paper = await mongoose.model('Paper').findById(question.paper);
+    const paper = await mongoose.model("Paper").findById(question.paper);
     if (paper) {
       question.questionID = `${paper.paperID}-Q${question.questionNumber}`;
     }
@@ -59,10 +59,10 @@ QuestionSchema.pre("save", async function (next) {
   next();
 });
 
-const QuestionModel = mongoose.models.Question as mongoose.Model<Question> || mongoose.model<Question>("Question", QuestionSchema);
+const QuestionModel =
+  (mongoose.models.Question as mongoose.Model<Question>) ||
+  mongoose.model<Question>("Question", QuestionSchema);
 // this export syntax is useful cuz nextjs apps arent connected to database the whole time, only when neccessary
 // so it checks if the data is present already or not (if so then just modifies) or else creates another object
 
 export default QuestionModel;
-
-
