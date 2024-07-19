@@ -42,7 +42,7 @@ const QuestionSchema = new Schema({
   userQuestionTime: { type: Number, default: null },
 });
 
-// Should be equal to paperID-QquestionNumber e.g., 9709-2023-MJ-12-Q6 for 6th question
+// Should be equal to paperID-QquestionNumber e.g., 9709-2023-MJ-12-Q6 for 6th question, everything before Q6 is imported via paperID
 QuestionSchema.pre("save", async function (next) {
     if (this.isNew || this.isModified("questionNumber")) {
       const paper = await mongoose.model('Paper').findById(this.paper);

@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface Paper extends Document {
-  level: string;
+  level: 'IGCSE' | 'AS/A-Level';
   subject: string;
   subjectCode: number;
   examSession: string;
@@ -16,7 +16,7 @@ export interface Paper extends Document {
 }
 
 const PaperSchema = new Schema({
-  level: { type: String, required: true },
+  level: { type: String, enum: ['IGCSE', 'AS/A-Level'], required: true },
   subject: { type: String, required: true },
   subjectCode: { type: Number, required: true },
   examSession: { type: String, required: true },
@@ -30,11 +30,13 @@ const PaperSchema = new Schema({
   totalPaperTime: { type: Number, required: true }
 });
 
+// middleware to auto-make the paperID based on subjectCode, year, examSession, component & variant
 PaperSchema.pre('save', function (next) {
   this.paperID = `${this.subjectCode}-${this.year}-${this.examSession}-${this.component}${this.variant}`;
   next();
 });
 
-const PaperModel = mongoose.models.Paper as mongoose.Model<Paper> || mongoose.model<Paper>('Paper', PaperSchema);
+const PaperModel = mongoose.models.Paper || mongoose.model<Paper>('Paper', PaperSchema);
 
 export default PaperModel;
+
