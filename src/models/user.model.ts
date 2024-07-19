@@ -4,8 +4,8 @@ export interface User extends Document {
   userName: string;
   email: string;
   password: string;
-  verifyCode: string;
-  verifyCodeExpiry: Date;
+  verificationCode: string;
+  verificationCodeExpiry: Date;
   isVerified: boolean;
   unrestrictedSums: boolean;
   unrestrictedSubjects: boolean;
@@ -27,7 +27,6 @@ const UserSchema = new Schema(
     unrestrictedSums: { type: Boolean, required: true, default: false },
     unrestrictedSubjects: { type: Boolean, required: true, default: false },
     graderAccess: { type: Boolean, required: true, default: false },
-    memberSince: { type: Date, required: true, default: Date.now },
 
     // Stats
     papersSolvedDetails: [{ type: Schema.Types.ObjectId, ref: "Paper" }],
@@ -35,8 +34,8 @@ const UserSchema = new Schema(
     selectedSubjects: [{ type: Number, default: null }],
 
     // Email verification
-    verifyCode: { type: String, required: [true, 'Verify Code is required'] },
-    verifyCodeExpiry: { type: Date, required: [true, 'Verify Code Expiry is required'] },
+    verificationCode: { type: String, required: [true, 'Verify Code is required'] },
+    verificationCodeExpiry: { type: Date, required: [true, 'Verify Code Expiry is required'] },
     isVerified: { type: Boolean, default: false }
   },
   { timestamps: true }

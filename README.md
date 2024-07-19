@@ -4,8 +4,13 @@ An app to serve IGCSE & A Level MCQ Questions. Explanations for each MCQ is dyna
 
 ## Tech Stack
 
-MERN with NextJS (TypeScript)
-Chakra UI Library
+- MERN with NextJS (TypeScript)
+- Formik and Yup for Client Side Validation
+- Chakra UI Library
+- Mongoose + ZOD for extra layer of Server Side Validation
+- NextAuthJS, ResendEmail for signin authentication (OTP Verification + Google Signin as well)
+- React Email for formatting the email to be sent
+- BcrptJS for password encryption
 
 ## Designs
 ### Landing
