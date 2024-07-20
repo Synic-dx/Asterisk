@@ -12,17 +12,17 @@ import {
 
 interface VerificationEmailProps {
   userName: string;
-  verificationOTP: string;
+  forgotOTP: string;
 }
 
 export default function VerificationEmail({
   userName,
-  verificationOTP,
+  forgotOTP,
 }: VerificationEmailProps) {
   return (
     <Html lang="en" dir="ltr">
       <Head>
-        <title>Email Verification Code</title>
+        <title>Verification Code</title>
         <Font
           fontFamily="Roboto"
           fallbackFontFamily="Verdana"
@@ -34,19 +34,16 @@ export default function VerificationEmail({
           fontStyle="normal"
         />
       </Head>
-      <Preview>Here&apos;s your verification code: {verificationOTP}</Preview>
+      <Preview>Here&apos;s your Password Reset code: {forgotOTP}</Preview>
       <Section>
         <Row>
           <Heading as="h2">Hello {userName},</Heading>
         </Row>
         <Row>
-          <Text>
-            Thank you for registering. Please use the following verification
-            code to complete your registration:
-          </Text>
+          <Text>Here's your Password Reset Code:</Text>
         </Row>
         <Row>
-          <Text>{verificationOTP}</Text>
+          <Text>{forgotOTP}</Text>
         </Row>
         <Row>
           <Text>

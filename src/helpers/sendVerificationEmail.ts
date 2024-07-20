@@ -12,7 +12,7 @@ export async function sendVerificationEmail(
       from: "onboarding@resend.dev", // to be replaced by custom email after domain buying
       to: email,
       subject: "Asterisk | Sign Up Verification Code",
-      react: VerificationEmail({ userName, otp: verificationCode }),
+      react: VerificationEmail({ userName, verificationOTP: verificationCode }),
     });
 
     return { success: true, message: "Verification Email Sent Successfully" };

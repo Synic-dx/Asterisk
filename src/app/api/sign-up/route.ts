@@ -30,11 +30,14 @@ export async function POST(req: Request) {
     if (existingUserByEmail) {
       if (existingUserByEmail.isVerified) {
         return Response.json(
-          { success: false, message: "Email is already registered and verified" },
+          {
+            success: false,
+            message: "Email is already registered and verified",
+          },
           { status: 400 }
         );
       } else {
-        // suppose you had registered earlier and hadn't verified email, and then forgotten password, you can now enter the site through the otp (and your password gets changed automatically)
+        // allows taking over of emails and usernames if you can verify them before another user
         const hashedPassword = await bcrypt.hash(password, 10);
         existingUserByEmail.password = hashedPassword;
         existingUserByEmail.verificationCode = verificationCode;
@@ -43,7 +46,7 @@ export async function POST(req: Request) {
         );
         await existingUserByEmail.save();
       }
-    } else {
+    } else {  // checks have been passed no user exists with the same email or userName so continue registration
       const hashedPassword = await bcrypt.hash(password, 10);
       const expiryDate = new Date();
       expiryDate.setHours(expiryDate.getHours() + 1);
@@ -52,15 +55,13 @@ export async function POST(req: Request) {
         userName,
         email,
         password: hashedPassword,
-        verificationCode,
-        verifyCodeExpiry: expiryDate,
-        isVerified: false,
-        unrestrictedSums: false,
-        unrestrictedSubjects: false,
-        graderAccess: false,
+        premiumAccess: false,
         papersSolvedDetails: [],
         questionsSolvedDetails: [],
         selectedSubjects: [],
+        verificationCode,
+        verifyCodeExpiry: expiryDate,
+        isVerified: false,
       });
 
       await newUser.save();
@@ -85,6 +86,8 @@ export async function POST(req: Request) {
         message: "User registered successfully. Please verify your email.",
       },
       { status: 201 }
+
+    // After this final 201 return the Verification Code field modal will pop up
     );
   } catch (error) {
     console.error("Error creating user:", error);

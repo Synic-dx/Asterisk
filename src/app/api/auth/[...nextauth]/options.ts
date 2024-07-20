@@ -4,6 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/user.model";
+import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -19,14 +20,32 @@ export const authOptions: NextAuthOptions = {
 
         try {
           const user = await UserModel.findOne({
-            email: credentials.identifier.email,
+            email: credentials.email,
           });
           if (!user) {
             throw new Error("No user found with this email");
           }
 
           if (!user.isVerified) {
-            throw new Error("Please verify your account before login");
+            const verificationCode = Math.floor(
+              100000 + Math.random() * 900000
+            ).toString();
+
+            user.verificationCode = verificationCode;
+            user.verificationCodeExpiry = new Date(Date.now() + 3600000); // 1 hour expiry
+            await user.save();
+
+            const emailResponse = await sendVerificationEmail(
+              user.email,
+              user.userName,
+              verificationCode
+            );
+
+            if (!emailResponse.success) {
+              throw new Error("Failed to send verification email");
+            }
+
+            throw new Error("Email not verified. Verification code sent.");
           }
 
           const isPasswordCorrect = await bcrypt.compare(
@@ -46,16 +65,16 @@ export const authOptions: NextAuthOptions = {
     }),
 
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID || '',
-      clientSecret: process.env.GOOGLE_SECRET || '',
+      clientId: process.env.GOOGLE_ID!,
+      clientSecret: process.env.GOOGLE_SECRET!,
       authorization: {
         params: {
           prompt: "consent",
           access_type: "offline",
-          response_type: "code"
-        }
-      }
-    })
+          response_type: "code",
+        },
+      },
+    }),
   ],
 
   callbacks: {
@@ -95,3 +114,4 @@ export const authOptions: NextAuthOptions = {
 
   secret: process.env.NEXTAUTH_SECRET,
 };
+

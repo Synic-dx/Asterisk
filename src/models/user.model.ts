@@ -1,6 +1,37 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-// in TypeScript we have a buffer measure (Type Safety) to ensure all datapoints are entered in the intended types
+export interface QuestionDetails {
+  questionObjectId: mongoose.Types.ObjectId;
+  questionId: string;
+  userAnswer: string;
+  userQuestionTime: number;
+  isCorrect: boolean;
+}
+
+const QuestionDetailsSchema = new Schema({
+  questionId: { type: String, required: true },
+  questionObjectId: { type: mongoose.Types.ObjectId, required: true },
+  userAnswer: { type: String, required: true },
+  userQuestionTime: { type: Number, required: true },
+  isCorrect: { type: Boolean, required: true },
+});
+
+export interface PaperSolvedDetails {
+  paperObjectId: mongoose.Types.ObjectId;
+  paperId: string;
+  userMarks: number;
+  userPaperTime: number;
+  accuracy: number;
+}
+
+const PaperSolvedDetailsSchema = new Schema({
+  paperObjectId: { type: mongoose.Types.ObjectId, required: true },
+  paperId: { type: String, required: true },
+  userMarks: { type: Number, required: true },
+  userPaperTime: { type: Number, required: true },
+  accuracy: { type: Number, required: true },
+});
+
 export interface User extends Document {
   userName: string;
   email: string;
@@ -9,9 +40,11 @@ export interface User extends Document {
   verificationCodeExpiry: Date;
   isVerified: boolean;
   premiumAccess: boolean;
-  papersSolvedDetails: mongoose.Types.ObjectId[];
-  questionsSolvedDetails: mongoose.Types.ObjectId[];
-  selectedSubjects: number[];
+  papersSolvedDetails: PaperSolvedDetails[]; // Updated to use PaperSolvedDetails[]
+  questionsSolvedDetails: QuestionDetails[];
+  selectedSubjects: mongoose.Types.ObjectId[];
+  forgotPasswordToken?: string; // Optional
+  forgotPasswordTokenExpiry?: Date; // Optional
 }
 
 const UserSchema = new Schema(
@@ -30,28 +63,24 @@ const UserSchema = new Schema(
     premiumAccess: { type: Boolean, default: false },
 
     // Stats
-    papersSolvedDetails: [{ type: Schema.Types.ObjectId, ref: "Paper" }],
-    questionsSolvedDetails: [{ type: Schema.Types.ObjectId, ref: "Question" }],
-    selectedSubjects: [{ type: Number, default: null }],
+    papersSolvedDetails: [PaperSolvedDetailsSchema], // Use the PaperSolvedDetailsSchema here
+    questionsSolvedDetails: [QuestionDetailsSchema], // Use the QuestionDetailsSchema here
+    selectedSubjects: [{ type: Schema.Types.ObjectId, ref: "Subject" }], // Reference SubjectSchema
 
     // Email verification
-    verificationCode: {
-      type: String,
-      required: [true, "Verify Code is required"],
-    },
-    verificationCodeExpiry: {
-      type: Date,
-      required: [true, "Verify Code Expiry is required"],
-    },
+    verificationCode: { type: String, required: true },
+    verificationCodeExpiry: { type: Date, required: true },
     isVerified: { type: Boolean, default: false },
+
+    // Forgot password
+    forgotPasswordToken: { type: String, required: false },
+    forgotPasswordTokenExpiry: { type: Date, required: false },
   },
-  { timestamps: true } // automatically creates a createdAt and updatedAt datapoints based on user creation and modified dates
+  { timestamps: true }
 );
 
 const UserModel =
   (mongoose.models.User as mongoose.Model<User>) ||
   mongoose.model<User>("User", UserSchema);
-// this export syntax is useful cuz nextjs apps arent connected to database the whole time, only when neccessary
-// so it checks if the data is present already or not (if so then just modifies) or else creates another object
 
 export default UserModel;

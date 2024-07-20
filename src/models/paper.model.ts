@@ -61,9 +61,10 @@ const PaperSchema = new Schema({
   component: { type: Number, required: true },
   variant: { type: Number, enum: [1, 2, 3], required: true },
   paperID: { type: String, required: true },
-  userMarks: { type: Number, default: null },
+  questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
+  // userMarks: { type: Number, default: null },
   totalMarks: { type: Number, required: true },
-  userPaperTime: { type: Number, default: null },
+  // userPaperTime: { type: Number, default: null },
   totalPaperTime: { type: Number, required: true },
 });
 
@@ -83,7 +84,11 @@ PaperSchema.pre("save", function (next) {
 
 const PaperModel =
   mongoose.models.Paper || mongoose.model<Paper>("Paper", PaperSchema);
+
+const SubjectModel =
+  mongoose.models.Subject || mongoose.model<Subject>("Subject", SubjectSchema);
 // this export syntax is useful cuz nextjs apps arent connected to database the whole time, only when neccessary
 // so it checks if the data is present already or not (if so then just modifies) or else creates another object
 
-export default PaperModel;
+export { PaperModel, SubjectModel };
+
