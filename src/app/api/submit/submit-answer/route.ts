@@ -1,27 +1,57 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
 import dbConnect from "@/lib/dbConnect";
 import QuestionModel from "@/models/question.model";
 import UserModel from "@/models/user.model";
 import mongoose from "mongoose";
 
+const calculateUserRating = (
+  attempts: number,
+  correctAnswers: number
+): number => {
+  if (attempts === 0) return 50; // Default rating if no attempts
+  const accuracy = correctAnswers / attempts;
+  return Math.round(accuracy * 100); // Scale accuracy to a rating out of 100
+};
+
 const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
 
   if (req.method === "POST") {
-    const { questionID, userAnswer, isCorrect, userQuestionTime } = req.body;
+    // questionId will be GETted as well as POSTed.
+    // userId to be POSTted from the client side after getting the values from
+    // client stored session tokens instead of dual way communication per question
+    // the other three values will be generated from frontend and POSTed here
+    const { questionId, userAnswer, isCorrect, userQuestionTime, userId } =
+      req.body;
 
     try {
-      // Get the session data
-      const session = await getSession({ req });
-      if (!session) {
-        return res.status(401).json({ message: "Not authenticated" });
-      }
-
-      const question = await QuestionModel.findOne({ questionID });
-      const user = await UserModel.findById(session.user._id);
+      const question = await QuestionModel.findById(questionId);
+      const user = await UserModel.findById(userId);
 
       if (question && user) {
+        // Check if the user is not a premium user and has exceeded the daily quota of 80 questions
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set to start of the day
+
+        const dailyAttempts = await UserModel.aggregate([
+          { $match: { _id: userId } },
+          { $unwind: "$questionsSolvedDetails" },
+          { $match: { "questionsSolvedDetails.attemptedOn": { $gte: today } } },
+          { $count: "dailyAttempts" }, // count of total number of problems attempted today
+        ]);
+
+        const attemptsToday =
+          dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
+
+        if (!user.premiumAccess && attemptsToday >= 80) {
+          return res
+            .status(403)
+            .json({
+              message:
+                "Daily quota of 80 questions reached. Upgrade to premium for unlimited access.",
+            });
+        }
+
         // Update question statistics
         question.totalAttempts += 1;
         if (isCorrect) {
@@ -45,12 +75,46 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
           user.questionsSolvedDetails = [];
         }
         user.questionsSolvedDetails.push({
-          questionId: question.questionID, // Store the distinct questionId
           questionObjectId: question._id as mongoose.Types.ObjectId, // Store the MongoDB ObjectId
           userAnswer,
           userQuestionTime,
           isCorrect,
+          attemptedOn: new Date(), // Record the attempt time
         });
+
+        // Update selectedSubjects stats
+        const subjectStats = user.selectedSubjects.find(
+          (subject) =>
+            subject.subjectObjectId.toString() === question.subject.subjectCode
+        );
+
+        if (subjectStats) {
+          subjectStats.userAttempts += 1;
+          if (isCorrect) {
+            subjectStats.userCorrectAnswers += 1;
+          }
+          subjectStats.userRating = calculateUserRating(
+            subjectStats.userAttempts,
+            subjectStats.userCorrectAnswers
+          );
+        } else {
+          // Check if the user is not a premium user and already has more than 3 subjects
+          if (!user.premiumAccess && user.selectedSubjects.length >= 3) {
+            return res
+              .status(403)
+              .json({ message: "Upgrade to premium to add more subjects." });
+          }
+
+          // For when user attempts the first question of a new subject
+          user.selectedSubjects.push({
+            subjectObjectId: new mongoose.Types.ObjectId(
+              question.subject.subjectCode
+            ),
+            userRating: calculateUserRating(1, isCorrect ? 1 : 0),
+            userAttempts: 1,
+            userCorrectAnswers: isCorrect ? 1 : 0,
+          });
+        }
 
         await user.save();
 

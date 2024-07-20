@@ -2,34 +2,32 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface QuestionDetails {
   questionObjectId: mongoose.Types.ObjectId;
-  questionId: string;
   userAnswer: string;
   userQuestionTime: number;
   isCorrect: boolean;
+  attemptedOn: Date;
+}
+
+export interface SelectedSubjectsAndStats {
+  subjectObjectId: mongoose.Types.ObjectId;
+  userRating: number;
+  userAttempts: number;
+  userCorrectAnswers: number;
 }
 
 const QuestionDetailsSchema = new Schema({
-  questionId: { type: String, required: true },
   questionObjectId: { type: mongoose.Types.ObjectId, required: true },
   userAnswer: { type: String, required: true },
   userQuestionTime: { type: Number, required: true },
   isCorrect: { type: Boolean, required: true },
+  attemptedOn: { type: Date, required: true, default: Date.now },
 });
 
-export interface PaperSolvedDetails {
-  paperObjectId: mongoose.Types.ObjectId;
-  paperId: string;
-  userMarks: number;
-  userPaperTime: number;
-  accuracy: number;
-}
-
-const PaperSolvedDetailsSchema = new Schema({
-  paperObjectId: { type: mongoose.Types.ObjectId, required: true },
-  paperId: { type: String, required: true },
-  userMarks: { type: Number, required: true },
-  userPaperTime: { type: Number, required: true },
-  accuracy: { type: Number, required: true },
+const SelectedSubjectsAndStatsSchema = new Schema({
+  subjectObjectId: { type: mongoose.Types.ObjectId, required: true },
+  userRating: { type: Number, default: 50 },
+  userAttempts: { type: Number, default: 0 },
+  userCorrectAnswers: { type: Number, default: 0 },
 });
 
 export interface User extends Document {
@@ -40,9 +38,8 @@ export interface User extends Document {
   verificationCodeExpiry: Date;
   isVerified: boolean;
   premiumAccess: boolean;
-  papersSolvedDetails: PaperSolvedDetails[]; // Updated to use PaperSolvedDetails[]
   questionsSolvedDetails: QuestionDetails[];
-  selectedSubjects: mongoose.Types.ObjectId[];
+  selectedSubjects: SelectedSubjectsAndStats[];
   forgotPasswordToken?: string; // Optional
   forgotPasswordTokenExpiry?: Date; // Optional
 }
@@ -63,9 +60,8 @@ const UserSchema = new Schema(
     premiumAccess: { type: Boolean, default: false },
 
     // Stats
-    papersSolvedDetails: [PaperSolvedDetailsSchema], // Use the PaperSolvedDetailsSchema here
     questionsSolvedDetails: [QuestionDetailsSchema], // Use the QuestionDetailsSchema here
-    selectedSubjects: [{ type: Schema.Types.ObjectId, ref: "Subject" }], // Reference SubjectSchema
+    selectedSubjects: [SelectedSubjectsAndStatsSchema], // Reference SubjectSchema
 
     // Email verification
     verificationCode: { type: String, required: true },

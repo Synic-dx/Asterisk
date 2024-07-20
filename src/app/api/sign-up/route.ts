@@ -32,7 +32,7 @@ export async function POST(req: Request) {
         return Response.json(
           {
             success: false,
-            message: "Email is already registered and verified",
+            message: "Email is already registered and verified. Please login instead.",
           },
           { status: 400 }
         );

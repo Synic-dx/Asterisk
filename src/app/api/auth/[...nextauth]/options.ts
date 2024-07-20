@@ -1,6 +1,5 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/user.model";
@@ -19,28 +18,18 @@ export const authOptions: NextAuthOptions = {
         await dbConnect();
 
         try {
-          const user = await UserModel.findOne({
-            email: credentials.email,
-          });
+          const user = await UserModel.findOne({ email: credentials.email });
           if (!user) {
             throw new Error("No user found with this email");
           }
 
           if (!user.isVerified) {
-            const verificationCode = Math.floor(
-              100000 + Math.random() * 900000
-            ).toString();
-
+            const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
             user.verificationCode = verificationCode;
             user.verificationCodeExpiry = new Date(Date.now() + 3600000); // 1 hour expiry
             await user.save();
 
-            const emailResponse = await sendVerificationEmail(
-              user.email,
-              user.userName,
-              verificationCode
-            );
-
+            const emailResponse = await sendVerificationEmail(user.email, user.userName, verificationCode);
             if (!emailResponse.success) {
               throw new Error("Failed to send verification email");
             }
@@ -48,11 +37,7 @@ export const authOptions: NextAuthOptions = {
             throw new Error("Email not verified. Verification code sent.");
           }
 
-          const isPasswordCorrect = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
-
+          const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
           if (isPasswordCorrect) {
             return user;
           } else {
@@ -61,18 +46,6 @@ export const authOptions: NextAuthOptions = {
         } catch (error: any) {
           throw new Error(error.message);
         }
-      },
-    }),
-
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID!,
-      clientSecret: process.env.GOOGLE_SECRET!,
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-        },
       },
     }),
   ],
@@ -84,7 +57,6 @@ export const authOptions: NextAuthOptions = {
         token.isVerified = user.isVerified;
         token.userName = user.userName;
         token.premiumAccess = user.premiumAccess;
-        token.papersSolvedDetails = user.papersSolvedDetails;
         token.questionsSolvedDetails = user.questionsSolvedDetails;
         token.selectedSubjects = user.selectedSubjects;
       }
@@ -96,9 +68,9 @@ export const authOptions: NextAuthOptions = {
         session.user.isVerified = token.isVerified;
         session.user.userName = token.userName;
         session.user.premiumAccess = token.premiumAccess;
-        session.user.papersSolvedDetails = token.papersSolvedDetails;
         session.user.questionsSolvedDetails = token.questionsSolvedDetails;
         session.user.selectedSubjects = token.selectedSubjects;
+        session.user.level = token.level;
       }
       return session;
     },
