@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/react";
 import dbConnect from "@/lib/dbConnect";
 import QuestionModel from "@/models/question.model";
 import UserModel from "@/models/user.model";
@@ -8,12 +9,17 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
 
   if (req.method === "POST") {
-    const { questionID, userName, userAnswer, isCorrect, userQuestionTime } =
-      req.body;
+    const { questionID, userAnswer, isCorrect, userQuestionTime } = req.body;
 
     try {
+      // Get the session data
+      const session = await getSession({ req });
+      if (!session) {
+        return res.status(401).json({ message: "Not authenticated" });
+      }
+
       const question = await QuestionModel.findOne({ questionID });
-      const user = await UserModel.findOne({ userName });
+      const user = await UserModel.findById(session.user._id);
 
       if (question && user) {
         // Update question statistics

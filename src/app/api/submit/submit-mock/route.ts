@@ -1,25 +1,30 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/react";
 import dbConnect from "@/lib/dbConnect";
-import QuestionModel from "@/models/question.model";
 import UserModel from "@/models/user.model";
 import { PaperModel } from "@/models/paper.model";
-import mongoose from "mongoose";
 
 const submitMock = async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
 
   if (req.method === "POST") {
-    const { paperID, userName } = req.body;
+    const { paperID } = req.body;
 
     try {
+      // Get the session data
+      const session = await getSession({ req });
+      if (!session) {
+        return res.status(401).json({ message: "Not authenticated" });
+      }
+
       // Fetch the paper
-      const paper = await PaperModel.findOne({ paperID }).populate('questions');
+      const paper = await PaperModel.findOne({ paperID }).populate("questions");
       if (!paper) {
         return res.status(404).json({ message: "Paper not found" });
       }
 
-      // Fetch the user
-      const user = await UserModel.findOne({ userName });
+      // Fetch the user using session data
+      const user = await UserModel.findById(session.user._id);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
@@ -67,6 +72,3 @@ const submitMock = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default submitMock;
-
-
-
