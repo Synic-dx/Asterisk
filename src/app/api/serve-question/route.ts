@@ -72,7 +72,7 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
       if (subjectStats && subjectStats.userAttempts > 30) {
         questions = await QuestionModel.find({
           "subject.subjectCode": subjectCode,
-          difficultyRating: { $gte: minDifficulty, $lte: maxDifficulty },
+          difficultyRating: { $gte: Math.min(minDifficulty, 50), $lte: Math.max(maxDifficulty, 50) }, // Ensures user sometimes gets served medium difficulty questions regardless of userRating
           _id: { $nin: solvedQuestionIds },
         });
       } else {

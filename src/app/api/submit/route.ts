@@ -32,12 +32,10 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
       !userQuestionTime ||
       !userId
     ) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "All fields (questionId, userAnswer, isCorrect, userQuestionTime, userId) are required",
-        });
+      return res.status(400).json({
+        message:
+          "All fields (questionId, userAnswer, isCorrect, userQuestionTime, userId) are required",
+      });
     }
 
     try {
@@ -73,14 +71,10 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         // Calculate difficultyRating
-        if (question.totalAttempts > 0) {
-          question.difficultyRating =
-            ((question.totalAttempts - question.totalCorrect) /
-              question.totalAttempts) *
-            100;
-        } else {
-          question.difficultyRating = 0;
-        }
+        question.difficultyRating =
+          ((question.totalAttempts - question.totalCorrect) /
+            question.totalAttempts) *
+          100;
 
         await question.save();
 
