@@ -64,18 +64,19 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
           });
         }
 
-        // Update question statistics
         question.totalAttempts += 1;
         if (isCorrect) {
           question.totalCorrect += 1;
         }
 
-        // Calculate difficultyRating
-        question.difficultyRating =
-          ((question.totalAttempts - question.totalCorrect) /
-            question.totalAttempts) *
-          100;
-
+        // Update question statistics only if totalAttempts is over 10
+        if (question.totalAttempts >= 10) {
+          // Calculate difficultyRating
+          question.difficultyRating =
+            ((question.totalAttempts - question.totalCorrect) /
+              question.totalAttempts) *
+            100;
+        }
         await question.save();
 
         // Update user model with question details
