@@ -24,12 +24,18 @@ export const authOptions: NextAuthOptions = {
           }
 
           if (!user.isVerified) {
-            const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+            const verificationCode = Math.floor(
+              100000 + Math.random() * 900000
+            ).toString();
             user.verificationCode = verificationCode;
             user.verificationCodeExpiry = new Date(Date.now() + 3600000); // 1 hour expiry
             await user.save();
 
-            const emailResponse = await sendVerificationEmail(user.email, user.userName, verificationCode);
+            const emailResponse = await sendVerificationEmail(
+              user.email,
+              user.userName,
+              verificationCode
+            );
             if (!emailResponse.success) {
               throw new Error("Failed to send verification email");
             }
@@ -37,7 +43,10 @@ export const authOptions: NextAuthOptions = {
             throw new Error("Email not verified. Verification code sent.");
           }
 
-          const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
+          const isPasswordCorrect = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
           if (isPasswordCorrect) {
             return user;
           } else {
@@ -57,7 +66,7 @@ export const authOptions: NextAuthOptions = {
         token.isVerified = user.isVerified;
         token.userName = user.userName;
         token.premiumAccess = user.premiumAccess;
-        token.questionsSolvedDetails = user.questionsSolvedDetails;
+        // token.questionsSolvedDetails = user.questionsSolvedDetails;
         token.selectedSubjects = user.selectedSubjects;
       }
       return token;
@@ -68,9 +77,8 @@ export const authOptions: NextAuthOptions = {
         session.user.isVerified = token.isVerified;
         session.user.userName = token.userName;
         session.user.premiumAccess = token.premiumAccess;
-        session.user.questionsSolvedDetails = token.questionsSolvedDetails;
+        // session.user.questionsSolvedDetails = token.questionsSolvedDetails;
         session.user.selectedSubjects = token.selectedSubjects;
-        session.user.level = token.level;
       }
       return session;
     },
@@ -86,4 +94,3 @@ export const authOptions: NextAuthOptions = {
 
   secret: process.env.NEXTAUTH_SECRET,
 };
-

@@ -32,7 +32,8 @@ export async function POST(req: Request) {
         return Response.json(
           {
             success: false,
-            message: "Email is already registered and verified. Please login instead.",
+            message:
+              "Email is already registered and verified. Please login instead.",
           },
           { status: 400 }
         );
@@ -46,7 +47,8 @@ export async function POST(req: Request) {
         );
         await existingUserByEmail.save();
       }
-    } else {  // checks have been passed no user exists with the same email or userName so continue registration
+    } else {
+      // checks have been passed no user exists with the same email or userName so continue registration
       const hashedPassword = await bcrypt.hash(password, 10);
       const expiryDate = new Date();
       expiryDate.setHours(expiryDate.getHours() + 1);
@@ -56,7 +58,6 @@ export async function POST(req: Request) {
         email,
         password: hashedPassword,
         premiumAccess: false,
-        papersSolvedDetails: [],
         questionsSolvedDetails: [],
         selectedSubjects: [],
         verificationCode,
@@ -87,7 +88,7 @@ export async function POST(req: Request) {
       },
       { status: 201 }
 
-    // After this final 201 return the Verification Code field modal will pop up
+      // After this final 201 return the Verification Code field modal will pop up
     );
   } catch (error) {
     console.error("Error creating user:", error);

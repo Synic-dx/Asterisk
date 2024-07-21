@@ -3,8 +3,9 @@ import dbConnect from "@/lib/dbConnect";
 import QuestionModel from "@/models/question.model";
 import UserModel from "@/models/user.model";
 import mongoose from "mongoose";
+import { FREE_DAILY_QUESTION_LIMIT, FREE_SUBJECT_LIMIT } from "@/constants";
 
-const calculateUserRating = (
+export const calculateUserRating = (
   attempts: number,
   correctAnswers: number
 ): number => {
@@ -24,17 +25,32 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
     const { questionId, userAnswer, isCorrect, userQuestionTime, userId } =
       req.body;
 
+    if (
+      !questionId ||
+      !userAnswer ||
+      isCorrect === undefined ||
+      !userQuestionTime ||
+      !userId
+    ) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "All fields (questionId, userAnswer, isCorrect, userQuestionTime, userId) are required",
+        });
+    }
+
     try {
       const question = await QuestionModel.findById(questionId);
       const user = await UserModel.findById(userId);
 
       if (question && user) {
-        // Check if the user is not a premium user and has exceeded the daily quota of 80 questions
+        // Check if the user is not a premium user and has exceeded the daily quota of questions
         const today = new Date();
         today.setHours(0, 0, 0, 0); // Set to start of the day
 
         const dailyAttempts = await UserModel.aggregate([
-          { $match: { _id: userId } },
+          { $match: { _id: new mongoose.Types.ObjectId(userId as string) } },
           { $unwind: "$questionsSolvedDetails" },
           { $match: { "questionsSolvedDetails.attemptedOn": { $gte: today } } },
           { $count: "dailyAttempts" }, // count of total number of problems attempted today
@@ -43,13 +59,11 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
         const attemptsToday =
           dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
 
-        if (!user.premiumAccess && attemptsToday >= 80) {
-          return res
-            .status(403)
-            .json({
-              message:
-                "Daily quota of 80 questions reached. Upgrade to premium for unlimited access.",
-            });
+        if (!user.premiumAccess && attemptsToday >= FREE_DAILY_QUESTION_LIMIT) {
+          return res.status(403).json({
+            message:
+              "Daily quota of questions reached. Upgrade to premium for unlimited access.",
+          });
         }
 
         // Update question statistics
@@ -98,8 +112,11 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
             subjectStats.userCorrectAnswers
           );
         } else {
-          // Check if the user is not a premium user and already has more than 3 subjects
-          if (!user.premiumAccess && user.selectedSubjects.length >= 3) {
+          // Check if the user is not a premium user and already has more than or equal to allowed number of subjects
+          if (
+            !user.premiumAccess &&
+            user.selectedSubjects.length >= FREE_SUBJECT_LIMIT
+          ) {
             return res
               .status(403)
               .json({ message: "Upgrade to premium to add more subjects." });

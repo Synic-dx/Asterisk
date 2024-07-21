@@ -8,19 +8,26 @@ export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request });
   const url = request.nextUrl;
 
-  // redirecting to correct page based on whether logged in or not
+  // Redirecting to the correct page based on whether logged in or not
   if (
     token &&
     (url.pathname.startsWith("/sign-in") ||
       url.pathname.startsWith("/verify") ||
       url.pathname.startsWith("/sign-up") ||
-      url.pathname.startsWith("/"))
+      url.pathname === "/")
   ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
-}
 
-// See "Matching Paths" below to learn more
-export const config = {
-  matcher: ["/sign-in", "/sign-up", "/", "/verify:path*"],
-};
+  if (
+    !token &&
+    (url.pathname.startsWith("/dashboard") ||
+      url.pathname.startsWith("/user") ||
+      url.pathname.startsWith("/practice") ||
+      url.pathname.startsWith("/analyse"))
+  ) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  return NextResponse.next(); // Ensure to call next() if no redirection is needed
+}

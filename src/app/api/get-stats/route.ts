@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/user.model";
+import mongoose from "mongoose";
 
 const getStats = async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
@@ -21,7 +22,7 @@ const getStats = async (req: NextApiRequest, res: NextApiResponse) => {
 
       // Aggregation pipeline for daily stats
       const dailyStats = await UserModel.aggregate([
-        { $match: { _id: userId } },
+        { $match: { _id: new mongoose.Types.ObjectId(userId as string) } },
         { $unwind: "$questionsSolvedDetails" },
         { $match: { "questionsSolvedDetails.attemptedOn": { $gte: today } } },
         {
@@ -42,7 +43,7 @@ const getStats = async (req: NextApiRequest, res: NextApiResponse) => {
 
       // Aggregation pipeline for overall stats
       const overallStats = await UserModel.aggregate([
-        { $match: { _id: userId } },
+        { $match: { _id: new mongoose.Types.ObjectId(userId as string) } },
         { $unwind: "$questionsSolvedDetails" },
         {
           $group: {

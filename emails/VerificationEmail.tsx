@@ -22,7 +22,7 @@ export default function VerificationEmail({
   return (
     <Html lang="en" dir="ltr">
       <Head>
-        <title>Email Verification Code</title>
+        <title>Asterisk | Email Verification Code</title>
         <Font
           fontFamily="Roboto"
           fallbackFontFamily="Verdana"

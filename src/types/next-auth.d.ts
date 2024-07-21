@@ -11,7 +11,6 @@ declare module "next-auth" {
     isVerified?: boolean;
     userName?: string;
     premiumAccess?: boolean;
-    papersSolvedDetails?: mongoose.Types.ObjectId[];
     questionsSolvedDetails?: mongoose.Types.ObjectId[];
     selectedSubjects?: number[];
   }
@@ -22,7 +21,6 @@ declare module "next-auth" {
       isVerified?: boolean;
       userName?: string;
       premiumAccess?: boolean;
-      papersSolvedDetails?: mongoose.Types.ObjectId[];
       questionsSolvedDetails?: mongoose.Types.ObjectId[];
       selectedSubjects?: number[];
     } & DefaultSession["user"];
@@ -35,7 +33,6 @@ declare module "next-auth/jwt" {
     isVerified?: boolean;
     userName?: string;
     premiumAccess?: boolean;
-    papersSolvedDetails?: mongoose.Types.ObjectId[];
     questionsSolvedDetails?: mongoose.Types.ObjectId[];
     selectedSubjects?: number[];
   }
