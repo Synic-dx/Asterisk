@@ -24,4 +24,4 @@ Proper attribution must be given to the copyright holder in any authorized use o
 ### Commercial Use:
 This work, including graphical elements, logos, designs, and code functionalities, may not be used for commercial purposes without prior permission from the copyright holder.
 
-For permissions, please contact: [Synic-dx](shinjan1280@gmail.com)
+For permissions, please contact: [Synic-dx](mailto:shinjan1280@gmail.com)
