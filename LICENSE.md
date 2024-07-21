@@ -22,6 +22,6 @@ You may not alter or build upon this work, including graphical elements, logos, 
 Proper attribution must be given to the copyright holder in any authorized use of this work.
 
 ### Commercial Use:
-This work, including graphical elements, logos, designs, and code functionalities, may not be used for commercial purposes without prior permission from the copyright holder.
+This work, including graphical elements, logos, designs, and code functionalities, may not be used for commercial purposes without prior permission from the copyright holder. Any such permission request will end up in the respective copyright owner's mail bin anyways.
 
-For permissions, please contact: [Synic-dx](mailto:shinjan1280@gmail.com)
+For permissions, try me: [Synic-dx](mailto:shinjan1280@gmail.com)
