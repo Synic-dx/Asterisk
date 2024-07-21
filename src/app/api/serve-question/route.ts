@@ -18,8 +18,8 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const userRatingNumber = Number(userRating);
-    const minDifficulty = userRatingNumber - 25;
-    const maxDifficulty = userRatingNumber + 25;
+    const minDifficulty = userRatingNumber - 30;
+    const maxDifficulty = userRatingNumber + 30;
 
     try {
       const user = await UserModel.findById(userId);
@@ -69,7 +69,7 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
       );
 
       let questions;
-      if (subjectStats && subjectStats.userAttempts > 10) {
+      if (subjectStats && subjectStats.userAttempts > 30) {
         questions = await QuestionModel.find({
           "subject.subjectCode": subjectCode,
           difficultyRating: { $gte: minDifficulty, $lte: maxDifficulty },
