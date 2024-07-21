@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/lib/dbConnect";
 import QuestionModel from "@/models/question.model";
 import UserModel from "@/models/user.model";
-import { FREE_DAILY_QUESTION_LIMIT, FREE_SUBJECT_LIMIT } from "@/constants";
+import { FREE_DAILY_QUESTION_LIMIT, FREE_SUBJECT_LIMIT, QUESTION_DIFFICULTY_RANGE } from "@/constants";
 import mongoose from "mongoose";
 
 const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -18,8 +18,8 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const userRatingNumber = Number(userRating);
-    const minDifficulty = userRatingNumber - 30;
-    const maxDifficulty = userRatingNumber + 30;
+    const minDifficulty = userRatingNumber - QUESTION_DIFFICULTY_RANGE;
+    const maxDifficulty = userRatingNumber + QUESTION_DIFFICULTY_RANGE;
 
     try {
       const user = await UserModel.findById(userId);
