@@ -11,6 +11,7 @@ An app to serve IGCSE & A Level MCQ Questions.
 - NextAuthJS, ResendEmail (custom email after domain purchase) for signin authentication (OTP Verification)
 - ReactEmail for formatting the email to be sent
 - BcryptJS for password encryption and matching
+- RazorPay Payment API
 
 ## Resources & Planned Features
 
