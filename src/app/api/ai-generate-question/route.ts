@@ -30,7 +30,8 @@ export async function POST(req: NextRequest) {
   try {
     const prompt = `Generate an ${level} ${subjectName} question on ${topic}, ${subtopic}, difficulty ${difficultyRating}/100. Include 4 options (one correct) and a ${
       difficultyRating * 4
-    }-word explanation. Return in single-line JSON format like: {"questionText":"What is the capital of France?","options":[{"option":"A","text":"Paris"},{"option":"B","text":"London"},{"option":"C","text":"Berlin"},{"option":"D","text":"Madrid"}],"correctOption":{"option":"A","text":"Paris"},"explanation":"Paris is the capital of France."}`;
+    }-word explanation. Use LaTeX if needed. Return in JSON format: {"questionText":"What is the capital of France?","options":[{"option":"A","text":"Paris"},{"option":"B","text":"London"},{"option":"C","text":"Berlin"},{"option":"D","text":"Madrid"}],"correctOption":{"option":"A","text":"Paris"},"explanation":"Paris is the capital of France."}
+`;
 
     const response = await generateText({
       model: openai("gpt-4o-mini"),
