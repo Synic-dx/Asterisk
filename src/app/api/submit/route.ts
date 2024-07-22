@@ -18,11 +18,19 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
 
   if (req.method === "POST") {
-    const { questionId, userAnswer, isCorrect, userQuestionTime, userId } = req.body;
+    const { questionId, userAnswer, isCorrect, userQuestionTime, userId } =
+      req.body;
 
-    if (!questionId || !userAnswer || isCorrect === undefined || !userQuestionTime || !userId) {
+    if (
+      !questionId ||
+      !userAnswer ||
+      isCorrect === undefined ||
+      !userQuestionTime ||
+      !userId
+    ) {
       return res.status(400).json({
-        message: "All fields (questionId, userAnswer, isCorrect, userQuestionTime, userId) are required",
+        message:
+          "All fields (questionId, userAnswer, isCorrect, userQuestionTime, userId) are required",
       });
     }
 
@@ -42,11 +50,13 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
           { $count: "dailyAttempts" }, // count of total number of problems attempted today
         ]);
 
-        const attemptsToday = dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
+        const attemptsToday =
+          dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
 
         if (!user.premiumAccess && attemptsToday >= FREE_DAILY_QUESTION_LIMIT) {
           return res.status(403).json({
-            message: "Daily quota of questions reached. Upgrade to premium for unlimited access.",
+            message:
+              "Daily quota of questions reached. Upgrade to premium for unlimited access.",
           });
         }
 
@@ -59,7 +69,9 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
         if (question.totalAttempts >= 10) {
           // Calculate difficultyRating
           question.difficultyRating =
-            ((question.totalAttempts - question.totalCorrect) / question.totalAttempts) * 100;
+            ((question.totalAttempts - question.totalCorrect) /
+              question.totalAttempts) *
+            100;
         }
         await question.save();
 
@@ -77,7 +89,8 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
 
         // Update selectedSubjects stats
         const subjectStats = user.selectedSubjects.find(
-          (subject) => subject.subjectObjectId.toString() === question.subject.subjectCode
+          (subject) =>
+            subject.subjectObjectId.toString() === question.subject.subjectCode
         );
 
         if (subjectStats) {
@@ -91,17 +104,27 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
           );
         } else {
           // Check if the user is not a premium user and already has more than or equal to allowed number of subjects
-          if (!user.premiumAccess && user.selectedSubjects.length >= FREE_SUBJECT_LIMIT) {
-            return res.status(403).json({ message: "Upgrade to premium to add more subjects." });
+          if (
+            !user.premiumAccess &&
+            user.selectedSubjects.length >= FREE_SUBJECT_LIMIT
+          ) {
+            return res
+              .status(403)
+              .json({ message: "Upgrade to premium to add more subjects." });
+          } else {
+            // For when user attempts the first question of a new subject
+            user.selectedSubjects.push({
+              subjectObjectId: new mongoose.Types.ObjectId(
+                question.subject.subjectCode
+              ),
+              subjectName: question.subject.name,
+              subjectLevel: question.level,
+              subjectCode: question.subject.subjectCode,
+              userRating: calculateUserRating(1, isCorrect ? 1 : 0),
+              userAttempts: 1,
+              userCorrectAnswers: isCorrect ? 1 : 0,
+            });
           }
-
-          // For when user attempts the first question of a new subject
-          user.selectedSubjects.push({
-            subjectObjectId: new mongoose.Types.ObjectId(question.subject.subjectCode),
-            userRating: calculateUserRating(1, isCorrect ? 1 : 0),
-            userAttempts: 1,
-            userCorrectAnswers: isCorrect ? 1 : 0,
-          });
         }
 
         await user.save();

@@ -10,6 +10,9 @@ export interface QuestionDetails {
 
 export interface SelectedSubjectsAndStats {
   subjectObjectId: mongoose.Types.ObjectId;
+  subjectName: string;
+  subjectLevel: string;
+  subjectCode: string;
   userRating: number;
   userAttempts: number;
   userCorrectAnswers: number;
@@ -25,6 +28,9 @@ const QuestionDetailsSchema = new Schema({
 
 const SelectedSubjectsAndStatsSchema = new Schema({
   subjectObjectId: { type: mongoose.Types.ObjectId, required: true },
+  subjectName: { type: String, required: true },
+  subjectLevel: { type: String, required: true },
+  subjectCode: { type: String, required: true},
   userRating: { type: Number, default: 50 },
   userAttempts: { type: Number, default: 0 },
   userCorrectAnswers: { type: Number, default: 0 },
