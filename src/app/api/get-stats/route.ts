@@ -69,9 +69,6 @@ const getStats = async (req: NextApiRequest, res: NextApiResponse) => {
         userCorrectAnswers: subject.userCorrectAnswers,
       }));
 
-
-      user.save;
-
       res.status(200).json({
         totalDailyAttempts,
         totalDailyCorrects,

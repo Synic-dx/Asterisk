@@ -15,8 +15,8 @@ export async function POST(req: Request) {
     });
 
     if (existingUserVerifiedByUserName) {
-      return Response.json(
-        { success: false, message: "Username is already taken" },
+      return new Response(
+        JSON.stringify({ success: false, message: "Username is already taken" }),
         { status: 400 }
       );
     }
@@ -29,12 +29,11 @@ export async function POST(req: Request) {
 
     if (existingUserByEmail) {
       if (existingUserByEmail.isVerified) {
-        return Response.json(
-          {
+        return new Response(
+          JSON.stringify({
             success: false,
-            message:
-              "Email is already registered and verified. Please login instead.",
-          },
+            message: "Email is already registered and verified. Please login instead.",
+          }),
           { status: 400 }
         );
       } else {
@@ -61,7 +60,7 @@ export async function POST(req: Request) {
         questionsSolvedDetails: [],
         selectedSubjects: [],
         verificationCode,
-        verifyCodeExpiry: expiryDate,
+        verificationCodeExpiry: expiryDate,
         isVerified: false,
       });
 
@@ -75,25 +74,24 @@ export async function POST(req: Request) {
       verificationCode
     );
 
-    if (!emailResponse.success)
-      return Response.json(
-        { success: false, message: "Failed to send verification email" },
+    if (!emailResponse.success) {
+      return new Response(
+        JSON.stringify({ success: false, message: "Failed to send verification email" }),
         { status: 500 }
       );
+    }
 
-    return Response.json(
-      {
+    return new Response(
+      JSON.stringify({
         success: true,
         message: "User registered successfully. Please verify your email.",
-      },
+      }),
       { status: 201 }
-
-      // After this final 201 return the Verification Code field modal will pop up
     );
   } catch (error) {
     console.error("Error creating user:", error);
-    return Response.json(
-      { success: false, message: "Error registering user" },
+    return new Response(
+      JSON.stringify({ success: false, message: "Error registering user" }),
       { status: 500 }
     );
   }

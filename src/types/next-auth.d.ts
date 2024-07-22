@@ -35,5 +35,6 @@ declare module "next-auth/jwt" {
     premiumAccess?: boolean;
     questionsSolvedDetails?: mongoose.Types.ObjectId[];
     selectedSubjects?: number[];
+    isAdmin?: boolean;
   }
 }

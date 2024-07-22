@@ -8,12 +8,12 @@ export interface Option {
 
 export interface Subject {
   name: string;
-  level: "IGCSE" | "AS-Level" | "A-Level";
   subjectCode: string;
 }
 
 export interface Question extends Document {
   subject: Subject; // Reference to the Subject
+  level: "IGCSE" | "AS-Level" | "A-Level";
   difficultyRating?: number; // Difficulty level based on percentage wrong
   topic?: string; // Main topic of the question (if applicable)
   subtopic?: string; // Subtopic of the question (if applicable)
@@ -34,12 +34,12 @@ const OptionSchema = new Schema({
 
 const SubjectSchema = new Schema({
   name: { type: String, required: true },
-  level: { type: String, enum: ["IGCSE", "AS/A-Level"], required: true },
   subjectCode: { type: String, required: true },
 });
 
 const QuestionSchema = new Schema<Question>({
   subject: { type: SubjectSchema, required: true },
+  level: { type: String, enum: ["IGCSE", "AS-Level", "A-Level"], required: true },
   topic: { type: String },
   subtopic: { type: String },
   questionText: { type: String, required: true },

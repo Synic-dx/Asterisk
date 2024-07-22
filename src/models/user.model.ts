@@ -42,6 +42,7 @@ export interface User extends Document {
   selectedSubjects: SelectedSubjectsAndStats[];
   forgotPasswordToken?: string; // Optional
   forgotPasswordTokenExpiry?: Date; // Optional
+  isAdmin?: boolean;
 }
 
 const UserSchema = new Schema(
@@ -52,12 +53,16 @@ const UserSchema = new Schema(
       type: String,
       required: [true, "Email is required"],
       unique: true,
-      match: [/.+\@.+\../, "Please enter a valid email"],
+      match: [
+        /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+        "Please enter a valid email",
+      ],
     },
     password: { type: String, required: [true, "Password is required"] },
 
-    // Membership details
+    // Access details
     premiumAccess: { type: Boolean, default: false },
+    isAdmin: { type: Boolean, default: false },
 
     // Stats
     questionsSolvedDetails: [QuestionDetailsSchema], // Use the QuestionDetailsSchema here

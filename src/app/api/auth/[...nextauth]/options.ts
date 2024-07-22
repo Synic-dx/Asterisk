@@ -14,11 +14,17 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: any): Promise<any> {
+      async authorize(credentials): Promise<any> {
+        if (!credentials) {
+          throw new Error("Credentials are missing");
+        }
+
+        const { email, password } = credentials;
+
         await dbConnect();
 
         try {
-          const user = await UserModel.findOne({ email: credentials.email });
+          const user = await UserModel.findOne({ email });
           if (!user) {
             throw new Error("No user found with this email");
           }
@@ -43,10 +49,7 @@ export const authOptions: NextAuthOptions = {
             throw new Error("Email not verified. Verification code sent.");
           }
 
-          const isPasswordCorrect = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
+          const isPasswordCorrect = await bcrypt.compare(password, user.password);
           if (isPasswordCorrect) {
             return user;
           } else {
@@ -62,11 +65,10 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token._id = user._id?.toString();
+        token._id = user._id?.toString() ?? "";
         token.isVerified = user.isVerified;
         token.userName = user.userName;
         token.premiumAccess = user.premiumAccess;
-        // token.questionsSolvedDetails = user.questionsSolvedDetails;
         token.selectedSubjects = user.selectedSubjects;
       }
       return token;
@@ -77,7 +79,6 @@ export const authOptions: NextAuthOptions = {
         session.user.isVerified = token.isVerified;
         session.user.userName = token.userName;
         session.user.premiumAccess = token.premiumAccess;
-        // session.user.questionsSolvedDetails = token.questionsSolvedDetails;
         session.user.selectedSubjects = token.selectedSubjects;
       }
       return session;

@@ -9,15 +9,26 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
   await dbConnect();
 
   if (req.method === "GET") {
-    const { subjectCode, userId, userRating } = req.query;
+    const { subjectCode, userId, userRating, onlyASLevel } = req.query;
 
-    if (!subjectCode || !userId || userRating === undefined || !userRating) {
+    // Validate query parameters
+    if (!subjectCode || !userId || userRating === undefined || userRating === null) {
       return res.status(400).json({
         message: "Subject code, user ID, and user rating are required",
       });
     }
 
+    // Ensure userRating is a number
     const userRatingNumber = Number(userRating);
+    if (isNaN(userRatingNumber)) {
+      return res.status(400).json({
+        message: "User rating must be a valid number",
+      });
+    }
+
+    // Convert subjectCode to a string if necessary
+    const subjectCodeString = Array.isArray(subjectCode) ? subjectCode[0] : subjectCode;
+
     const minDifficulty = userRatingNumber - QUESTION_DIFFICULTY_RANGE;
     const maxDifficulty = userRatingNumber + QUESTION_DIFFICULTY_RANGE;
 
@@ -27,7 +38,7 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(404).json({ message: "User not found" });
       }
 
-      // Check if the user is not a premium user and has exceeded the daily quota of questions
+      // Check if the user has exceeded the daily quota of questions
       const today = new Date();
       today.setHours(0, 0, 0, 0); // Set to start of the day
 
@@ -38,28 +49,22 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
         { $count: "dailyAttempts" }, // count of total number of problems attempted today
       ]);
 
-      const attemptsToday =
-        dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
+      const attemptsToday = dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
 
       if (!user.premiumAccess && attemptsToday >= FREE_DAILY_QUESTION_LIMIT) {
         return res.status(403).json({
-          message:
-            "Daily quota of questions reached. Upgrade to premium for unlimited access.",
+          message: "Daily quota of questions reached. Upgrade to premium for unlimited access.",
         });
       }
 
       const subjectStats = user.selectedSubjects.find(
-        (subject) => subject.subjectObjectId.toString() === subjectCode
+        (subject) => subject.subjectObjectId.toString() === subjectCodeString
       );
 
       if (!subjectStats) {
-        if (
-          !user.premiumAccess &&
-          user.selectedSubjects.length >= FREE_SUBJECT_LIMIT
-        ) {
+        if (!user.premiumAccess && user.selectedSubjects.length >= FREE_SUBJECT_LIMIT) {
           return res.status(403).json({
-            message:
-              "Max Subject limit reached. Upgrade to premium to add more subjects.",
+            message: "Max subject limit reached. Upgrade to premium to add more subjects.",
           });
         }
       }
@@ -68,19 +73,25 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
         (detail) => detail.questionObjectId
       );
 
-      let questions;
-      if (subjectStats && subjectStats.userAttempts > 30) {
-        questions = await QuestionModel.find({
-          "subject.subjectCode": subjectCode,
-          difficultyRating: { $gte: Math.min(minDifficulty, 40), $lte: Math.max(maxDifficulty, 60) }, // Ensures user sometimes gets served medium difficulty questions regardless of userRating
-          _id: { $nin: solvedQuestionIds },
-        });
-      } else {
-        questions = await QuestionModel.find({
-          "subject.subjectCode": subjectCode,
-          _id: { $nin: solvedQuestionIds },
-        });
+      const matchConditions: any = {
+        "subject.subjectCode": subjectCodeString,
+        _id: { $nin: solvedQuestionIds },
+        difficultyRating: {
+          $gte: Math.min(minDifficulty, 40),
+          $lte: Math.max(maxDifficulty, 60),
+        },
+      };
+
+      if (onlyASLevel === "true") {
+        matchConditions["level"] = "AS-Level";
       }
+
+      const pipeline = [
+        { $match: matchConditions },
+        { $sample: { size: 1 } }, // Randomly select one question
+      ];
+
+      const questions = await QuestionModel.aggregate(pipeline);
 
       if (questions.length === 0) {
         return res.status(404).json({
@@ -88,8 +99,7 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
         });
       }
 
-      const randomQuestion =
-        questions[Math.floor(Math.random() * questions.length)];
+      const randomQuestion = questions[0];
 
       res.status(200).json(randomQuestion);
     } catch (error) {
