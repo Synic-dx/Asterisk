@@ -118,7 +118,7 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
                 question.subject.subjectCode
               ),
               subjectName: question.subject.name,
-              subjectLevel: question.level,
+              // subjectLevel: question.level,
               subjectCode: question.subject.subjectCode,
               userRating: calculateUserRating(1, isCorrect ? 1 : 0),
               userAttempts: 1,

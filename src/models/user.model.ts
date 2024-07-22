@@ -11,7 +11,7 @@ export interface QuestionDetails {
 export interface SelectedSubjectsAndStats {
   subjectObjectId: mongoose.Types.ObjectId;
   subjectName: string;
-  subjectLevel: string;
+  // subjectLevel: string;
   subjectCode: string;
   userRating: number;
   userAttempts: number;
@@ -26,10 +26,11 @@ const QuestionDetailsSchema = new Schema({
   attemptedOn: { type: Date, required: true, default: Date.now },
 });
 
+// Commenting out SubjectLevel from this as it complicates AS-Level and A-Level subject integration
 const SelectedSubjectsAndStatsSchema = new Schema({
   subjectObjectId: { type: mongoose.Types.ObjectId, required: true },
   subjectName: { type: String, required: true },
-  subjectLevel: { type: String, required: true },
+  // subjectLevel: { type: String, required: true },
   subjectCode: { type: String, required: true},
   userRating: { type: Number, default: 50 },
   userAttempts: { type: Number, default: 0 },
