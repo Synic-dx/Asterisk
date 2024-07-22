@@ -16,6 +16,9 @@ interface VerificationEmailProps {
   verificationOTP: string;
 }
 
+// Ensure BASE_URL is correctly imported from environment variables
+const BASE_URL = process.env.BASE_URL || "http://localhost:3000"; // Fallback for local development
+
 export default function VerificationEmail({
   userName,
   verificationOTP,
@@ -39,7 +42,7 @@ export default function VerificationEmail({
       <Section style={{ backgroundColor: "white", padding: "20px" }}>
         <Row>
           <Img
-            src="https://raw.githubusercontent.com/Synic-dx/Asterisk/5671045bb25be92a0bb48c8d7c09674a44ad699c/public/Images/Header.svg"
+            src={`${BASE_URL}/public/Images/Header.svg`} // Update to use BASE_URL
             alt="Asterisk Logo"
             width="150"
             height="50"
@@ -47,7 +50,7 @@ export default function VerificationEmail({
           />
         </Row>
         <Row>
-        <Heading as="h1" style={{ color: "#27114D", fontFamily: "Karla, Roboto, Verdana, sans-serif" }}>
+          <Heading as="h1" style={{ color: "#27114D", fontFamily: "Karla, Roboto, Verdana, sans-serif" }}>
             Hello {userName},
           </Heading>
         </Row>
@@ -68,7 +71,7 @@ export default function VerificationEmail({
         </Row>
         <Row>
           <Button
-            href="https://yourwebsite.com/verify-email"
+            href={`${BASE_URL}/verify-email`} // Use BASE_URL for the verification link
             style={{
               backgroundColor: "#27114D",
               color: "white",

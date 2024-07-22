@@ -5,6 +5,8 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/user.model";
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 
+const VERIFICATION_CODE_EXPIRY_TIME = 3600000; // 1 hour in milliseconds
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -30,18 +32,12 @@ export const authOptions: NextAuthOptions = {
           }
 
           if (!user.isVerified) {
-            const verificationCode = Math.floor(
-              100000 + Math.random() * 900000
-            ).toString();
+            const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
             user.verificationCode = verificationCode;
-            user.verificationCodeExpiry = new Date(Date.now() + 3600000); // 1 hour expiry
+            user.verificationCodeExpiry = new Date(Date.now() + VERIFICATION_CODE_EXPIRY_TIME);
             await user.save();
 
-            const emailResponse = await sendVerificationEmail(
-              user.email,
-              user.userName,
-              verificationCode
-            );
+            const emailResponse = await sendVerificationEmail(user.email, user.userName, verificationCode);
             if (!emailResponse.success) {
               throw new Error("Failed to send verification email");
             }

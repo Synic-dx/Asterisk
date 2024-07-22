@@ -53,8 +53,8 @@ const QuestionSchema = new Schema<Question>({
     type: Number,
     default: 50,
   },
-  totalAttempts: { type: Number, default: null },
-  totalCorrect: { type: Number, default: null },
+  totalAttempts: { type: Number, default: 0 },
+  totalCorrect: { type: Number, default: 0 },
 });
 
 const QuestionModel =
