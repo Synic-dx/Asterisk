@@ -8,48 +8,56 @@ const UserNameQuerySchema = z.object({
 });
 
 export async function GET(req: Request) {
-
   await dbConnect();
 
   try {
-    // just to get the localhost:3000/api/{check-username-unique?userName=Shin?}/otherStuff part of the url
+    // Extract and validate query parameters
     const { searchParams } = new URL(req.url);
-    const queryParam = {
-      userName: searchParams.get("userName"),
-    };
+    const queryParam = { userName: searchParams.get("userName") };
+
+    // Validate query parameters using zod
     const result = UserNameQuerySchema.safeParse(queryParam);
-    console.log(result); //TODO REMOVE
+
     if (!result.success) {
       const userNameErrors = result.error.format().userName?._errors || [];
-      return Response.json(
-        {
+      return new Response(
+        JSON.stringify({
           success: false,
           message:
-            userNameErrors?.length > 0
+            userNameErrors.length > 0
               ? userNameErrors.join(", ")
-              : "Invalid query paramenters",
-        },
+              : "Invalid query parameters",
+        }),
         { status: 400 }
       );
     }
+
     const { userName } = result.data;
 
+    // Check if the username is taken
     const existingVerifiedUser = await UserModel.findOne({
       userName,
-      verified: true,
+      isVerified: true,
     });
 
     if (existingVerifiedUser) {
-      return Response.json(
-        { success: false, message: "Username is already taken" },
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: "Username is already taken",
+        }),
         { status: 400 }
       );
     }
-    return Response.json({ success: true, message: "Username is available" });
+
+    return new Response(
+      JSON.stringify({ success: true, message: "Username is available" }),
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error checking username", error);
-    return Response.json(
-      { message: "Error checking username" },
+    return new Response(
+      JSON.stringify({ success: false, message: "Error checking username" }),
       { status: 500 }
     );
   }

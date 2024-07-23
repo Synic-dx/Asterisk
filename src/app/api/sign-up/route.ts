@@ -16,6 +16,14 @@ export async function POST(req: Request) {
       );
     }
 
+    // Validate email format and password strength (add your own rules here)
+    if (!validateEmail(email) || !validatePassword(password)) {
+      return new Response(
+        JSON.stringify({ success: false, message: "Invalid email format or password strength" }),
+        { status: 400 }
+      );
+    }
+
     const existingUserVerifiedByUserName = await UserModel.findOne({
       userName,
       isVerified: true,
@@ -88,4 +96,15 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
+}
+
+// Example validation functions
+function validateEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function validatePassword(password: string): boolean {
+  // Example password strength check
+  return password.length >= 6; // Adjust as needed
 }
