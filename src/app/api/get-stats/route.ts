@@ -10,6 +10,7 @@ interface QuestionDetail {
   userQuestionTime: number;
   isCorrect: boolean;
   attemptedOn: Date;
+  difficultyRatingPercentile: number;
 }
 
 interface StatsResult {
@@ -48,35 +49,44 @@ const getStats = async (req: NextApiRequest, res: NextApiResponse) => {
       const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1); // Start of the month
 
       // Helper function to get aggregated stats by date
-      const getStatsByDate = async (startDate: Date): Promise<StatsResult[]> => {
+      const getStatsByDate = async (
+        startDate: Date
+      ): Promise<StatsResult[]> => {
         return UserModel.aggregate([
           { $match: { _id: new mongoose.Types.ObjectId(userId as string) } },
           { $unwind: "$questionsSolvedDetails" },
-          { $match: { "questionsSolvedDetails.attemptedOn": { $gte: startDate } } },
+          {
+            $match: {
+              "questionsSolvedDetails.attemptedOn": { $gte: startDate },
+            },
+          },
           {
             $group: {
               _id: null,
               totalAttempts: { $sum: 1 },
-              totalCorrects: { $sum: { $cond: ["$questionsSolvedDetails.isCorrect", 1, 0] } },
-              questionsSolved: { $push: "$questionsSolvedDetails" }
-            }
-          }
+              totalCorrects: {
+                $sum: { $cond: ["$questionsSolvedDetails.isCorrect", 1, 0] },
+              },
+              questionsSolved: { $push: "$questionsSolvedDetails" },
+            },
+          },
         ]);
       };
 
       // Fetch stats for different periods
-      const [dailyStats, weeklyStats, monthlyStats, overallStats] = await Promise.all([
-        getStatsByDate(today),
-        getStatsByDate(startOfWeek),
-        getStatsByDate(startOfMonth),
-        getStatsByDate(new Date(0)) // Get all data
-      ]);
+      const [dailyStats, weeklyStats, monthlyStats, overallStats] =
+        await Promise.all([
+          getStatsByDate(today),
+          getStatsByDate(startOfWeek),
+          getStatsByDate(startOfMonth),
+          getStatsByDate(new Date(0)), // Get all data
+        ]);
 
       // Format the stats to return
       const formatStats = (stats: StatsResult[]) => ({
         totalAttempts: stats.length > 0 ? stats[0].totalAttempts : 0,
         totalCorrects: stats.length > 0 ? stats[0].totalCorrects : 0,
-        questionsSolved: stats.length > 0 ? stats[0].questionsSolved : []
+        questionsSolved: stats.length > 0 ? stats[0].questionsSolved : [],
       });
 
       const daily = formatStats(dailyStats);
@@ -102,6 +112,25 @@ const getStats = async (req: NextApiRequest, res: NextApiResponse) => {
       const monthlyGroupedBySubject = groupBySubject(monthly.questionsSolved);
       const overallGroupedBySubject = groupBySubject(overall.questionsSolved);
 
+      // Get user's rating percentile and difficulty rating percentile
+      const calculatePercentile = async (
+        model: any,
+        field: string,
+        value: number
+      ) => {
+        const countLower = await model.countDocuments({
+          [field]: { $lt: value },
+        });
+        const total = await model.countDocuments({});
+        return total > 0 ? (countLower / total) * 100 : 0;
+      };
+
+      const userRatingPercentile = await calculatePercentile(
+        UserModel,
+        "selectedSubjects.userRating",
+        user.selectedSubjects[0].userRating
+      );
+
       // Send the response with all the aggregated data
       res.status(200).json({
         totalDailyAttempts: daily.totalAttempts,
@@ -119,7 +148,8 @@ const getStats = async (req: NextApiRequest, res: NextApiResponse) => {
         dailyGroupedBySubject,
         weeklyGroupedBySubject,
         monthlyGroupedBySubject,
-        overallGroupedBySubject
+        overallGroupedBySubject,
+        userRatingPercentile,
       });
     } catch (error) {
       console.error("Error retrieving stats:", error);

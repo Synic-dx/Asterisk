@@ -6,6 +6,7 @@ export interface QuestionDetails {
   userQuestionTime: number;
   isCorrect: boolean;
   attemptedOn: Date;
+  averageTimeTaken?: number;
 }
 
 export interface SelectedSubjectsAndStats {
@@ -16,6 +17,7 @@ export interface SelectedSubjectsAndStats {
   userRating: number;
   userAttempts: number;
   userCorrectAnswers: number;
+  userPercentile?: number;
 }
 
 const QuestionDetailsSchema = new Schema({
@@ -24,6 +26,7 @@ const QuestionDetailsSchema = new Schema({
   userQuestionTime: { type: Number, required: true },
   isCorrect: { type: Boolean, required: true },
   attemptedOn: { type: Date, required: true, default: Date.now },
+  averageTimeTaken: { type: Number, required: false },
 });
 
 // Commenting out SubjectLevel from this as it complicates AS-Level and A-Level subject integration
@@ -35,6 +38,7 @@ const SelectedSubjectsAndStatsSchema = new Schema({
   userRating: { type: Number, default: 50 },
   userAttempts: { type: Number, default: 0 },
   userCorrectAnswers: { type: Number, default: 0 },
+  userPercentile: { type: Number, default: 50 },
 });
 
 export interface User extends Document {
@@ -45,6 +49,10 @@ export interface User extends Document {
   verificationCodeExpiry: Date;
   isVerified: boolean;
   premiumAccess: boolean;
+  graderAccess: boolean;
+  premiumAccessTill?: Date;
+  graderAccessTill?: Date;
+  graderAccessModel?: string;
   questionsSolvedDetails: QuestionDetails[];
   selectedSubjects: SelectedSubjectsAndStats[];
   forgotPasswordToken?: string; // Optional
@@ -69,6 +77,10 @@ const UserSchema = new Schema(
 
     // Access details
     premiumAccess: { type: Boolean, default: false },
+    graderAccess: { type: Boolean, default: false },
+    graderAccessModel: { type: String, enum: ['GPT-4o', 'GPT-4o-mini'], required: false},
+    premiumAccessTill: { type: Date, required: false },
+    graderAccessTill: { type: Date, required: false },
     isAdmin: { type: Boolean, default: false },
 
     // Stats

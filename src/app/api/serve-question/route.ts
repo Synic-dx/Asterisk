@@ -2,7 +2,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/lib/dbConnect";
 import QuestionModel from "@/models/question.model";
 import UserModel from "@/models/user.model";
-import { FREE_DAILY_QUESTION_LIMIT, FREE_SUBJECT_LIMIT, QUESTION_DIFFICULTY_RANGE } from "@/constants";
+import {
+  FREE_DAILY_QUESTION_LIMIT,
+  FREE_SUBJECT_LIMIT,
+  QUESTION_DIFFICULTY_RANGE,
+} from "@/constants";
 import mongoose from "mongoose";
 
 const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -12,25 +16,18 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const { subjectCode, userId, userRating, onlyASLevel } = req.query;
+  const { subjectCode, userId, onlyASLevel, onlyALevel, topic, subtopic } =
+    req.query;
 
-  if (!subjectCode || !userId || userRating === undefined) {
+  if (!subjectCode || !userId) {
     return res.status(400).json({
-      message: "Subject code, user ID, and user rating are required",
+      message: "Subject code and user ID are required",
     });
   }
 
-  const userRatingNumber = Number(userRating);
-  if (isNaN(userRatingNumber)) {
-    return res.status(400).json({
-      message: "User rating must be a valid number",
-    });
-  }
-
-  const subjectCodeString = Array.isArray(subjectCode) ? subjectCode[0] : subjectCode;
-
-  const minDifficulty = userRatingNumber - QUESTION_DIFFICULTY_RANGE;
-  const maxDifficulty = userRatingNumber + QUESTION_DIFFICULTY_RANGE;
+  const subjectCodeString = Array.isArray(subjectCode)
+    ? subjectCode[0]
+    : subjectCode;
 
   try {
     const user = await UserModel.findById(userId);
@@ -48,11 +45,13 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
       { $count: "dailyAttempts" },
     ]);
 
-    const attemptsToday = dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
+    const attemptsToday =
+      dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
 
     if (!user.premiumAccess && attemptsToday >= FREE_DAILY_QUESTION_LIMIT) {
       return res.status(403).json({
-        message: "Daily quota of questions reached. Upgrade to premium for unlimited access.",
+        message:
+          "Daily quota of questions reached. Upgrade to premium for unlimited access.",
       });
     }
 
@@ -60,11 +59,16 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
       (subject) => subject.subjectObjectId.toString() === subjectCodeString
     );
 
-    if (!subjectStats && !user.premiumAccess && user.selectedSubjects.length >= FREE_SUBJECT_LIMIT) {
-      return res.status(403).json({
-        message: "Max subject limit reached. Upgrade to premium to add more subjects.",
-      });
-    }
+    // If userPercentile is undefined, use a default value of 50
+    const userPercentile = subjectStats?.userPercentile ?? 50;
+    const minPercentile = Math.max(
+      userPercentile - QUESTION_DIFFICULTY_RANGE,
+      0
+    );
+    const maxPercentile = Math.min(
+      userPercentile + QUESTION_DIFFICULTY_RANGE,
+      100
+    );
 
     const solvedQuestionIds = user.questionsSolvedDetails.map(
       (detail) => detail.questionObjectId
@@ -73,9 +77,9 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
     const matchConditions: any = {
       "subject.subjectCode": subjectCodeString,
       _id: { $nin: solvedQuestionIds },
-      difficultyRating: {
-        $gte: Math.min(minDifficulty, 40),
-        $lte: Math.max(maxDifficulty, 60),
+      difficultyRatingPercentile: {
+        $gte: minPercentile,
+        $lte: maxPercentile,
       },
     };
 
@@ -83,10 +87,19 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
       matchConditions.level = "AS-Level";
     }
 
-    const pipeline = [
-      { $match: matchConditions },
-      { $sample: { size: 1 } },
-    ];
+    if (onlyALevel === "true") {
+      matchConditions.level = "A-Level";
+    }
+
+    if (topic) {
+      matchConditions.topic = topic;
+    }
+
+    if (subtopic) {
+      matchConditions.subtopic = subtopic;
+    }
+
+    const pipeline = [{ $match: matchConditions }, { $sample: { size: 1 } }];
 
     const questions = await QuestionModel.aggregate(pipeline);
 
@@ -101,7 +114,9 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json(randomQuestion);
   } catch (error) {
     console.error("Error retrieving questions:", error); // Log the error for debugging
-    return res.status(500).json({ message: "Error retrieving questions", error });
+    return res
+      .status(500)
+      .json({ message: "Error retrieving questions", error });
   }
 };
 

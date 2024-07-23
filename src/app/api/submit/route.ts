@@ -6,10 +6,24 @@ import mongoose from "mongoose";
 import { FREE_DAILY_QUESTION_LIMIT, FREE_SUBJECT_LIMIT } from "@/constants";
 
 // Calculate user rating based on attempts and correct answers
-export const calculateUserRating = (attempts: number, correctAnswers: number): number => {
+export const calculateUserRating = (
+  attempts: number,
+  correctAnswers: number
+): number => {
   if (attempts === 0) return 50; // Default rating if no attempts
   const accuracy = correctAnswers / attempts;
   return Math.round(accuracy * 100); // Scale accuracy to a rating out of 100
+};
+
+// Function to calculate percentile
+const calculatePercentile = async (
+  model: mongoose.Model<any>, // The model type
+  field: string, // The field in the document to calculate the percentile for
+  value: number // The value to compare against
+): Promise<number> => {
+  const count = await model.countDocuments({ [field]: { $lte: value } });
+  const totalCount = await model.countDocuments();
+  return (count / totalCount) * 100;
 };
 
 // Function to generate a new question
@@ -25,22 +39,22 @@ const generateNewQuestion = async (data: {
 
   try {
     const response = await fetch(generateQuestionApiUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
 
     if (!response.ok) {
       const errorResponse = await response.json();
-      throw new Error(errorResponse.error || 'Failed to generate new question');
+      throw new Error(errorResponse.error || "Failed to generate new question");
     }
 
     const newQuestion = await response.json();
     return newQuestion;
   } catch (error) {
-    console.error('Error generating new question:', error);
+    console.error("Error generating new question:", error);
     throw error;
   }
 };
@@ -52,11 +66,36 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const { questionId, userAnswer, isCorrect, userQuestionTime, userId, subjectCode, subjectName, level, topic, subtopic, difficultyRating } = req.body;
+  const {
+    questionId,
+    userAnswer,
+    isCorrect,
+    userQuestionTime,
+    userId,
+    subjectCode,
+    subjectName,
+    level,
+    topic,
+    subtopic,
+    difficultyRating,
+  } = req.body;
 
-  if (!questionId || !userAnswer || isCorrect === undefined || !userQuestionTime || !userId || !subjectCode || !subjectName || !level || !topic || !subtopic || !difficultyRating) {
+  if (
+    !questionId ||
+    !userAnswer ||
+    isCorrect === undefined ||
+    !userQuestionTime ||
+    !userId ||
+    !subjectCode ||
+    !subjectName ||
+    !level ||
+    !topic ||
+    !subtopic ||
+    !difficultyRating
+  ) {
     return res.status(400).json({
-      message: "All fields (questionId, userAnswer, isCorrect, userQuestionTime, userId, subjectCode, subjectName, level, topic, subtopic, difficultyRating) are required",
+      message:
+        "All fields (questionId, userAnswer, isCorrect, userQuestionTime, userId, subjectCode, subjectName, level, topic, subtopic, difficultyRating) are required",
     });
   }
 
@@ -78,11 +117,13 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
       { $count: "dailyAttempts" }, // count of total number of problems attempted today
     ]);
 
-    const attemptsToday = dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
+    const attemptsToday =
+      dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
 
     if (!user.premiumAccess && attemptsToday >= FREE_DAILY_QUESTION_LIMIT) {
       return res.status(403).json({
-        message: "Daily quota of questions reached. Upgrade to premium for unlimited access.",
+        message:
+          "Daily quota of questions reached. Upgrade to premium for unlimited access.",
       });
     }
 
@@ -94,8 +135,22 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Calculate difficulty rating if attempts >= 10
     if (question.totalAttempts >= 10) {
-      question.difficultyRating = ((question.totalAttempts - question.totalCorrect) / question.totalAttempts) * 100;
+      question.difficultyRating =
+        ((question.totalAttempts - question.totalCorrect) /
+          question.totalAttempts) *
+        100;
     }
+
+    // Update average time taken for the question
+    if (question.averageTimeTakenInSeconds !== undefined) {
+      question.averageTimeTakenInSeconds =
+        (question.averageTimeTakenInSeconds * (question.totalAttempts - 1) +
+          userQuestionTime) /
+        question.totalAttempts;
+    } else {
+      question.averageTimeTakenInSeconds = userQuestionTime;
+    }
+
     await question.save();
 
     // Update user's question solved details
@@ -109,7 +164,8 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Update or add subject stats
     const subjectStats = user.selectedSubjects.find(
-      (subject) => subject.subjectObjectId.toString() === question.subject.subjectCode
+      (subject) =>
+        subject.subjectObjectId.toString() === question.subject.subjectCode
     );
 
     if (subjectStats) {
@@ -122,11 +178,18 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
         subjectStats.userCorrectAnswers
       );
     } else {
-      if (!user.premiumAccess && user.selectedSubjects.length >= FREE_SUBJECT_LIMIT) {
-        return res.status(403).json({ message: "Upgrade to premium to add more subjects." });
+      if (
+        !user.premiumAccess &&
+        user.selectedSubjects.length >= FREE_SUBJECT_LIMIT
+      ) {
+        return res
+          .status(403)
+          .json({ message: "Upgrade to premium to add more subjects." });
       } else {
         user.selectedSubjects.push({
-          subjectObjectId: new mongoose.Types.ObjectId(question.subject.subjectCode),
+          subjectObjectId: new mongoose.Types.ObjectId(
+            question.subject.subjectCode
+          ),
           subjectName: question.subject.name,
           subjectCode: question.subject.subjectCode,
           userRating: calculateUserRating(1, isCorrect ? 1 : 0),
@@ -134,6 +197,22 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
           userCorrectAnswers: isCorrect ? 1 : 0,
         });
       }
+    }
+
+    // Calculate and update user's rating percentile
+    const userRatingPercentile = await calculatePercentile(
+      UserModel,
+      "selectedSubjects.userRating",
+      subjectStats
+        ? subjectStats.userRating
+        : calculateUserRating(1, isCorrect ? 1 : 0)
+    );
+
+    if (subjectStats) {
+      subjectStats.userPercentile = userRatingPercentile;
+    } else {
+      user.selectedSubjects[user.selectedSubjects.length - 1].userPercentile =
+        userRatingPercentile;
     }
 
     await user.save();
@@ -145,12 +224,12 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
       level,
       topic,
       subtopic,
-      difficultyRating
+      difficultyRating,
     });
 
     res.status(200).json({
       message: "Answer submitted successfully",
-      newQuestion
+      newQuestion,
     });
   } catch (error) {
     console.error(error);

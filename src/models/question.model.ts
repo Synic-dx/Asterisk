@@ -24,6 +24,8 @@ export interface Question extends Document {
   correctOption: Option; // The correct option with text and image (if applicable)
   totalAttempts: number; // Total number of users who attempted this question
   totalCorrect: number; // Total number of times it has been gotten correct
+  averageTimeTakenInSeconds?: number;
+  difficultyRatingPercentile?: number;
 }
 
 const OptionSchema = new Schema({
@@ -55,6 +57,8 @@ const QuestionSchema = new Schema<Question>({
   },
   totalAttempts: { type: Number, default: 0 },
   totalCorrect: { type: Number, default: 0 },
+  averageTimeTakenInSeconds: { type: Number, required: false },
+  difficultyRatingPercentile: { type: Number, required: false },
 });
 
 const QuestionModel =

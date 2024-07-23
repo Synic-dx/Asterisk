@@ -6,6 +6,8 @@ type ConnectionObject = {
 
 const connection: ConnectionObject = {};
 
+const dbName = "asteriskDB"; // Replace with your actual database name
+
 async function dbConnect(): Promise<void> {
   if (connection.isConnected) {
     console.log("Already connected to Database");
@@ -13,7 +15,7 @@ async function dbConnect(): Promise<void> {
   }
 
   try {
-    const db = await mongoose.connect(process.env.MONGO_URI!);
+    const db = await mongoose.connect(`${process.env.MONGO_URI}/${dbName}`);
     connection.isConnected = db.connections[0].readyState;
     console.log("Connected to Database");
   } catch (error) {
