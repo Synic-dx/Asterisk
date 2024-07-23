@@ -1,0 +1,195 @@
+[
+  {
+    "AS Level Business": {
+      "Analyze_Question_Models": {
+        "AO1 Knowledge and Understanding": "2/2 marks if Developed knowledge of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited knowledge of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
+        "AO2 Application": "2/2 marks if developed Application of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited application of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
+        "AO3 Analysis": "3-4/4 marks for developed Analysis that identifies connections between causes, impacts, and/or consequences. 1-2/4 mark for Limited Analysis that identifies connections between causes, impacts, and/or consequences.  0 marks if No creditable response.",
+        "Total_Mark": "AO1 + AO2 + AO3, with a maximum of 8 total attainable marks. Expect atleast 125 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
+      },
+      "Evaluate_Question_Models": {
+        "AO1 Knowledge and Understanding": "2/2 marks if Developed knowledge of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited knowledge of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
+        "AO2 Application": "2/2 marks if developed Application of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited application of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
+        "AO3 Analysis": "2/2 marks for developed Analysis that identifies connections between causes, impacts, and/or consequences. 1/2 mark for Limited Analysis that identifies connections between causes, impacts, and/or consequences.  0 marks if No creditable response.",
+        "AO4 Evaluation": "5-6/6 marks for Developed evaluation IN CONTEXT: A developed judgement/conclusion is made in the business context && Developed evaluative comments which balance some key arguments in the business context. 3-4/6 for Developed evaluation if A developed judgement/conclusion is made && there are Developed evaluative comments which balance some key arguments, but with limited application of the business context provided. 1-2 marks for Limited evaluation: if a judgement/conclusion is made with limited supporting comment/evidence or and attempt is made to balance the arguments. 0 marks if No creditable response.",
+        "Total_Mark": "AO1 + AO2 + AO3 + AO4, with a maximum of 12 total attainable marks. Expect atleast 300 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
+      }
+    },
+    "IGCSE History": {
+      "Depth_Study_Questions": {
+        "Level_5": {
+          "Marks": "[(33-40)/40]",
+          "Description": "Well-balanced and well-developed explanations with strong contextual knowledge, well-reasoned judgments, and clear structure."
+        },
+        "Level_4": {
+          "Marks": "[(25-32)/40]",
+          "Description": "Partially developed explanations with effective contextual knowledge and partially supported judgments."
+        },
+        "Level_3": {
+          "Marks": "[(17-24)/40]",
+          "Description": "Developed descriptions or one-sided explanations with appropriate contextual knowledge and some understanding of key features."
+        },
+        "Level_2": {
+          "Marks": "[(9-16)/40]",
+          "Description": "Limited descriptions, often narrative with limited contextual knowledge and generalized conclusions."
+        },
+        "Level_1": {
+          "Marks": "[(1-8)/40]",
+          "Description": "Limited and inaccurate descriptions with minimal contextual knowledge and unsupported conclusions."
+        },
+        "Total_Marks": "Analyse the essay thoroughly to determine which Level's description does it most closely resemble with. The range is given to account for some dissimilarities from the given descriptions, for example if an essay has a Well-balanced and well-developed explanations with strong contextual knowledge, well-reasoned judgments, but not a very clear structure, let it be in 33-40 marks range but more like 34-35 rather than 38-39. Or if an essay has Developed descriptions or one-sided explanations with appropriate contextual knowledge and some understanding of key features and also some display of Partially developed explanations, it gets a score of 22-23. Expect at least 800 words in the essay, shorter yet then it should have some penalty, yet if it’s too long and drifts away from the point, still penalize."
+      },
+      "Explanation_Questions": {
+        "Level_4": {
+          "Marks": "6",
+          "Description": "Explains TWO reasons for the question, demonstrating thorough understanding and context."
+        },
+        "Level_3": {
+          "Marks": "4–5",
+          "Description": "Explains ONE reason fully (5 marks) or provides a partial explanation (4 marks)."
+        },
+        "Level_2": {
+          "Marks": "2–3",
+          "Description": "Identifies and/or describes reasons, with one mark for each identification/description."
+        },
+        "Level_1": {
+          "Marks": "1",
+          "Description": "Provides a general answer lacking specific contextual knowledge."
+        },
+        "Level_0": {
+          "Marks": "0",
+          "Description": "No evidence submitted or response does not address the question."
+        },
+        "Total_Marks": "Marks are based on the explanation quality and the number of reasons explained. Expect at least 150 words in the response. Shorter answers may receive a penalty, and longer answers that drift away from the point should also be penalized."
+      }
+    },
+    "IGCSE First Language English": {
+      "Descriptive_Writing": {
+        "Marks for Style & Accuracy": {
+          "Level_6": {
+            "Marks": "[(21-24)/24]",
+            "Description": "Highly effective style with subtle meaning, well-structured, wide range of sophisticated vocabulary, almost always accurate grammar."
+          },
+          "Level_5": {
+            "Marks": "[(17-20)/24]",
+            "Description": "Effective style with secure structure, wide range of vocabulary, mostly accurate grammar."
+          },
+          "Level_4": {
+            "Marks": "[(13-16)/24]",
+            "Description": "Sometimes effective style with generally well-sequenced ideas, adequate vocabulary, generally accurate grammar."
+          },
+          "Level_3": {
+            "Marks": "[(9-12)/24]",
+            "Description": "Inconsistent style with clear meaning, relies on original text, simple vocabulary, frequent grammar errors."
+          },
+          "Level_2": {
+            "Marks": "[(5-8)/24]",
+            "Description": "Limited style with poorly sequenced response, limited vocabulary, persistent grammar errors."
+          },
+          "Level_1": {
+            "Marks": "[(1-4)/24]",
+            "Description": "Unclear expression, poor sequencing, very limited vocabulary, many serious grammar errors."
+          },
+          "Level_0": {
+            "Marks": "0",
+            "Description": "No creditable content"
+          }
+        },
+        "Marks for Content and structure": {
+          "Level_6": {
+            "Marks": "[(14-16)/16]",
+            "Description": "Content is complex, engaging and effective. Structure is secure, well balanced and carefully managed for deliberate effect."
+          },
+          "Level_5": {
+            "Marks": "[(11-13)/16]",
+            "Description": "Content is developed, engaging and effective. Structure is well managed, with some choices made for deliberate effect."
+          },
+          "Level_4": {
+            "Marks": "[(8-10)/16]",
+            "Description": "Content is relevant with some development. Structure is competently managed."
+          },
+          "Level_3": {
+            "Marks": "[(5-7)/16]",
+            "Description": "Content is straightforward and briefly developed. Structure is mostly organised but may not always be effective."
+          },
+          "Level_2": {
+            "Marks": "[(3-4)/16]",
+            "Description": "Content is simple, and ideas and events may be limited. Structure is partially organised but limited in its effect."
+          },
+          "Level_1": {
+            "Marks": "[(1-2)/16]",
+            "Description": "Content is occasionally relevant or clear. Structure is limited and ineffective."
+          },
+          "Level_0": {
+            "Marks": "0",
+            "Description": "No creditable content."
+          },
+          "Total_Marks": "Marks for Style & Accuracy + Marks for Content and structure, with a maximum of 24 + 16 = 40 total attainable marks. Expect atleast 200 words in the essay, shorter yet then it should have some penalty on the Content and Structure parameter, yet if its too long and drifts away from the point, still penalize"
+        },
+        "Narrative_Writing": {
+          "Marks for Style & Accuracy": {
+            "Level_6": {
+              "Marks": "[(21-24)/24]",
+              "Description": "Highly effective style with subtle meaning, well-structured, wide range of sophisticated vocabulary, almost always accurate grammar."
+            },
+            "Level_5": {
+              "Marks": "[(17-20)/24]",
+              "Description": "Effective style with secure structure, wide range of vocabulary, mostly accurate grammar."
+            },
+            "Level_4": {
+              "Marks": "[(13-16)/24]",
+              "Description": "Sometimes effective style with generally well-sequenced ideas, adequate vocabulary, generally accurate grammar."
+            },
+            "Level_3": {
+              "Marks": "[(9-12)/24]",
+              "Description": "Inconsistent style with clear meaning, relies on original text, simple vocabulary, frequent grammar errors."
+            },
+            "Level_2": {
+              "Marks": "[(5-8)/24]",
+              "Description": "Limited style with poorly sequenced response, limited vocabulary, persistent grammar errors."
+            },
+            "Level_1": {
+              "Marks": "[(1-4)/24]",
+              "Description": "Unclear expression, poor sequencing, very limited vocabulary, many serious grammar errors."
+            },
+            "Level_0": {
+              "Marks": "0",
+              "Description": "No creditable content"
+            }
+          },
+          "Marks for Content and structure": {
+            "Level_6": {
+              "Marks": "[(14-16)/16]",
+              "Description": "Content is complex, engaging and effective. Structure is secure, well balanced and carefully managed for deliberate effect."
+            },
+            "Level_5": {
+              "Marks": "[(11-13)/16]",
+              "Description": "Content is developed, engaging and effective. Structure is well managed, with some choices made for deliberate effect."
+            },
+            "Level_4": {
+              "Marks": "[(8-10)/16]",
+              "Description": "Content is relevant with some development. Structure is competently managed."
+            },
+            "Level_3": {
+              "Marks": "[(5-7)/16]",
+              "Description": "Content is straightforward and briefly developed. Structure is mostly organised but may not always be effective."
+            },
+            "Level_2": {
+              "Marks": "[(3-4)/16]",
+              "Description": "Content is simple, and ideas and events may be limited. Structure is partially organised but limited in its effect."
+            },
+            "Level_1": {
+              "Marks": "[(1-2)/16]",
+              "Description": "Content is occasionally relevant or clear. Structure is limited and ineffective."
+            },
+            "Level_0": {
+              "Marks": "0",
+              "Description": "No creditable content."
+            },
+            "Total_Marks": "Marks for Style & Accuracy + Marks for Content and structure, with a maximum of 24 + 16 = 40 total attainable marks. Expect atleast 400 words in the essay, shorter yet then it should have some penalty on the Content and Structure parameter, yet if its too long and drifts away from the point, still penalize"
+          }
+        }
+      }
+    }
+  }
+]
