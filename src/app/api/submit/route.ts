@@ -195,6 +195,7 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
           userRating: calculateUserRating(1, isCorrect ? 1 : 0),
           userAttempts: 1,
           userCorrectAnswers: isCorrect ? 1 : 0,
+          dateAdded: new Date(),
         });
       }
     }

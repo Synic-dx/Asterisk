@@ -1,237 +1,106 @@
-[
-  {
-    "AS Level Business (9609)": {
-      "Analyze_Question_Models": {
-        "AO1 Knowledge and Understanding": "2/2 marks if Developed knowledge of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited knowledge of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
-        "AO2 Application": "2/2 marks if developed Application of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited application of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
-        "AO3 Analysis": "3-4/4 marks for developed Analysis that identifies connections between causes, impacts, and/or consequences. 1-2/4 mark for Limited Analysis that identifies connections between causes, impacts, and/or consequences.  0 marks if No creditable response.",
-        "Total_Mark": "AO1 + AO2 + AO3, with a maximum of 8 total attainable marks. Expect atleast 125 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
-      },
-      "Evaluate_Question_Models": {
-        "AO1 Knowledge and Understanding": "2/2 marks if Developed knowledge of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited knowledge of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
-        "AO2 Application": "2/2 marks if developed Application of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited application of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
-        "AO3 Analysis": "2/2 marks for developed Analysis that identifies connections between causes, impacts, and/or consequences. 1/2 mark for Limited Analysis that identifies connections between causes, impacts, and/or consequences.  0 marks if No creditable response.",
-        "AO4 Evaluation": "5-6/6 marks for Developed evaluation IN CONTEXT: A developed judgement/conclusion is made in the business context && Developed evaluative comments which balance some key arguments in the business context. 3-4/6 for Developed evaluation if A developed judgement/conclusion is made && there are Developed evaluative comments which balance some key arguments, but with limited application of the business context provided. 1-2 marks for Limited evaluation: if a judgement/conclusion is made with limited supporting comment/evidence or and attempt is made to balance the arguments. 0 marks if No creditable response.",
-        "Total_Mark": "AO1 + AO2 + AO3 + AO4, with a maximum of 12 total attainable marks. Expect atleast 300 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
-      }
+{
+  "gradingNotes": "The ratings provided in the training data (the jsonl file) are slightly inflated as they do not account for the length of the responses, which were quite short on average. During actual grading, please be stricter and ensure that length, detail, and depth are appropriately considered in the evaluation. Refer to the grading scheme below for length guidelines. Scrictly stick to this grading scheme as much as possible and as accurately as possible",
+  "AS Level Business (9609)": {
+    "Analyze_Questions": {
+      "AO1 Knowledge and Understanding": "2/2 marks if Developed knowledge of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited knowledge of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
+      "AO2 Application": "2/2 marks if developed Application of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited application of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
+      "AO3 Analysis": "3-4/4 marks for developed Analysis that identifies connections between causes, impacts, and/or consequences. 1-2/4 mark for Limited Analysis that identifies connections between causes, impacts, and/or consequences.  0 marks if No creditable response.",
+      "Total_Mark": "AO1 + AO2 + AO3, with a maximum of 8 total attainable marks. Expect atleast 125 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
     },
-    "IGCSE History (0450)": {
-      "Depth_Study_Questions": {
-        "Level_5": {
-          "Marks": "[(33-40)/40]",
-          "Description": "Well-balanced and well-developed explanations with strong contextual knowledge, well-reasoned judgments, and clear structure."
-        },
-        "Level_4": {
-          "Marks": "[(25-32)/40]",
-          "Description": "Partially developed explanations with effective contextual knowledge and partially supported judgments."
-        },
-        "Level_3": {
-          "Marks": "[(17-24)/40]",
-          "Description": "Developed descriptions or one-sided explanations with appropriate contextual knowledge and some understanding of key features."
-        },
-        "Level_2": {
-          "Marks": "[(9-16)/40]",
-          "Description": "Limited descriptions, often narrative with limited contextual knowledge and generalized conclusions."
-        },
-        "Level_1": {
-          "Marks": "[(1-8)/40]",
-          "Description": "Limited and inaccurate descriptions with minimal contextual knowledge and unsupported conclusions."
-        },
-        "Total_Marks": "Analyse the essay thoroughly to determine which Level's description does it most closely resemble with. The range is given to account for some dissimilarities from the given descriptions, for example if an essay has a Well-balanced and well-developed explanations with strong contextual knowledge, well-reasoned judgments, but not a very clear structure, let it be in 33-40 marks range but more like 34-35 rather than 38-39. Or if an essay has Developed descriptions or one-sided explanations with appropriate contextual knowledge and some understanding of key features and also some display of Partially developed explanations, it gets a score of 22-23. Expect at least 800 words in the essay, shorter yet then it should have some penalty, yet if it’s too long and drifts away from the point, still penalize."
+    "Evaluate_Questions": {
+      "AO1 Knowledge and Understanding": "2/2 marks if Developed knowledge of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited knowledge of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
+      "AO2 Application": "2/2 marks if developed Application of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited application of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
+      "AO3 Analysis": "2/2 marks for developed Analysis that identifies connections between causes, impacts, and/or consequences. 1/2 mark for Limited Analysis that identifies connections between causes, impacts, and/or consequences.  0 marks if No creditable response.",
+      "AO4 Evaluation": "5-6/6 marks for Developed evaluation IN CONTEXT: A developed judgement/conclusion is made in the business context && Developed evaluative comments which balance some key arguments in the business context. 3-4/6 for Developed evaluation if A developed judgement/conclusion is made && there are Developed evaluative comments which balance some key arguments, but with limited application of the business context provided. 1-2 marks for Limited evaluation: if a judgement/conclusion is made with limited supporting comment/evidence or and attempt is made to balance the arguments. 0 marks if No creditable response.",
+      "Total_Mark": "AO1 + AO2 + AO3 + AO4, with a maximum of 12 total attainable marks. Expect atleast 250 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
+    }
+  },
+  "IGCSE History (0450)": {
+    "Depth_Study_Questions": {
+      "Level_5": {
+        "Marks": "[(33-40)/40]",
+        "Description": "Well-balanced and well-developed explanations with strong contextual knowledge, well-reasoned judgments, and clear structure."
       },
-      "Explanation_Questions": {
-        "Level_4": {
-          "Marks": "6",
-          "Description": "Explains TWO reasons for the question, demonstrating thorough understanding and context."
-        },
-        "Level_3": {
-          "Marks": "4–5",
-          "Description": "Explains ONE reason fully (5 marks) or provides a partial explanation (4 marks)."
-        },
-        "Level_2": {
-          "Marks": "2–3",
-          "Description": "Identifies and/or describes reasons, with one mark for each identification/description."
-        },
-        "Level_1": {
-          "Marks": "1",
-          "Description": "Provides a general answer lacking specific contextual knowledge."
-        },
-        "Level_0": {
-          "Marks": "0",
-          "Description": "No evidence submitted or response does not address the question."
-        },
-        "Total_Marks": "Marks are based on the explanation quality and the number of reasons explained. Expect at least 150 words in the response. Shorter answers may receive a penalty, and longer answers that drift away from the point should also be penalized."
-      }
+      "Level_4": {
+        "Marks": "[(25-32)/40]",
+        "Description": "Partially developed explanations with effective contextual knowledge and partially supported judgments."
+      },
+      "Level_3": {
+        "Marks": "[(17-24)/40]",
+        "Description": "Developed descriptions or one-sided explanations with appropriate contextual knowledge and some understanding of key features."
+      },
+      "Level_2": {
+        "Marks": "[(9-16)/40]",
+        "Description": "Limited descriptions, often narrative with limited contextual knowledge and generalized conclusions."
+      },
+      "Level_1": {
+        "Marks": "[(1-8)/40]",
+        "Description": "Limited and inaccurate descriptions with minimal contextual knowledge and unsupported conclusions."
+      },
+      "Total_Marks": "Analyse the essay thoroughly to determine which Level's description does it most closely resemble with. The range is given to account for some dissimilarities from the given descriptions, for example if an essay has a Well-balanced and well-developed explanations with strong contextual knowledge, well-reasoned judgments, but not a very clear structure, let it be in 33-40 marks range but more like 34-35 rather than 38-39. Or if an essay has Developed descriptions or one-sided explanations with appropriate contextual knowledge and some understanding of key features and also some display of Partially developed explanations, it gets a score of 22-23. Expect at least 800 words in the essay, shorter yet then it should have some penalty, yet if it's too long and drifts away from the point, still penalize."
     },
-    "English General Paper (8021)": {
-      "Levels_of_Response_Descriptions": {
-        "Level_5": {
-          "AO1_Selection_and_Application_of_Information": "Selects a range of fully relevant information that effectively exemplifies the main aspects of the response to the question. Applies a range of examples appropriately to support the main ideas and opinions in the response.",
-          "AO2_Analysis_and_Evaluation": "Analyses possible meanings of the question and defines the scope of the response. Develops, analyses and evaluates a range of arguments to reach a supported conclusion. Develops a strong argument with clear use of supportive evidence.",
-          "AO3_Communication_using_Written_English": "Communicates clearly with consistently appropriate use of register. Uses a wide range of vocabulary and a variety of language features. Uses language with control and accuracy. Errors, if present, are only related to the use of sophisticated words and structures. Constructs a cohesive response which links ideas, arguments and paragraphs convincingly. Text is well organised.",
-          "Marks": "25–30"
-        },
-        "Level_4": {
-          "AO1_Selection_and_Application_of_Information": "Selects relevant information that exemplifies the main aspects of the response to the question. Applies examples appropriately to support the main ideas and opinions in the response.",
-          "AO2_Analysis_and_Evaluation": "Analyses the meaning of the question to inform the scope of the response. Develops, analyses and begins to evaluate different arguments to reach a supported conclusion. Develops a well-reasoned argument with use of supportive evidence.",
-          "AO3_Communication_using_Written_English": "Communicates clearly with appropriate use of register. Uses a range of vocabulary and language features. Uses language with control and some accuracy. Errors relate to the use of less common words and structures. Constructs a clear response which links ideas, arguments and paragraphs. Text is generally well organised.",
-          "Marks": "19–24"
-        },
-        "Level_3": {
-          "AO1_Selection_and_Application_of_Information": "Selects information that exemplifies some of the main aspects of the response to the question. Applies examples to support the main ideas and opinions in the response.",
-          "AO2_Analysis_and_Evaluation": "Demonstrates understanding of the meaning of the question in the response. Develops and brings together some arguments to form a conclusion. Constructs an argument which is logical and usually supported by evidence.",
-          "AO3_Communication_using_Written_English": "Communicates clearly overall but with inconsistent use of appropriate register. Uses everyday vocabulary and some varied language features. Uses language with some control. Errors are noticeable but do not impede communication. Constructs a mostly coherent response which links ideas, arguments and paragraphs. Text has some organisation but may not be sustained.",
-          "Marks": "13–18"
-        },
-        "Level_2": {
-          "AO1_Selection_and_Application_of_Information": "Selects limited information that exemplifies aspects of the response to the question. Applies examples that are linked to some of the ideas and opinions in the response.",
-          "AO2_Analysis_and_Evaluation": "Demonstrates partial understanding of the meaning of the question in the response. Refers to arguments to form a conclusion. Constructs an argument partially supported by evidence.",
-          "AO3_Communication_using_Written_English": "Communicates clearly in places, with inconsistent use of register. Uses basic vocabulary with limited language features. Uses language with limited control. Errors are frequent and sometimes impede communication. Constructs a fragmented response which links some ideas and/or arguments.",
-          "Marks": "7–12"
-        },
-        "Level_1": {
-          "AO1_Selection_and_Application_of_Information": "Selects limited information that is relevant to the question. Makes examples which may not link to the ideas and opinions in the response.",
-          "AO2_Analysis_and_Evaluation": "Makes a limited response to the question. Makes some form of basic conclusion. Constructs a weak argument.",
-          "AO3_Communication_using_Written_English": "Communicates with lack of clarity and/or register is inappropriate. Uses basic vocabulary. Uses language with control rarely. Errors are frequent and communication is often lost. Constructs a response but the response is not organised and ideas are not linked.",
-          "Marks": "1–6"
-        },
-        "Level_0": {
-          "AO1_Selection_and_Application_of_Information": "No creditable content.",
-          "AO2_Analysis_and_Evaluation": "No creditable content.",
-          "AO3_Communication_using_Written_English": "No creditable content.",
-          "Marks": "0"
-        },
-        "Total_Marks": "Carefully examine the essay, it's arguments, its linguistic clarity, and all the aforementioned characteristics and determine the mark out of 30"
+    "Explanation_Questions": {
+      "Level_4": {
+        "Marks": "6",
+        "Description": "Explains TWO reasons for the question, demonstrating thorough understanding and context."
       },
-
-      "IGCSE First Language English (0500)": {
-        "Descriptive_Writing": {
-          "Marks for Style & Accuracy": {
-            "Level_6": {
-              "Marks": "[(21-24)/24]",
-              "Description": "Highly effective style with subtle meaning, well-structured, wide range of sophisticated vocabulary, almost always accurate grammar."
-            },
-            "Level_5": {
-              "Marks": "[(17-20)/24]",
-              "Description": "Effective style with secure structure, wide range of vocabulary, mostly accurate grammar."
-            },
-            "Level_4": {
-              "Marks": "[(13-16)/24]",
-              "Description": "Sometimes effective style with generally well-sequenced ideas, adequate vocabulary, generally accurate grammar."
-            },
-            "Level_3": {
-              "Marks": "[(9-12)/24]",
-              "Description": "Inconsistent style with clear meaning, relies on original text, simple vocabulary, frequent grammar errors."
-            },
-            "Level_2": {
-              "Marks": "[(5-8)/24]",
-              "Description": "Limited style with poorly sequenced response, limited vocabulary, persistent grammar errors."
-            },
-            "Level_1": {
-              "Marks": "[(1-4)/24]",
-              "Description": "Unclear expression, poor sequencing, very limited vocabulary, many serious grammar errors."
-            },
-            "Level_0": {
-              "Marks": "0",
-              "Description": "No creditable content"
-            }
-          },
-          "Marks for Content and structure": {
-            "Level_6": {
-              "Marks": "[(14-16)/16]",
-              "Description": "Content is complex, engaging and effective. Structure is secure, well balanced and carefully managed for deliberate effect."
-            },
-            "Level_5": {
-              "Marks": "[(11-13)/16]",
-              "Description": "Content is developed, engaging and effective. Structure is well managed, with some choices made for deliberate effect."
-            },
-            "Level_4": {
-              "Marks": "[(8-10)/16]",
-              "Description": "Content is relevant with some development. Structure is competently managed."
-            },
-            "Level_3": {
-              "Marks": "[(5-7)/16]",
-              "Description": "Content is straightforward and briefly developed. Structure is mostly organised but may not always be effective."
-            },
-            "Level_2": {
-              "Marks": "[(3-4)/16]",
-              "Description": "Content is simple, and ideas and events may be limited. Structure is partially organised but limited in its effect."
-            },
-            "Level_1": {
-              "Marks": "[(1-2)/16]",
-              "Description": "Content is occasionally relevant or clear. Structure is limited and ineffective."
-            },
-            "Level_0": {
-              "Marks": "0",
-              "Description": "No creditable content."
-            },
-            "Total_Marks": "Marks for Style & Accuracy + Marks for Content and structure, with a maximum of 24 + 16 = 40 total attainable marks. Expect atleast 200 words in the essay, shorter yet then it should have some penalty on the Content and Structure parameter, yet if its too long and drifts away from the point, still penalize"
-          },
-          "Narrative_Writing": {
-            "Marks for Style & Accuracy": {
-              "Level_6": {
-                "Marks": "[(21-24)/24]",
-                "Description": "Highly effective style with subtle meaning, well-structured, wide range of sophisticated vocabulary, almost always accurate grammar."
-              },
-              "Level_5": {
-                "Marks": "[(17-20)/24]",
-                "Description": "Effective style with secure structure, wide range of vocabulary, mostly accurate grammar."
-              },
-              "Level_4": {
-                "Marks": "[(13-16)/24]",
-                "Description": "Sometimes effective style with generally well-sequenced ideas, adequate vocabulary, generally accurate grammar."
-              },
-              "Level_3": {
-                "Marks": "[(9-12)/24]",
-                "Description": "Inconsistent style with clear meaning, relies on original text, simple vocabulary, frequent grammar errors."
-              },
-              "Level_2": {
-                "Marks": "[(5-8)/24]",
-                "Description": "Limited style with poorly sequenced response, limited vocabulary, persistent grammar errors."
-              },
-              "Level_1": {
-                "Marks": "[(1-4)/24]",
-                "Description": "Unclear expression, poor sequencing, very limited vocabulary, many serious grammar errors."
-              },
-              "Level_0": {
-                "Marks": "0",
-                "Description": "No creditable content"
-              }
-            },
-            "Marks for Content and structure": {
-              "Level_6": {
-                "Marks": "[(14-16)/16]",
-                "Description": "Content is complex, engaging and effective. Structure is secure, well balanced and carefully managed for deliberate effect."
-              },
-              "Level_5": {
-                "Marks": "[(11-13)/16]",
-                "Description": "Content is developed, engaging and effective. Structure is well managed, with some choices made for deliberate effect."
-              },
-              "Level_4": {
-                "Marks": "[(8-10)/16]",
-                "Description": "Content is relevant with some development. Structure is competently managed."
-              },
-              "Level_3": {
-                "Marks": "[(5-7)/16]",
-                "Description": "Content is straightforward and briefly developed. Structure is mostly organised but may not always be effective."
-              },
-              "Level_2": {
-                "Marks": "[(3-4)/16]",
-                "Description": "Content is simple, and ideas and events may be limited. Structure is partially organised but limited in its effect."
-              },
-              "Level_1": {
-                "Marks": "[(1-2)/16]",
-                "Description": "Content is occasionally relevant or clear. Structure is limited and ineffective."
-              },
-              "Level_0": {
-                "Marks": "0",
-                "Description": "No creditable content."
-              },
-              "Total_Marks": "Marks for Style & Accuracy + Marks for Content and structure, with a maximum of 24 + 16 = 40 total attainable marks. Expect atleast 400 words in the essay, shorter yet then it should have some penalty on the Content and Structure parameter, yet if its too long and drifts away from the point, still penalize"
-            }
-          }
-        }
-      }
+      "Level_3": {
+        "Marks": "4–5",
+        "Description": "Explains ONE reason fully (5 marks) or provides a partial explanation (4 marks)."
+      },
+      "Level_2": {
+        "Marks": "2–3",
+        "Description": "Identifies and/or describes reasons, with one mark for each identification/description."
+      },
+      "Level_1": {
+        "Marks": "1",
+        "Description": "Provides a general answer lacking specific contextual knowledge."
+      },
+      "Level_0": {
+        "Marks": "0",
+        "Description": "No evidence submitted or response does not address the question."
+      },
+      "Total_Marks": "Marks are based on the explanation quality and the number of reasons explained. Expect at least 150 words in the response. Shorter answers may receive a penalty, and longer answers that drift away from the point should also be penalized."
+    }
+  },
+  "English General Paper (8021)": {
+    "Levels_of_Response_Descriptions": {
+      "Level_5": {
+        "AO1_Selection_and_Application_of_Information": "Selects a range of fully relevant information that effectively exemplifies the main aspects of the response to the question. Applies a range of examples appropriately to support the main ideas and opinions in the response.",
+        "AO2_Analysis_and_Evaluation": "Analyses possible meanings of the question and defines the scope of the response. Develops, analyses and evaluates a range of arguments to reach a supported conclusion. Develops a strong argument with clear use of supportive evidence.",
+        "AO3_Communication_using_Written_English": "Communicates clearly with consistently appropriate use of register. Uses a wide range of vocabulary and a variety of language features. Uses language with control and accuracy. Errors, if present, are only related to the use of sophisticated words and structures. Constructs a cohesive response which links ideas, arguments and paragraphs convincingly. Text is well organised.",
+        "Marks": "25–30"
+      },
+      "Level_4": {
+        "AO1_Selection_and_Application_of_Information": "Selects relevant information that exemplifies the main aspects of the response to the question. Applies examples appropriately to support the main ideas and opinions in the response.",
+        "AO2_Analysis_and_Evaluation": "Analyses the meaning of the question to inform the scope of the response. Develops, analyses and begins to evaluate different arguments to reach a supported conclusion. Develops a well-reasoned argument with use of supportive evidence.",
+        "AO3_Communication_using_Written_English": "Communicates clearly with appropriate use of register. Uses a range of vocabulary and language features. Uses language with control and some accuracy. Errors relate to the use of less common words and structures. Constructs a clear response which links ideas, arguments and paragraphs. Text is generally well organised.",
+        "Marks": "19–24"
+      },
+      "Level_3": {
+        "AO1_Selection_and_Application_of_Information": "Selects information that exemplifies some of the main aspects of the response to the question. Applies examples to support the main ideas and opinions in the response.",
+        "AO2_Analysis_and_Evaluation": "Demonstrates understanding of the meaning of the question in the response. Develops and brings together some arguments to form a conclusion. Constructs an argument which is logical and usually supported by evidence.",
+        "AO3_Communication_using_Written_English": "Communicates clearly overall but with inconsistent use of appropriate register. Uses everyday vocabulary and some varied language features. Uses language with some control. Errors are noticeable but do not impede communication. Constructs a mostly coherent response which links ideas, arguments and paragraphs. Text has some organisation but may not be sustained.",
+        "Marks": "13–18"
+      },
+      "Level_2": {
+        "AO1_Selection_and_Application_of_Information": "Selects limited information that exemplifies some aspects of the response to the question. Applies limited examples to support the main ideas and opinions in the response.",
+        "AO2_Analysis_and_Evaluation": "Demonstrates a limited understanding of the meaning of the question. Constructs a response with little argumentation or evidence to support conclusions. Argument is often weak or underdeveloped.",
+        "AO3_Communication_using_Written_English": "Communicates with some clarity but with frequent use of inappropriate register. Uses limited vocabulary and language features. Errors in language use may impede communication. Constructs a response that lacks coherence with poorly linked ideas, arguments and paragraphs. Text is poorly organised.",
+        "Marks": "7–12"
+      },
+      "Level_1": {
+        "AO1_Selection_and_Application_of_Information": "Selects very limited information that exemplifies few aspects of the response to the question. Applies minimal examples to support the main ideas and opinions in the response.",
+        "AO2_Analysis_and_Evaluation": "Demonstrates minimal understanding of the meaning of the question. Constructs a response with very little argumentation or evidence. Argument is often very weak or absent.",
+        "AO3_Communication_using_Written_English": "Communicates with little clarity and inappropriate register. Uses very limited vocabulary and language features. Frequent errors in language use impede communication. Constructs a response that lacks coherence and is poorly organised.",
+        "Marks": "1–6"
+      },
+      "Level_0": {
+        "Marks": "0",
+        "Description": "No evidence submitted or response does not address the question."
+      },
+      "Total_Marks": "Marks are based on the quality of selection, application, analysis, evaluation, and communication. Expect at least 300 words in the essay. Shorter answers may be penalized, and longer responses that drift away from the point should also be penalized."
     }
   }
-]
+}
+
