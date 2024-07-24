@@ -44,7 +44,7 @@ export async function POST(req: Request) {
         return new Response(
           JSON.stringify({
             success: false,
-            message: "Email is already registered and verified. Please login instead.",
+            message: "Email is already registered and verified. Please log in instead.",
           }),
           { status: 400 }
         );
@@ -61,7 +61,17 @@ export async function POST(req: Request) {
         userName,
         email,
         password: await bcrypt.hash(password, 10),
-        premiumAccess: false,
+        premiumAccess: {
+          valid: false,
+          accessTill: null,
+          accessModel: null
+        },
+        graderAccess: {
+          valid: false,
+          accessTill: null,
+          graderAccessModel: null,
+          weeklyEssayLimit: null
+        },
         questionsSolvedDetails: [],
         selectedSubjects: [],
         verificationCode,

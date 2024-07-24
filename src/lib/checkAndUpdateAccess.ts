@@ -6,26 +6,27 @@ const checkAndUpdateAccess = async () => {
 
     // Find users with expired premium access
     const usersWithExpiredPremiumAccess = await UserModel.find({
-      premiumAccess: true,
-      premiumAccessTill: { $lte: now },
+      'premiumAccess.valid': true,
+      'premiumAccess.accessTill': { $lte: now },
     });
 
     for (const user of usersWithExpiredPremiumAccess) {
-      user.premiumAccess = false;
-      user.premiumAccessTill = undefined;
+      user.premiumAccess.valid = false;
+      user.premiumAccess.accessTill = undefined;
+      user.premiumAccess.accessModel = undefined;
       await user.save();
     }
 
     // Find users with expired grader access
     const usersWithExpiredGraderAccess = await UserModel.find({
-      graderAccess: true,
-      graderAccessTill: { $lte: now },
+      'graderAccess.valid': true,
+      'graderAccess.accessTill': { $lte: now },
     });
 
     for (const user of usersWithExpiredGraderAccess) {
-      user.graderAccess = false;
-      user.graderAccessTill = undefined;
-      user.graderAccessModel = ''; // Resetting the graderAccessModel to an empty array
+      user.graderAccess.valid = false;
+      user.graderAccess.accessTill = undefined;
+      user.graderAccess.graderAccessModel = undefined; // Resetting the graderAccessModel
       await user.save();
     }
 

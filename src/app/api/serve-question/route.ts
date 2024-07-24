@@ -48,7 +48,7 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
     const attemptsToday =
       dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
 
-    if (!user.premiumAccess && attemptsToday >= FREE_DAILY_QUESTION_LIMIT) {
+    if (!user.premiumAccess?.valid && attemptsToday >= FREE_DAILY_QUESTION_LIMIT) {
       return res.status(403).json({
         message:
           "Daily quota of questions reached. Upgrade to premium for unlimited access.",
@@ -59,7 +59,6 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
       (subject) => subject.subjectObjectId.toString() === subjectCodeString
     );
 
-    // If userPercentile is undefined, use a default value of 50
     const userPercentile = subjectStats?.userPercentile ?? 50;
     const minPercentile = Math.max(
       userPercentile - QUESTION_DIFFICULTY_RANGE,
@@ -113,7 +112,7 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(200).json(randomQuestion);
   } catch (error) {
-    console.error("Error retrieving questions:", error); // Log the error for debugging
+    console.error("Error retrieving questions:", error);
     return res
       .status(500)
       .json({ message: "Error retrieving questions", error });

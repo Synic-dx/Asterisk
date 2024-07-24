@@ -1,106 +1,838 @@
 {
-  "gradingNotes": "The ratings provided in the training data (the jsonl file) are slightly inflated as they do not account for the length of the responses, which were quite short on average. During actual grading, please be stricter and ensure that length, detail, and depth are appropriately considered in the evaluation. Refer to the grading scheme below for length guidelines. Scrictly stick to this grading scheme as much as possible and as accurately as possible",
-  "AS Level Business (9609)": {
-    "Analyze_Questions": {
-      "AO1 Knowledge and Understanding": "2/2 marks if Developed knowledge of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited knowledge of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
-      "AO2 Application": "2/2 marks if developed Application of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited application of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
-      "AO3 Analysis": "3-4/4 marks for developed Analysis that identifies connections between causes, impacts, and/or consequences. 1-2/4 mark for Limited Analysis that identifies connections between causes, impacts, and/or consequences.  0 marks if No creditable response.",
-      "Total_Mark": "AO1 + AO2 + AO3, with a maximum of 8 total attainable marks. Expect atleast 125 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
+  "Subjective_Essay_Grading_Scheme": {
+    "gradingNotes": "The ratings provided in the training data (the training_data.jsonl file) are slightly inflated as they do not account for the length of the responses, which were quite short on average. During actual grading, please be stricter and ensure that length, detail, and depth are appropriately considered in the evaluation. Refer to the grading scheme below for length guidelines. Scrictly stick to this grading scheme as much as possible and as accurately as possible",
+    "AS Level Business (9609)": {
+      "Analyze_Questions": {
+        "AO1 Knowledge and Understanding": "2/2 marks if Developed knowledge of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited knowledge of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
+        "AO2 Application": "2/2 marks if developed Application of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited application of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
+        "AO3 Analysis": "3-4/4 marks for developed Analysis that identifies connections between causes, impacts, and/or consequences. 1-2/4 mark for Limited Analysis that identifies connections between causes, impacts, and/or consequences.  0 marks if No creditable response.",
+        "Total_Mark": "AO1 + AO2 + AO3, with a maximum of 8 total attainable marks. Expect atleast 125 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
+      },
+      "Evaluate_Questions": {
+        "AO1 Knowledge and Understanding": "2/2 marks if Developed knowledge of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited knowledge of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
+        "AO2 Application": "2/2 marks if developed Application of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited application of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
+        "AO3 Analysis": "2/2 marks for developed Analysis that identifies connections between causes, impacts, and/or consequences. 1/2 mark for Limited Analysis that identifies connections between causes, impacts, and/or consequences.  0 marks if No creditable response.",
+        "AO4 Evaluation": "5-6/6 marks for Developed evaluation IN CONTEXT: A developed judgement/conclusion is made in the business context && Developed evaluative comments which balance some key arguments in the business context. 3-4/6 for Developed evaluation if A developed judgement/conclusion is made && there are Developed evaluative comments which balance some key arguments, but with limited application of the business context provided. 1-2 marks for Limited evaluation: if a judgement/conclusion is made with limited supporting comment/evidence or and attempt is made to balance the arguments. 0 marks if No creditable response.",
+        "Total_Mark": "AO1 + AO2 + AO3 + AO4, with a maximum of 12 total attainable marks. Expect atleast 250 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
+      }
     },
-    "Evaluate_Questions": {
-      "AO1 Knowledge and Understanding": "2/2 marks if Developed knowledge of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited knowledge of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
-      "AO2 Application": "2/2 marks if developed Application of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited application of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
-      "AO3 Analysis": "2/2 marks for developed Analysis that identifies connections between causes, impacts, and/or consequences. 1/2 mark for Limited Analysis that identifies connections between causes, impacts, and/or consequences.  0 marks if No creditable response.",
-      "AO4 Evaluation": "5-6/6 marks for Developed evaluation IN CONTEXT: A developed judgement/conclusion is made in the business context && Developed evaluative comments which balance some key arguments in the business context. 3-4/6 for Developed evaluation if A developed judgement/conclusion is made && there are Developed evaluative comments which balance some key arguments, but with limited application of the business context provided. 1-2 marks for Limited evaluation: if a judgement/conclusion is made with limited supporting comment/evidence or and attempt is made to balance the arguments. 0 marks if No creditable response.",
-      "Total_Mark": "AO1 + AO2 + AO3 + AO4, with a maximum of 12 total attainable marks. Expect atleast 250 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
+    "IGCSE History (0450)": {
+      "Depth_Study_Questions": {
+        "Level_5": {
+          "Marks": "[(33-40)/40]",
+          "Description": "Well-balanced and well-developed explanations with strong contextual knowledge, well-reasoned judgments, and clear structure."
+        },
+        "Level_4": {
+          "Marks": "[(25-32)/40]",
+          "Description": "Partially developed explanations with effective contextual knowledge and partially supported judgments."
+        },
+        "Level_3": {
+          "Marks": "[(17-24)/40]",
+          "Description": "Developed descriptions or one-sided explanations with appropriate contextual knowledge and some understanding of key features."
+        },
+        "Level_2": {
+          "Marks": "[(9-16)/40]",
+          "Description": "Limited descriptions, often narrative with limited contextual knowledge and generalized conclusions."
+        },
+        "Level_1": {
+          "Marks": "[(1-8)/40]",
+          "Description": "Limited and inaccurate descriptions with minimal contextual knowledge and unsupported conclusions."
+        },
+        "Total_Marks": "Analyse the essay thoroughly to determine which Level's description does it most closely resemble with. The range is given to account for some dissimilarities from the given descriptions, for example if an essay has a Well-balanced and well-developed explanations with strong contextual knowledge, well-reasoned judgments, but not a very clear structure, let it be in 33-40 marks range but more like 34-35 rather than 38-39. Or if an essay has Developed descriptions or one-sided explanations with appropriate contextual knowledge and some understanding of key features and also some display of Partially developed explanations, it gets a score of 22-23. Expect at least 800 words in the essay, shorter yet then it should have some penalty, yet if it's too long and drifts away from the point, still penalize."
+      },
+      "Explanation_Questions": {
+        "Level_4": {
+          "Marks": "6",
+          "Description": "Explains TWO reasons for the question, demonstrating thorough understanding and context."
+        },
+        "Level_3": {
+          "Marks": "4–5",
+          "Description": "Explains ONE reason fully (5 marks) or provides a partial explanation (4 marks)."
+        },
+        "Level_2": {
+          "Marks": "2–3",
+          "Description": "Identifies and/or describes reasons, with one mark for each identification/description."
+        },
+        "Level_1": {
+          "Marks": "1",
+          "Description": "Provides a general answer lacking specific contextual knowledge."
+        },
+        "Level_0": {
+          "Marks": "0",
+          "Description": "No evidence submitted or response does not address the question."
+        },
+        "Total_Marks": "Marks are based on the explanation quality and the number of reasons explained. Expect at least 150 words in the response. Shorter answers may receive a penalty, and longer answers that drift away from the point should also be penalized."
+      }
+    },
+    "English General Paper (8021)": {
+      "Levels_of_Response_Descriptions": {
+        "Level_5": {
+          "AO1_Selection_and_Application_of_Information": "Selects a range of fully relevant information that effectively exemplifies the main aspects of the response to the question. Applies a range of examples appropriately to support the main ideas and opinions in the response.",
+          "AO2_Analysis_and_Evaluation": "Analyses possible meanings of the question and defines the scope of the response. Develops, analyses and evaluates a range of arguments to reach a supported conclusion. Develops a strong argument with clear use of supportive evidence.",
+          "AO3_Communication_using_Written_English": "Communicates clearly with consistently appropriate use of register. Uses a wide range of vocabulary and a variety of language features. Uses language with control and accuracy. Errors, if present, are only related to the use of sophisticated words and structures. Constructs a cohesive response which links ideas, arguments and paragraphs convincingly. Text is well organised.",
+          "Marks": "25–30"
+        },
+        "Level_4": {
+          "AO1_Selection_and_Application_of_Information": "Selects relevant information that exemplifies the main aspects of the response to the question. Applies examples appropriately to support the main ideas and opinions in the response.",
+          "AO2_Analysis_and_Evaluation": "Analyses the meaning of the question to inform the scope of the response. Develops, analyses and begins to evaluate different arguments to reach a supported conclusion. Develops a well-reasoned argument with use of supportive evidence.",
+          "AO3_Communication_using_Written_English": "Communicates clearly with appropriate use of register. Uses a range of vocabulary and language features. Uses language with control and some accuracy. Errors relate to the use of less common words and structures. Constructs a clear response which links ideas, arguments and paragraphs. Text is generally well organised.",
+          "Marks": "19–24"
+        },
+        "Level_3": {
+          "AO1_Selection_and_Application_of_Information": "Selects information that exemplifies some of the main aspects of the response to the question. Applies examples to support the main ideas and opinions in the response.",
+          "AO2_Analysis_and_Evaluation": "Demonstrates understanding of the meaning of the question in the response. Develops and brings together some arguments to form a conclusion. Constructs an argument which is logical and usually supported by evidence.",
+          "AO3_Communication_using_Written_English": "Communicates clearly overall but with inconsistent use of appropriate register. Uses everyday vocabulary and some varied language features. Uses language with some control. Errors are noticeable but do not impede communication. Constructs a mostly coherent response which links ideas, arguments and paragraphs. Text has some organisation but may not be sustained.",
+          "Marks": "13–18"
+        },
+        "Level_2": {
+          "AO1_Selection_and_Application_of_Information": "Selects limited information that exemplifies some aspects of the response to the question. Applies limited examples to support the main ideas and opinions in the response.",
+          "AO2_Analysis_and_Evaluation": "Demonstrates a limited understanding of the meaning of the question. Constructs a response with little argumentation or evidence to support conclusions. Argument is often weak or underdeveloped.",
+          "AO3_Communication_using_Written_English": "Communicates with some clarity but with frequent use of inappropriate register. Uses limited vocabulary and language features. Errors in language use may impede communication. Constructs a response that lacks coherence with poorly linked ideas, arguments and paragraphs. Text is poorly organised.",
+          "Marks": "7–12"
+        },
+        "Level_1": {
+          "AO1_Selection_and_Application_of_Information": "Selects very limited information that exemplifies few aspects of the response to the question. Applies minimal examples to support the main ideas and opinions in the response.",
+          "AO2_Analysis_and_Evaluation": "Demonstrates minimal understanding of the meaning of the question. Constructs a response with very little argumentation or evidence. Argument is often very weak or absent.",
+          "AO3_Communication_using_Written_English": "Communicates with little clarity and inappropriate register. Uses very limited vocabulary and language features. Frequent errors in language use impede communication. Constructs a response that lacks coherence and is poorly organised.",
+          "Marks": "1–6"
+        },
+        "Level_0": {
+          "Marks": "0",
+          "Description": "No evidence submitted or response does not address the question."
+        },
+        "Total_Marks": "Marks are based on the quality of selection, application, analysis, evaluation, and communication. Expect at least 300 words in the essay. Shorter answers may be penalized, and longer responses that drift away from the point should also be penalized."
+      }
     }
   },
-  "IGCSE History (0450)": {
-    "Depth_Study_Questions": {
-      "Level_5": {
-        "Marks": "[(33-40)/40]",
-        "Description": "Well-balanced and well-developed explanations with strong contextual knowledge, well-reasoned judgments, and clear structure."
-      },
-      "Level_4": {
-        "Marks": "[(25-32)/40]",
-        "Description": "Partially developed explanations with effective contextual knowledge and partially supported judgments."
-      },
-      "Level_3": {
-        "Marks": "[(17-24)/40]",
-        "Description": "Developed descriptions or one-sided explanations with appropriate contextual knowledge and some understanding of key features."
-      },
-      "Level_2": {
-        "Marks": "[(9-16)/40]",
-        "Description": "Limited descriptions, often narrative with limited contextual knowledge and generalized conclusions."
-      },
-      "Level_1": {
-        "Marks": "[(1-8)/40]",
-        "Description": "Limited and inaccurate descriptions with minimal contextual knowledge and unsupported conclusions."
-      },
-      "Total_Marks": "Analyse the essay thoroughly to determine which Level's description does it most closely resemble with. The range is given to account for some dissimilarities from the given descriptions, for example if an essay has a Well-balanced and well-developed explanations with strong contextual knowledge, well-reasoned judgments, but not a very clear structure, let it be in 33-40 marks range but more like 34-35 rather than 38-39. Or if an essay has Developed descriptions or one-sided explanations with appropriate contextual knowledge and some understanding of key features and also some display of Partially developed explanations, it gets a score of 22-23. Expect at least 800 words in the essay, shorter yet then it should have some penalty, yet if it's too long and drifts away from the point, still penalize."
+  "MCQ_Subject_Syllabus": {
+    "IGCSE_Biology": {
+      "subjectCode": "0610",
+      "aims": [
+        "Acquire scientific knowledge and understanding of scientific theories and practice.",
+        "Develop a range of experimental skills, including handling variables and working safely.",
+        "Use scientific data and evidence to solve problems and discuss the limitations of scientific methods.",
+        "Communicate effectively and clearly, using scientific terminology, notation, and conventions.",
+        "Understand that the application of scientific knowledge can benefit people and the environment.",
+        "Enjoy science and develop an informed interest in scientific matters which support further study."
+      ],
+      "topics": [
+        {
+          "name": "Characteristics and classification of living organisms",
+          "subtopics": [
+            "Characteristics of living organisms",
+            "Concept and uses of classification systems",
+            "Features of organisms"
+          ],
+          "concepts": [
+            "Seven characteristics of living organisms (movement, respiration, sensitivity, growth, reproduction, excretion, nutrition)",
+            "Binomial system of naming species",
+            "Hierarchical classification systems (kingdom, phylum, class, order, family, genus, species)"
+          ]
+        },
+        {
+          "name": "Organisation of the organism",
+          "subtopics": [
+            "Cell structure and organisation",
+            "Levels of organisation",
+            "Size of specimens"
+          ],
+          "concepts": [
+            "Structure and function of animal and plant cells",
+            "Specialised cells, tissues, organs, and systems",
+            "Magnification and measurement of cells"
+          ]
+        },
+        {
+          "name": "Movement into and out of cells",
+          "subtopics": ["Diffusion", "Osmosis", "Active transport"],
+          "concepts": [
+            "Molecular movement in and out of cells",
+            "Importance of diffusion in living organisms",
+            "Osmosis in terms of water potential",
+            "Active transport and its role in organisms"
+          ]
+        },
+        {
+          "name": "Biological molecules",
+          "subtopics": [
+            "Carbohydrates, proteins, and lipids",
+            "Tests for biological molecules",
+            "Role of water"
+          ],
+          "concepts": [
+            "Structure and function of carbohydrates, proteins, and lipids",
+            "Biochemical tests for starch, reducing sugars, proteins, and fats",
+            "Importance of water in biological systems"
+          ]
+        },
+        {
+          "name": "Enzymes",
+          "subtopics": ["Enzyme action", "Factors affecting enzyme activity"],
+          "concepts": [
+            "Role of enzymes as biological catalysts",
+            "Effect of temperature and pH on enzyme activity",
+            "Enzyme-substrate specificity"
+          ]
+        },
+        {
+          "name": "Plant nutrition",
+          "subtopics": [
+            "Photosynthesis",
+            "Leaf structure",
+            "Mineral requirements"
+          ],
+          "concepts": [
+            "Photosynthesis equation and process",
+            "Adaptations of the leaf for photosynthesis",
+            "Essential minerals for plant growth (nitrate and magnesium)"
+          ]
+        },
+        {
+          "name": "Human nutrition",
+          "subtopics": [
+            "Diet",
+            "Alimentary canal",
+            "Mechanical and chemical digestion",
+            "Absorption and assimilation"
+          ],
+          "concepts": [
+            "Balanced diet and dietary requirements",
+            "Structure and function of the digestive system",
+            "Role of enzymes in digestion",
+            "Absorption of nutrients in the small intestine"
+          ]
+        },
+        {
+          "name": "Transport in plants",
+          "subtopics": ["Water uptake", "Transpiration", "Translocation"],
+          "concepts": [
+            "Uptake of water and minerals by roots",
+            "Mechanism of water transport through xylem",
+            "Factors affecting transpiration rate",
+            "Transport of organic compounds through phloem"
+          ]
+        },
+        {
+          "name": "Transport in animals",
+          "subtopics": [
+            "Circulatory system",
+            "Heart",
+            "Blood and lymphatic vessels",
+            "Blood"
+          ],
+          "concepts": [
+            "Structure and function of the circulatory system",
+            "Structure and function of the heart",
+            "Types of blood vessels and their roles",
+            "Components of blood and their functions"
+          ]
+        },
+        {
+          "name": "Diseases and immunity",
+          "subtopics": [
+            "Pathogens and transmissible diseases",
+            "Body defenses",
+            "Vaccination"
+          ],
+          "concepts": [
+            "Types of pathogens and examples of diseases",
+            "Physical and chemical barriers to infection",
+            "Role of the immune system",
+            "Principles of vaccination"
+          ]
+        },
+        {
+          "name": "Gas exchange in humans",
+          "subtopics": [
+            "Structure of the gas exchange system",
+            "Ventilation",
+            "Role of gas exchange in respiration"
+          ],
+          "concepts": [
+            "Anatomy of the respiratory system",
+            "Mechanics of breathing",
+            "Exchange of gases in the alveoli"
+          ]
+        },
+        {
+          "name": "Respiration",
+          "subtopics": ["Aerobic and anaerobic respiration", "Energy release"],
+          "concepts": [
+            "Comparison of aerobic and anaerobic respiration",
+            "Word and symbol equations for respiration",
+            "Energy yield from respiration"
+          ]
+        },
+        {
+          "name": "Excretion in humans",
+          "subtopics": [
+            "Excretory products",
+            "Structure and function of kidneys",
+            "Structure and function of liver"
+          ],
+          "concepts": [
+            "Major excretory products and their sources",
+            "Formation and composition of urine",
+            "Role of the liver in excretion and metabolism"
+          ]
+        },
+        {
+          "name": "Coordination and response",
+          "subtopics": [
+            "Nervous system",
+            "Hormones",
+            "Homeostasis",
+            "Tropic responses"
+          ],
+          "concepts": [
+            "Structure and function of the nervous system",
+            "Endocrine glands and hormone functions",
+            "Homeostatic mechanisms",
+            "Plant responses to stimuli"
+          ]
+        },
+        {
+          "name": "Drugs",
+          "subtopics": ["Medicinal drugs", "Misused drugs"],
+          "concepts": [
+            "Effects and uses of medicinal drugs",
+            "Impact of drug misuse on health"
+          ]
+        },
+        {
+          "name": "Reproduction",
+          "subtopics": [
+            "Asexual and sexual reproduction",
+            "Sexual reproduction in plants",
+            "Sexual reproduction in humans"
+          ],
+          "concepts": [
+            "Differences between asexual and sexual reproduction",
+            "Structure and function of flowers",
+            "Human reproductive systems",
+            "Menstrual cycle and fertilization"
+          ]
+        },
+        {
+          "name": "Inheritance",
+          "subtopics": [
+            "Chromosomes, genes, and proteins",
+            "Mitosis and meiosis",
+            "Monohybrid inheritance"
+          ],
+          "concepts": [
+            "Structure and function of DNA",
+            "Process of cell division",
+            "Inheritance of single gene traits",
+            "Punnett squares and genetic crosses"
+          ]
+        },
+        {
+          "name": "Variation and selection",
+          "subtopics": ["Variation", "Adaptive features", "Selection"],
+          "concepts": [
+            "Sources of genetic and environmental variation",
+            "Adaptations to the environment",
+            "Natural and artificial selection"
+          ]
+        },
+        {
+          "name": "Organisms and their environment",
+          "subtopics": [
+            "Energy flow",
+            "Food chains and food webs",
+            "Nutrient cycles",
+            "Population size"
+          ],
+          "concepts": [
+            "Transfer of energy through ecosystems",
+            "Roles of producers, consumers, and decomposers",
+            "Carbon and nitrogen cycles",
+            "Factors affecting population growth"
+          ]
+        },
+        {
+          "name": "Human influences on ecosystems",
+          "subtopics": [
+            "Food supply",
+            "Habitat destruction",
+            "Pollution",
+            "Conservation"
+          ],
+          "concepts": [
+            "Impact of agriculture on ecosystems",
+            "Consequences of habitat destruction",
+            "Types and effects of pollution",
+            "Methods of conservation"
+          ]
+        },
+        {
+          "name": "Biotechnology and genetic modification",
+          "subtopics": ["Biotechnology", "Genetic modification"],
+          "concepts": [
+            "Applications of biotechnology in medicine and agriculture",
+            "Principles and techniques of genetic engineering",
+            "Benefits and risks of genetically modified organisms"
+          ]
+        }
+      ]
     },
-    "Explanation_Questions": {
-      "Level_4": {
-        "Marks": "6",
-        "Description": "Explains TWO reasons for the question, demonstrating thorough understanding and context."
+    "IGCSE_Chemistry": {
+      "subjectCode": "0620",
+      "aims": [
+        "To provide a worthwhile educational experience for all candidates, whether or not they go on to study science beyond this level.",
+        "To enable candidates to acquire sufficient understanding and knowledge to become confident citizens in a technological world and to take or develop an informed interest in matters of scientific importance.",
+        "To recognise the usefulness, and limitations, of scientific method and to appreciate its applicability in other disciplines and in everyday life.",
+        "To be suitably prepared for studies beyond Cambridge IGCSE in pure sciences, in applied sciences or in science-dependent vocational courses."
+      ],
+      "topics": [
+        {
+          "name": "The particulate nature of matter",
+          "subtopics": ["States of matter", "Change of state"],
+          "concepts": [
+            "The kinetic particle theory",
+            "The properties of solids, liquids and gases",
+            "Diffusion",
+            "Brownian motion",
+            "Changes of state (melting, boiling, evaporation, freezing, condensation, sublimation)"
+          ]
+        },
+        {
+          "name": "Experimental techniques",
+          "subtopics": ["Measurement", "Purity"],
+          "concepts": [
+            "Measurement of temperature, mass and volume",
+            "Criteria of purity",
+            "Methods of purification and analysis (filtration, crystallisation, paper chromatography, distillation, fractional distillation)"
+          ]
+        },
+        {
+          "name": "Atoms, elements and compounds",
+          "subtopics": [
+            "Atomic structure and the Periodic Table",
+            "Structure and properties of materials",
+            "Bonding: the structure of matter",
+            "Ions and ionic bonds",
+            "Molecules and covalent bonds",
+            "Macromolecules",
+            "Electrolysis"
+          ],
+          "concepts": [
+            "Structure of an atom (protons, neutrons and electrons)",
+            "Atomic number, mass number and isotopes",
+            "The Periodic Table",
+            "Metals and non-metals",
+            "Structure and properties of ionic compounds",
+            "Structure and properties of covalent compounds",
+            "Giant covalent structures",
+            "Extraction of metals by electrolysis",
+            "Electrolysis of molten salts and aqueous solutions",
+            "Industrial applications of electrolysis (aluminium extraction, electroplating)"
+          ]
+        },
+        {
+          "name": "Stoichiometry",
+          "subtopics": [
+            "Chemical formulae and chemical equations",
+            "Relative masses of atoms and molecules",
+            "Mole concept and Avogadro constant",
+            "Calculations involving reacting masses, volumes of gases and volumes of solutions"
+          ],
+          "concepts": [
+            "Writing chemical formulae",
+            "Balancing chemical equations",
+            "Calculating relative atomic masses and relative molecular masses",
+            "Concept of the mole",
+            "Mole calculations (moles of elements, moles of compounds, reacting masses, volumes of gases at RTP, concentrations of solutions)"
+          ]
+        },
+        {
+          "name": "Electricity and chemistry",
+          "subtopics": [
+            "Electrolytes and non-electrolytes",
+            "Simple cells and batteries",
+            "Electroplating",
+            "Extraction of metals"
+          ],
+          "concepts": [
+            "Definition of electrolysis",
+            "Distinguishing between electrolytes and non-electrolytes",
+            "Simple cells (construction and operation)",
+            "Applications of electrolysis (electroplating, extraction of aluminium)"
+          ]
+        },
+        {
+          "name": "Chemical energetics",
+          "subtopics": [
+            "Exothermic and endothermic reactions",
+            "Energy transfer in chemical reactions",
+            "Bond energy"
+          ],
+          "concepts": [
+            "Energy changes during chemical reactions",
+            "Exothermic and endothermic reactions",
+            "Calculations of energy changes",
+            "Bond energy and its applications"
+          ]
+        },
+        {
+          "name": "Chemical reactions",
+          "subtopics": [
+            "Rate of reaction",
+            "Reversible reactions",
+            "Redox reactions"
+          ],
+          "concepts": [
+            "Factors affecting the rate of reaction",
+            "The effect of concentration, particle size, catalysts and temperature on the rate of reactions",
+            "Reversible reactions and dynamic equilibrium",
+            "Oxidation and reduction (redox reactions)"
+          ]
+        },
+        {
+          "name": "Acids, bases and salts",
+          "subtopics": [
+            "The characteristic properties of acids and bases",
+            "Types of oxides",
+            "Preparation of salts",
+            "Identification of ions and gases"
+          ],
+          "concepts": [
+            "Properties of acids and bases",
+            "Preparation of salts by different methods (e.g., acid + metal, acid + base)",
+            "Solubility of salts",
+            "Acid-base titrations",
+            "Identification tests for ions and gases (flame tests, reaction with sodium hydroxide, etc.)"
+          ]
+        },
+        {
+          "name": "The Periodic Table",
+          "subtopics": [
+            "Periodic trends",
+            "Group properties",
+            "Transition elements",
+            "Noble gases"
+          ],
+          "concepts": [
+            "The Periodic Table (arrangement of elements)",
+            "Trends in physical and chemical properties across a period and down a group",
+            "Properties of Group 1 and Group 7 elements",
+            "Properties of transition elements",
+            "Uses of noble gases"
+          ]
+        },
+        {
+          "name": "Metals",
+          "subtopics": [
+            "Properties of metals",
+            "Reactivity series",
+            "Extraction of metals",
+            "Uses of metals"
+          ],
+          "concepts": [
+            "Physical and chemical properties of metals",
+            "Reactivity series of metals",
+            "Extraction of metals from their ores",
+            "Uses of different metals (iron, aluminium, copper, etc.)"
+          ]
+        },
+        {
+          "name": "Air and water",
+          "subtopics": ["Water", "Air", "Rusting"],
+          "concepts": [
+            "Composition of air",
+            "Chemical tests for water",
+            "Treating water supply",
+            "Causes and prevention of rusting"
+          ]
+        },
+        {
+          "name": "Sulfur",
+          "subtopics": [
+            "Properties and uses of sulfur",
+            "Sulfur dioxide",
+            "Sulfuric acid"
+          ],
+          "concepts": [
+            "Properties of sulfur and its compounds",
+            "Uses of sulfur and sulfur dioxide",
+            "Manufacture of sulfuric acid by the Contact process",
+            "Uses of sulfuric acid"
+          ]
+        },
+        {
+          "name": "Carbonates",
+          "subtopics": ["Properties and uses of carbonates", "Limestone cycle"],
+          "concepts": [
+            "Properties of carbonates",
+            "Uses of limestone and lime in agriculture and industry",
+            "Limestone cycle (thermal decomposition, reaction with acids, etc.)"
+          ]
+        },
+        {
+          "name": "Organic chemistry",
+          "subtopics": [
+            "Introduction to organic chemistry",
+            "Alkanes",
+            "Alkenes",
+            "Alcohols",
+            "Carboxylic acids",
+            "Macromolecules"
+          ],
+          "concepts": [
+            "Homologous series",
+            "Naming organic compounds",
+            "Isomerism",
+            "Properties and reactions of alkanes",
+            "Properties and reactions of alkenes",
+            "Properties and reactions of alcohols",
+            "Properties and reactions of carboxylic acids",
+            "Addition and condensation polymerisation",
+            "Examples of synthetic polymers (e.g., nylon, Terylene)",
+            "Biopolymers (e.g., proteins, carbohydrates, fats)"
+          ]
+        }
+      ]
+    },
+    "IGCSE_Physics": {
+      "subjectCode": "0625",
+      "aims": [
+        "To provide a worthwhile educational experience for all candidates, whether or not they go on to study science beyond this level.",
+        "To enable candidates to acquire sufficient understanding and knowledge to become confident citizens in a technological world and to take or develop an informed interest in matters of scientific importance.",
+        "To recognise the usefulness, and limitations, of scientific method and to appreciate its applicability in other disciplines and in everyday life.",
+        "To be suitably prepared for studies beyond Cambridge IGCSE in pure sciences, in applied sciences or in science-dependent vocational courses."
+      ],
+      "topics": [
+        {
+          "name": "General Physics",
+          "subtopics": [
+            "Length and time",
+            "Speed, velocity and acceleration",
+            "Mass and weight",
+            "Density",
+            "Forces",
+            "Momentum"
+          ],
+          "concepts": [
+            "Measurement of length and time",
+            "Speed, velocity and acceleration calculations",
+            "Mass and weight relationship",
+            "Density calculations",
+            "Effects and types of forces",
+            "Newton’s laws of motion",
+            "Momentum and its conservation"
+          ]
+        },
+        {
+          "name": "Thermal Physics",
+          "subtopics": [
+            "Simple kinetic molecular model of matter",
+            "Thermal properties and temperature",
+            "Transfer of thermal energy"
+          ],
+          "concepts": [
+            "States of matter",
+            "Molecular model",
+            "Brownian motion",
+            "Thermal expansion of solids, liquids and gases",
+            "Measurement of temperature",
+            "Thermal capacity and specific heat capacity",
+            "Melting and boiling",
+            "Conduction, convection and radiation",
+            "Cooling by evaporation"
+          ]
+        },
+        {
+          "name": "Properties of Waves, including Light and Sound",
+          "subtopics": [
+            "General wave properties",
+            "Light",
+            "Electromagnetic spectrum",
+            "Sound"
+          ],
+          "concepts": [
+            "Wave terms (speed, frequency, wavelength, amplitude)",
+            "Transverse and longitudinal waves",
+            "Reflection and refraction of light",
+            "Thin converging lens",
+            "Electromagnetic spectrum",
+            "Properties of electromagnetic waves",
+            "Sound waves and their properties",
+            "Speed of sound"
+          ]
+        },
+        {
+          "name": "Electricity and Magnetism",
+          "subtopics": [
+            "Simple phenomena of magnetism",
+            "Electrical quantities",
+            "Electric circuits",
+            "Digital electronics",
+            "Dangers of electricity",
+            "Electromagnetic effects"
+          ],
+          "concepts": [
+            "Magnetic materials and properties",
+            "Laws of magnetism",
+            "Electromagnets",
+            "Electric charge, current, voltage and resistance",
+            "Series and parallel circuits",
+            "Electromotive force",
+            "Electrical power",
+            "Logic gates",
+            "Safety measures",
+            "Electromagnetic induction",
+            "A.C. generator",
+            "Transformer"
+          ]
+        },
+        {
+          "name": "Atomic Physics",
+          "subtopics": ["Radioactivity", "The nuclear atom"],
+          "concepts": [
+            "Detection of radioactivity",
+            "Characteristics of alpha, beta and gamma radiations",
+            "Radioactive decay",
+            "Half-life",
+            "Nuclear fission and fusion",
+            "Structure of the atom",
+            "Energy levels"
+          ]
+        },
+        {
+          "name": "Space Physics",
+          "subtopics": [
+            "The Earth and the Solar System",
+            "The expanding Universe"
+          ],
+          "concepts": [
+            "Solar System",
+            "Planets and their moons",
+            "Gravitational force and its effects",
+            "Orbit of planets",
+            "The Big Bang theory",
+            "Evidence of Universe expansion",
+            "Redshift"
+          ]
+        }
+      ]
+    },
+    "IGCSE_Economics": {
+      "subjectCode": "0455",
+      "topics": {
+        "Microeconomics": {
+          "subtopics": [
+            "The nature of the economic problem",
+            "Factors of production",
+            "Opportunity cost",
+            "Opportunity cost calculations",
+            "Production possibility curves",
+            "Production possibility curves calculations",
+            "Microeconomics and macroeconomics",
+            "The role of markets in allocating resources",
+            "Demand",
+            "Demand calculations",
+            "Supply",
+            "Supply calculations",
+            "Price determination",
+            "Price changes",
+            "Price elasticity of demand",
+            "Price elasticity of demand calculations",
+            "Price elasticity of supply",
+            "Price elasticity of supply calculations",
+
+            "Money and banking",
+            "Households",
+            "Workers",
+            "Trade unions",
+            "Firms",
+            "Business organization",
+            "Production",
+            "Costs, revenue, and profit",
+            "Costs, revenue, and profit calculations",
+            "Market structure",
+
+            "Government economic policy",
+            "Fiscal policy",
+            "Monetary policy",
+            "Supply-side policy"
+          ]
+        }
       },
-      "Level_3": {
-        "Marks": "4–5",
-        "Description": "Explains ONE reason fully (5 marks) or provides a partial explanation (4 marks)."
-      },
-      "Level_2": {
-        "Marks": "2–3",
-        "Description": "Identifies and/or describes reasons, with one mark for each identification/description."
-      },
-      "Level_1": {
-        "Marks": "1",
-        "Description": "Provides a general answer lacking specific contextual knowledge."
-      },
-      "Level_0": {
-        "Marks": "0",
-        "Description": "No evidence submitted or response does not address the question."
-      },
-      "Total_Marks": "Marks are based on the explanation quality and the number of reasons explained. Expect at least 150 words in the response. Shorter answers may receive a penalty, and longer answers that drift away from the point should also be penalized."
-    }
-  },
-  "English General Paper (8021)": {
-    "Levels_of_Response_Descriptions": {
-      "Level_5": {
-        "AO1_Selection_and_Application_of_Information": "Selects a range of fully relevant information that effectively exemplifies the main aspects of the response to the question. Applies a range of examples appropriately to support the main ideas and opinions in the response.",
-        "AO2_Analysis_and_Evaluation": "Analyses possible meanings of the question and defines the scope of the response. Develops, analyses and evaluates a range of arguments to reach a supported conclusion. Develops a strong argument with clear use of supportive evidence.",
-        "AO3_Communication_using_Written_English": "Communicates clearly with consistently appropriate use of register. Uses a wide range of vocabulary and a variety of language features. Uses language with control and accuracy. Errors, if present, are only related to the use of sophisticated words and structures. Constructs a cohesive response which links ideas, arguments and paragraphs convincingly. Text is well organised.",
-        "Marks": "25–30"
-      },
-      "Level_4": {
-        "AO1_Selection_and_Application_of_Information": "Selects relevant information that exemplifies the main aspects of the response to the question. Applies examples appropriately to support the main ideas and opinions in the response.",
-        "AO2_Analysis_and_Evaluation": "Analyses the meaning of the question to inform the scope of the response. Develops, analyses and begins to evaluate different arguments to reach a supported conclusion. Develops a well-reasoned argument with use of supportive evidence.",
-        "AO3_Communication_using_Written_English": "Communicates clearly with appropriate use of register. Uses a range of vocabulary and language features. Uses language with control and some accuracy. Errors relate to the use of less common words and structures. Constructs a clear response which links ideas, arguments and paragraphs. Text is generally well organised.",
-        "Marks": "19–24"
-      },
-      "Level_3": {
-        "AO1_Selection_and_Application_of_Information": "Selects information that exemplifies some of the main aspects of the response to the question. Applies examples to support the main ideas and opinions in the response.",
-        "AO2_Analysis_and_Evaluation": "Demonstrates understanding of the meaning of the question in the response. Develops and brings together some arguments to form a conclusion. Constructs an argument which is logical and usually supported by evidence.",
-        "AO3_Communication_using_Written_English": "Communicates clearly overall but with inconsistent use of appropriate register. Uses everyday vocabulary and some varied language features. Uses language with some control. Errors are noticeable but do not impede communication. Constructs a mostly coherent response which links ideas, arguments and paragraphs. Text has some organisation but may not be sustained.",
-        "Marks": "13–18"
-      },
-      "Level_2": {
-        "AO1_Selection_and_Application_of_Information": "Selects limited information that exemplifies some aspects of the response to the question. Applies limited examples to support the main ideas and opinions in the response.",
-        "AO2_Analysis_and_Evaluation": "Demonstrates a limited understanding of the meaning of the question. Constructs a response with little argumentation or evidence to support conclusions. Argument is often weak or underdeveloped.",
-        "AO3_Communication_using_Written_English": "Communicates with some clarity but with frequent use of inappropriate register. Uses limited vocabulary and language features. Errors in language use may impede communication. Constructs a response that lacks coherence with poorly linked ideas, arguments and paragraphs. Text is poorly organised.",
-        "Marks": "7–12"
-      },
-      "Level_1": {
-        "AO1_Selection_and_Application_of_Information": "Selects very limited information that exemplifies few aspects of the response to the question. Applies minimal examples to support the main ideas and opinions in the response.",
-        "AO2_Analysis_and_Evaluation": "Demonstrates minimal understanding of the meaning of the question. Constructs a response with very little argumentation or evidence. Argument is often very weak or absent.",
-        "AO3_Communication_using_Written_English": "Communicates with little clarity and inappropriate register. Uses very limited vocabulary and language features. Frequent errors in language use impede communication. Constructs a response that lacks coherence and is poorly organised.",
-        "Marks": "1–6"
-      },
-      "Level_0": {
-        "Marks": "0",
-        "Description": "No evidence submitted or response does not address the question."
-      },
-      "Total_Marks": "Marks are based on the quality of selection, application, analysis, evaluation, and communication. Expect at least 300 words in the essay. Shorter answers may be penalized, and longer responses that drift away from the point should also be penalized."
+      "Macroeconomics": {
+        "subtopics": [
+          "Economic growth",
+          "Economic growth calculations",
+          "Inflation",
+          "Inflation calculations",
+          "Unemployment",
+          "Unemployment calculations",
+          "Balance of payments",
+          "Balance of payments calculations",
+          "Living standards",
+          "Living Standards Metrics",
+          "Poverty",
+          "Poverty Metrics",
+          "Free trade",
+          "Protectionism",
+          "International Trade Calculations",
+          "Exchange rates",
+          "Exchange rate calculations"
+        ]
+      }
+    },
+    "A_Level_Economics": {
+      "subjectCode": "9708",
+      "topics": {
+        "Microeconomics": {
+          "subtopics": [
+            "Scarcity, choice, and opportunity cost",
+            "Opportunity cost",
+            "Opportunity cost calculations",
+            "Positive and normative statements",
+            "Factors of production",
+            "Resource allocation in different economic systems and issues of transition",
+            "Production possibility curves",
+            "Production possibility curves calculations",
+            "Demand and supply curves",
+            "Demand and suppy calculations",
+            "Price elasticity, income elasticity, and cross elasticity of demand",
+            "Elasticity calculations",
+            "Price elasticity of demand",
+            "Price elasticity of supply",
+            "Interaction of demand and supply",
+            "Market equilibrium and disequilibrium",
+            "Consumer and producer surplus",
+            "Consumer and producer surplus calculations",
+            "Maximum and minimum prices",
+            "Taxes (direct and indirect)",
+            "Subsidies",
+            "Transfer payments",
+            "Direct provision of goods and services",
+            "Nationalisation and privatisation"
+          ]
+        },
+        "Macroeconomics": {
+          "subtopics": [
+            "The circular flow of income",
+            "Aggregate demand and aggregate supply analysis",
+            "National income and the business cycle",
+            "Economic growth",
+            "Employment/unemployment",
+            "Inflation/deflation",
+
+            "Fiscal policy",
+            "Monetary policy",
+            "Supply-side policy",
+            "Exchange rate policy",
+
+            "The balance of payments",
+            "Exchange rates",
+            "Protectionism and free trade",
+            "Globalisation"
+          ]
+        }
+      }
     }
   }
 }
-

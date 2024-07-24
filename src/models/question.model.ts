@@ -18,7 +18,7 @@ export interface Question extends Document {
   topic?: string; // Main topic of the question (if applicable)
   subtopic?: string; // Subtopic of the question (if applicable)
   questionText: string; // The question text
-  questionImages?: string[]; // URL or path to the question image (if applicable)
+  graphics?: string[]; // Markdown for graphics
   explanation?: string;
   options: Option[]; // Array of options with text and image (if applicable)
   correctOption: Option; // The correct option with text and image (if applicable)
@@ -45,7 +45,7 @@ const QuestionSchema = new Schema<Question>({
   topic: { type: String },
   subtopic: { type: String },
   questionText: { type: String, required: true },
-  questionImages: { type: [String] },
+  graphics: { type: [String] },
   options: { type: [OptionSchema], required: true },
   correctOption: { type: OptionSchema, required: true },
   explanation: { type: String },
@@ -64,7 +64,5 @@ const QuestionSchema = new Schema<Question>({
 const QuestionModel =
   (mongoose.models.Question as mongoose.Model<Question>) ||
   mongoose.model<Question>("Question", QuestionSchema);
-// this export syntax is useful cuz nextjs apps arent connected to database the whole time, only when neccessary
-// so it checks if the data is present already or not (if so then just modifies) or else creates another object
 
 export default QuestionModel;

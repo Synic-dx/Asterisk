@@ -11,17 +11,9 @@ dotenv.config();
 export async function POST(req: NextRequest) {
   await dbConnect();
 
-  const { subjectCode, subjectName, level, topic, subtopic, difficultyRating } =
-    await req.json();
+  const { subjectCode, subjectName, level, topic, subtopic, difficultyRating } = await req.json();
 
-  if (
-    !subjectCode ||
-    !subjectName ||
-    !level ||
-    !topic ||
-    !subtopic ||
-    !difficultyRating
-  ) {
+  if (!subjectCode || !subjectName || !level || !topic || !subtopic || !difficultyRating) {
     return NextResponse.json(
       { error: "Missing required fields" },
       { status: 400 }
@@ -29,9 +21,9 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const prompt = `Generate an ${level} ${subjectName} question on ${topic} (${subtopic}), difficulty ${difficultyRating}/100. Include 4 options (one correct) and a ${
+    const prompt = `Generate an ${level} ${subjectName} MCQ on ${topic} (${subtopic}), difficulty ${difficultyRating}/100. Include 4 options (one correct) and a ${
       difficultyRating * 4
-    }-word explanation. Use LaTeX if necessary but correctly format it for JSON.`;
+    }-word explanation. Use LaTex and Markdown for creating tables, diagrams, graphs and other models of graphics if necessary and absolutely relevant within the question and explanation strings themselves. Ensure the LaTex and Markdown is correctly formatted for JSON as well as proper display in the frontend.`;
 
     const schema = z.object({
       questionText: z.string(),
@@ -49,7 +41,7 @@ export async function POST(req: NextRequest) {
     });
 
     const { object: generatedQuestion } = await generateObject({
-      model: openai("ft-finetuned-model-id"), // To be replaced after payment
+      model: openai("model"),
       schema,
       prompt,
     });

@@ -114,13 +114,13 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
       { $match: { _id: new mongoose.Types.ObjectId(userId) } },
       { $unwind: "$questionsSolvedDetails" },
       { $match: { "questionsSolvedDetails.attemptedOn": { $gte: today } } },
-      { $count: "dailyAttempts" }, // count of total number of problems attempted today
+      { $count: "dailyAttempts" }, // Count of total number of problems attempted today
     ]);
 
     const attemptsToday =
       dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
 
-    if (!user.premiumAccess && attemptsToday >= FREE_DAILY_QUESTION_LIMIT) {
+    if (!user.premiumAccess?.valid && attemptsToday >= FREE_DAILY_QUESTION_LIMIT) {
       return res.status(403).json({
         message:
           "Daily quota of questions reached. Upgrade to premium for unlimited access.",
@@ -163,9 +163,9 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     // Update or add subject stats
-    const subjectStats = user.selectedSubjects.find(
+    let subjectStats = user.selectedSubjects.find(
       (subject) =>
-        subject.subjectObjectId.toString() === question.subject.subjectCode
+        subject.subjectCode === question.subject.subjectCode
     );
 
     if (subjectStats) {
@@ -179,7 +179,7 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
       );
     } else {
       if (
-        !user.premiumAccess &&
+        !user.premiumAccess?.valid &&
         user.selectedSubjects.length >= FREE_SUBJECT_LIMIT
       ) {
         return res
@@ -197,6 +197,8 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
           userCorrectAnswers: isCorrect ? 1 : 0,
           dateAdded: new Date(),
         });
+
+        subjectStats = user.selectedSubjects[user.selectedSubjects.length - 1];
       }
     }
 
@@ -204,17 +206,10 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
     const userRatingPercentile = await calculatePercentile(
       UserModel,
       "selectedSubjects.userRating",
-      subjectStats
-        ? subjectStats.userRating
-        : calculateUserRating(1, isCorrect ? 1 : 0)
+      subjectStats.userRating
     );
 
-    if (subjectStats) {
-      subjectStats.userPercentile = userRatingPercentile;
-    } else {
-      user.selectedSubjects[user.selectedSubjects.length - 1].userPercentile =
-        userRatingPercentile;
-    }
+    subjectStats.userPercentile = userRatingPercentile;
 
     await user.save();
 
