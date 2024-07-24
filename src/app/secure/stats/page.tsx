@@ -1,9 +1,12 @@
-import React from 'react'
+import { NextPage } from 'next';
 
-function stats() {
+const Stats: NextPage = () => {
   return (
-    <div>stats</div>
-  )
-}
+    <div>
+      <h1>Stats</h1>
+      <p>This is a basic Next.js page.</p>
+    </div>
+  );
+};
 
-export default stats
+export default Stats;

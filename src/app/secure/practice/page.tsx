@@ -1,9 +1,12 @@
-import React from 'react'
+import { NextPage } from 'next';
 
-function practice() {
+const Practice: NextPage = () => {
   return (
-    <div>practice</div>
-  )
-}
+    <div>
+      <h1>Practice</h1>
+      <p>This is a basic Next.js page.</p>
+    </div>
+  );
+};
 
-export default practice
+export default Practice;

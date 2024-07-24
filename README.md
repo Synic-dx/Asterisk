@@ -6,7 +6,7 @@ An app to serve IGCSE & A Level MCQ Questions.
 
 - MERN with NextJS (TypeScript)
 - Formik and Yup for Client Side Validation
-- Chakra UI Library for NextJS | For the Minimalistic Flat design desired
+- ShadCN/ui Libary for NextJS | For the Minimalistic Flat design desired
 - Mongoose + ZOD for extra layer of Server Side Validation
 - NextAuthJS, ResendEmail (custom email after domain purchase) for signin authentication (OTP Verification)
 - ReactEmail for formatting the email to be sent

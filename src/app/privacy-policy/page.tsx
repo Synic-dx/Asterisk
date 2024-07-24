@@ -1,9 +1,12 @@
-import React from 'react'
+import { NextPage } from 'next';
 
-function privacyPolicy() {
+const PrivacyPolicy: NextPage = () => {
   return (
-    <div>privacyPolicy</div>
-  )
-}
+    <div>
+      <h1>PrivacyPolicy</h1>
+      <p>This is a basic Next.js page.</p>
+    </div>
+  );
+};
 
-export default privacyPolicy
+export default PrivacyPolicy;

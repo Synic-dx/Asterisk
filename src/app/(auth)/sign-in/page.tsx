@@ -1,9 +1,14 @@
-import React from 'react'
+'use client'
+import { NextPage } from 'next';
+import React, {useState} from 'react';
 
-function signIn() {
+const SignIn: NextPage = () => {
   return (
-    <div>signIn</div>
-  )
-}
+    <div>
+      <h1>SignIn</h1>
+      <p>This is a basic Next.js page.</p>
+    </div>
+  );
+};
 
-export default signIn
+export default SignIn;

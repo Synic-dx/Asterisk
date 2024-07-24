@@ -1,6 +1,5 @@
-// components/MarkdownWithLatexRenderer.tsx
 import React from 'react';
-import ReactMarkdown, { Components } from 'react-markdown';
+import ReactMarkdown from 'react-markdown';
 import { MathComponent } from 'react-mathjax2';
 import 'katex/dist/katex.min.css';
 
@@ -9,25 +8,16 @@ interface MarkdownWithLatexRendererProps {
   content: string;
 }
 
-// Extend the Components type to include inlineCode
-interface CustomComponents extends Components {
-  inlineCode?: (props: any) => React.JSX.Element;
-}
-
 // Define a custom renderer for LaTeX in Markdown
 const MarkdownWithLatexRenderer: React.FC<MarkdownWithLatexRendererProps> = ({ content }) => {
-  const components: CustomComponents = {
-    // Custom rendering for LaTeX blocks
+  const components = {
     code({ node, inline, className, children, ...props }: any) {
       if (className && className.includes('language-latex')) {
         // LaTeX block
-        return (
-          <MathComponent tex={String(children).replace(/\n$/, '')} />
-        );
+        return <MathComponent tex={String(children).replace(/\n$/, '')} />;
       }
       return <code className={className} {...props}>{children}</code>;
     },
-    // Custom rendering for LaTeX inline
     inlineCode({ node, children, ...props }: any) {
       return <MathComponent tex={`\\(${String(children)}\\)`} />;
     }
@@ -35,9 +25,10 @@ const MarkdownWithLatexRenderer: React.FC<MarkdownWithLatexRendererProps> = ({ c
 
   return (
     <ReactMarkdown
-      children={content}
       components={components}
-    />
+    >
+      {content}
+    </ReactMarkdown>
   );
 };
 

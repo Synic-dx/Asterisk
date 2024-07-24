@@ -1,9 +1,12 @@
-import React from 'react'
+import { NextPage } from 'next';
 
-function upgrade() {
+const Upgrade: NextPage = () => {
   return (
-    <div>upgrade</div>
-  )
-}
+    <div>
+      <h1>Upgrade</h1>
+      <p>This is a basic Next.js page.</p>
+    </div>
+  );
+};
 
-export default upgrade
+export default Upgrade;

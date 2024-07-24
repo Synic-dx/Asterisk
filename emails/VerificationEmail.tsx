@@ -16,8 +16,8 @@ interface VerificationEmailProps {
   verificationOTP: string;
 }
 
-// Ensure BASE_URL is correctly imported from environment variables
-const BASE_URL = process.env.BASE_URL || "http://localhost:3000"; // Fallback for local development
+// Ensure NEXT_PUBLIC_BASE_URL is correctly imported from environment variables
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"; // Fallback for local development
 
 export default function VerificationEmail({
   userName,

@@ -1,9 +1,12 @@
-import React from 'react'
+import { NextPage } from 'next';
 
-function dashboard() {
+const Dashboard: NextPage = () => {
   return (
-    <div>dashboard</div>
-  )
-}
+    <div>
+      <h1>DashBoard</h1>
+      <p>This is a basic Next.js page.</p>
+    </div>
+  );
+};
 
-export default dashboard
+export default Dashboard;

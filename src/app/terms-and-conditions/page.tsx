@@ -1,9 +1,12 @@
-import React from 'react'
+import { NextPage } from 'next';
 
-function termsConditions() {
+const TermsAndConditions: NextPage = () => {
   return (
-    <div>termsConditions</div>
-  )
-}
+    <div>
+      <h1>TermsAndConditions</h1>
+      <p>This is a basic Next.js page.</p>
+    </div>
+  );
+};
 
-export default termsConditions
+export default TermsAndConditions;

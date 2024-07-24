@@ -1,9 +1,12 @@
-import React from 'react'
+import { NextPage } from 'next';
 
-function user() {
+const User: NextPage = () => {
   return (
-    <div>user</div>
-  )
-}
+    <div>
+      <h1>User</h1>
+      <p>This is a basic Next.js page.</p>
+    </div>
+  );
+};
 
-export default user
+export default User;
