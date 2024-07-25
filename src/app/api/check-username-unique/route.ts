@@ -11,15 +11,23 @@ export async function GET(req: Request) {
   await dbConnect();
 
   try {
+    console.log("Request URL:", req.url);
+
     // Extract and validate query parameters
     const { searchParams } = new URL(req.url);
-    const queryParam = { userName: searchParams.get("userName") };
+    const userNameParam = searchParams.get("userName");
+    console.log("Extracted userName:", userNameParam);
+
+    const queryParam = { userName: userNameParam };
 
     // Validate query parameters using zod
     const result = UserNameQuerySchema.safeParse(queryParam);
 
+    console.log("Validation result:", result);
+
     if (!result.success) {
       const userNameErrors = result.error.format().userName?._errors || [];
+      console.warn("Validation errors:", userNameErrors);
       return new Response(
         JSON.stringify({
           success: false,
@@ -33,12 +41,15 @@ export async function GET(req: Request) {
     }
 
     const { userName } = result.data;
+    console.log("Validated userName:", userName);
 
     // Check if the username is taken
     const existingVerifiedUser = await UserModel.findOne({
       userName,
       isVerified: true,
     });
+
+    console.log("Existing user check result:", existingVerifiedUser);
 
     if (existingVerifiedUser) {
       return new Response(
@@ -55,7 +66,7 @@ export async function GET(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error checking username", error);
+    console.error("Error checking username:", error);
     return new Response(
       JSON.stringify({ success: false, message: "Error checking username" }),
       { status: 500 }

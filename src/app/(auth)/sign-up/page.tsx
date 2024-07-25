@@ -9,18 +9,18 @@ import PageWrapper from '@/components/FullScreenPage';
 const SignUpPage: NextPage = () => {
   return (
     <PageWrapper>
-    <Flex direction="column">
-      <Header />
+      <Flex direction="column">
         <Flex
           direction={{ base: 'column', md: 'row' }}
           align="center"
           justify="space-between"
-          p="8"
+          gap={"10vw"}
+          px="8"
         >
           <Image
             src="/Images/hourglassMan.png"
             alt="Graphic"
-            w={{ base: '50%', md: '33%' }}
+            w={{ base: 'none', md: '35%' }}
             mb={{ base: '6', md: '0' }}
             mr={{ md: '6' }}
             draggable="false"

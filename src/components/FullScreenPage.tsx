@@ -8,7 +8,6 @@ interface PageWrapperProps {
 const PageWrapper: React.FC<PageWrapperProps> = ({ children }) => {
   return (
     <Container
-      minH="100vh"
       minW="100vw"
       display="flex"
       flexDirection="column"

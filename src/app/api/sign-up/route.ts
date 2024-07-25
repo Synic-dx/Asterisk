@@ -7,17 +7,21 @@ export async function POST(req: Request) {
   await dbConnect();
 
   try {
+    console.log("Received request for user registration");
+
     const { email, password, userName } = await req.json();
+    console.log("Request data:", { email, password, userName });
 
     if (!email || !password || !userName) {
+      console.warn("Missing required fields");
       return new Response(
         JSON.stringify({ success: false, message: "Email, password, and username are required" }),
         { status: 400 }
       );
     }
 
-    // Validate email format and password strength (add your own rules here)
     if (!validateEmail(email) || !validatePassword(password)) {
+      console.warn("Invalid email format or password strength");
       return new Response(
         JSON.stringify({ success: false, message: "Invalid email format or password strength" }),
         { status: 400 }
@@ -30,6 +34,7 @@ export async function POST(req: Request) {
     });
 
     if (existingUserVerifiedByUserName) {
+      console.warn("Username is already taken");
       return new Response(
         JSON.stringify({ success: false, message: "Username is already taken" }),
         { status: 400 }
@@ -40,7 +45,10 @@ export async function POST(req: Request) {
     const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
     if (existingUserByEmail) {
+      console.log("Existing user found by email:", existingUserByEmail);
+
       if (existingUserByEmail.isVerified) {
+        console.warn("Email is already registered and verified");
         return new Response(
           JSON.stringify({
             success: false,
@@ -49,14 +57,13 @@ export async function POST(req: Request) {
           { status: 400 }
         );
       } else {
-        // Update existing user with new password and verification code
         existingUserByEmail.password = await bcrypt.hash(password, 10);
         existingUserByEmail.verificationCode = verificationCode;
         existingUserByEmail.verificationCodeExpiry = new Date(Date.now() + 3600000); // 1 hour expiry
         await existingUserByEmail.save();
+        console.log("Updated existing user with new password and verification code");
       }
     } else {
-      // Create a new user
       const newUser = new UserModel({
         userName,
         email,
@@ -80,12 +87,14 @@ export async function POST(req: Request) {
       });
 
       await newUser.save();
+      console.log("Created new user:", newUser);
     }
 
-    // Send verification email
     const emailResponse = await sendVerificationEmail(email, userName, verificationCode);
+    console.log("Verification email response:", emailResponse);
 
     if (!emailResponse.success) {
+      console.error("Failed to send verification email");
       return new Response(
         JSON.stringify({ success: false, message: "Failed to send verification email" }),
         { status: 500 }
@@ -108,13 +117,10 @@ export async function POST(req: Request) {
   }
 }
 
-// Example validation functions
 function validateEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return emailRegex.test(email);
 }
-
 function validatePassword(password: string): boolean {
-  // Example password strength check
-  return password.length >= 6; // Adjust as needed
+  return password.length >= 6;
 }

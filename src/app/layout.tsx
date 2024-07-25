@@ -1,6 +1,6 @@
-// app/layout.tsx
+import React, { Suspense } from 'react';
+import ClientLayout from './client-layout'; // Import the new client layout
 import { Metadata } from "next";
-import ClientLayout from "./client-layout"; // Import the new client layout
 
 const BASE_URL = process.env.BASE_URL || "https://asterisk.academy";
 
@@ -56,7 +56,7 @@ export default function RootLayout({
       </head>
       <body>
         <ClientLayout>
-          {children}
+            {children}
         </ClientLayout>
       </body>
     </html>
