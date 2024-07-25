@@ -5,6 +5,8 @@ An app to serve IGCSE & A Level MCQ Questions.
 ## Tech Stack
 
 - MERN with NextJS (TypeScript)
+- GPT 4o-mini model customed trained on the syllabus for MCQ Question generation
+- GPT 4o-mini model custom trained on official grading principles for Essay Grading
 - Formik and Yup for Client Side Validation
 - ShadCN/ui Libary for NextJS | For the Minimalistic Flat design desired
 - Mongoose + ZOD for extra layer of Server Side Validation

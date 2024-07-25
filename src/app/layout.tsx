@@ -5,15 +5,15 @@ import ClientLayout from "./client-layout"; // Import the new client layout
 const BASE_URL = process.env.BASE_URL || "https://asterisk.academy";
 
 export const metadata: Metadata = {
-  title: "Asterisk Academy - Unlimited IGCSE & A-Level Practice Questions",
+  title: "Asterisk Academy - Unlimited IGCSE & A-Level Practice",
   description:
-    "Join Asterisk Academy to access an extensive library of unlimited free practice questions for IGCSE & A-Level subjects, including a vast reservoir of free topical MCQs. Improve your grades with our smart algorithm-based learning platform. Sign up now!",
+    "Join Asterisk Academy to access an extensive library of unlimited free topical MCQs for IGCSE & A-Level subjects as well as a robust AI essay Grader for History, English, Business and other subjective papers. Improve your grades with our smart algorithm-based learning platform. Sign up now!",
   openGraph: {
     type: "website",
     url: BASE_URL,
-    title: "Asterisk Academy - Unlimited IGCSE & A-Level Practice Questions",
+    title: "Asterisk Academy - Unlimited IGCSE & A-Level Practice",
     description:
-      "Join Asterisk Academy to access an extensive library of unlimited free practice questions for IGCSE & A-Level subjects, including a vast reservoir of free topical MCQs. Improve your grades with our smart algorithm-based learning platform. Sign up now!",
+      "Join Asterisk Academy to access an extensive library of unlimited free topical MCQs for IGCSE & A-Level subjects as well as a robust AI essay Grader for History, English, Business and other subjective papers. Improve your grades with our smart algorithm-based learning platform. Sign up now!",
     images: [
       {
         url: "[Link to an image showcasing your website or logo]",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Asterisk Academy - Unlimited IGCSE & A-Level Practice Questions",
+    title: "Asterisk Academy - Unlimited IGCSE & A-Level Practice",
     description:
       "Join Asterisk Academy to access an extensive library of unlimited practice questions for IGCSE & A-Level subjects, including topical online learning resources, educational materials, and study guides. Improve your grades with our smart algorithm-based learning platform. Sign up now!",
     images: [
