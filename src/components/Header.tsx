@@ -3,8 +3,7 @@
 import React from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import { Button, Flex, Box, Text, Image } from '@chakra-ui/react';
 
 interface NavLink {
   name: string;
@@ -18,14 +17,14 @@ const Header: React.FC = () => {
   const router = useRouter();
 
   const publicNavLinks: NavLink[] = [
-    { name: "Info", href: "/info" },
+    { name: "Info", href: "/" },
     { name: "Features", href: "/features" },
     { name: "Sign In", href: "/sign-in" },
     { name: "Sign Up", href: "/sign-up" },
   ];
 
   const privateNavLinks: NavLink[] = [
-    { name: "Home", href: "/" },
+    { name: "Home", href: "/dashboard" },
     { name: "Practice", href: "/practice" },
     { name: "Grader", href: "/grader" },
     { name: "Analyse", href: "/analyse" },
@@ -34,47 +33,60 @@ const Header: React.FC = () => {
     { name: "Sign Out", action: () => signOut() },
   ];
 
+  const handleNavigation = (href?: string, action?: () => void) => {
+    if (action) {
+      action();
+    } else if (href) {
+      router.push(href);
+    }
+  };
+
   const renderLinks = (links: NavLink[]) => (
-    <ul className="flex space-x-4">
+    <Flex gap={4}>
       {links.map((link) => (
-        <li key={link.name}>
-          {link.href ? (
-            <Link href={link.href}>
-              <Button variant="link" className={`cursor-pointer ${link.isActive ? 'font-bold text-[#130529]' : 'text-[#130529]'} hover:text-purple-950`}>
-                {link.name}
-              </Button>
-            </Link>
-          ) : (
-            <Button
-              variant="link"
-              onClick={link.action}
-              className={`cursor-pointer ${link.isActive ? 'font-bold text-[#130529]' : 'text-[#130529]'} hover:text-purple-950`}
-            >
-              {link.name}
-            </Button>
-          )}
-        </li>
+        <Box key={link.name}>
+          <Button
+            variant="link"
+            colorScheme="purple"
+            fontWeight={link.isActive ? 'bold' : 'normal'}
+            _hover={{ color: 'purple.700' }}
+            onClick={() => handleNavigation(link.href, link.action)}
+          >
+            {link.name}
+          </Button>
+        </Box>
       ))}
-    </ul>
+    </Flex>
   );
 
   return (
-    <header className="flex items-center justify-between p-4 text-[#130529]">
-      <img
-        src="/Images/Header.svg"
-        alt="Logo"
-        className="h-10"
-      />
-      <nav>
+    <Flex
+      align="center"
+      justify="space-between"
+      p={4}
+      w={'100vw'}
+      h={'5vh'}
+      px={'10vw'}
+    >
+      <Box>
+        <Image
+          src="/Images/Header.svg"
+          alt="Logo"
+          draggable="false"
+          cursor="pointer"
+          onClick={() => router.push('/')}
+        />
+      </Box>
+      <Box>
         {status === 'loading' ? (
-          <p>Loading...</p>
+          <Text>Loading...</Text>
         ) : session ? (
           renderLinks(privateNavLinks)
         ) : (
           renderLinks(publicNavLinks)
         )}
-      </nav>
-    </header>
+      </Box>
+    </Flex>
   );
 };
 

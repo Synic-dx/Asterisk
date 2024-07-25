@@ -21,6 +21,12 @@ import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { verifySchema } from "@/schemas/verifySchema";
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
 
 export default function VerifyAccount() {
   const router = useRouter();
@@ -33,7 +39,7 @@ export default function VerifyAccount() {
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
     try {
       const response = await axios.post<ApiResponse>(`/api/verify-email-code`, {
-        username: params.userName,
+        userName: params.userName,
         code: data.verificationCode,
       });
 
@@ -56,14 +62,14 @@ export default function VerifyAccount() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-        <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+    <Flex justify="center" align="center" minH="100vh" bg="gray.100">
+      <Box w="full" maxW="md" p={8} gap={8} bg="white" borderRadius="lg" shadow="md">
+        <Flex direction="column" align="center">
+          <Heading as="h1" size="2xl" mb={6} fontWeight="extrabold">
             Verify Your Account
-          </h1>
-          <p className="mb-4">Enter the verification code sent to your email</p>
-        </div>
+          </Heading>
+          <Text mb={4}>Enter the verification code sent to your email</Text>
+        </Flex>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -89,7 +95,7 @@ export default function VerifyAccount() {
             <Button type="submit">Verify</Button>
           </form>
         </Form>
-      </div>
-    </div>
+      </Box>
+    </Flex>
   );
 }

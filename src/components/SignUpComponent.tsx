@@ -1,34 +1,26 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import axios, { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
-import { useDebounce } from '@uidotdev/usehooks';
-import * as z from 'zod';
-
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
-import { Loader2 } from 'lucide-react';
-import { ApiResponse } from '@/types/ApiResponse';
-import { signUpSchema } from '@/schemas/signUpSchema';
-import Header from '@/components/Header';
+import React, { useEffect, useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import axios, { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import { useDebounce } from "@uidotdev/usehooks";
+import * as z from "zod";
+import { Box, Heading, Text, VStack, Flex, Button } from "@chakra-ui/react";
+import { Loader2 } from "lucide-react";
+import { ApiResponse } from "@/types/ApiResponse";
+import { signUpSchema } from "@/schemas/signUpSchema";
+import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useToast } from "./ui/use-toast";
+import { Input } from "./ui/input";
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
 export default function SignUpForm() {
-  const [userName, setUserName] = useState<string>('');
-  const [userNameMessage, setUserNameMessage] = useState<string>('');
+  const [userName, setUserName] = useState<string>("");
+  const [userNameMessage, setUserNameMessage] = useState<string>("");
   const [isCheckingUserName, setIsCheckingUserName] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const debouncedUserName = useDebounce(userName, 300);
@@ -39,18 +31,20 @@ export default function SignUpForm() {
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      userName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      userName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
   });
+
+  const { formState: { isValid, errors, isSubmitting: formSubmitting } } = form;
 
   useEffect(() => {
     const checkUserNameUnique = async () => {
       if (debouncedUserName) {
         setIsCheckingUserName(true);
-        setUserNameMessage('');
+        setUserNameMessage("");
         try {
           const response = await axios.get<ApiResponse>(
             `/api/check-username-unique?userName=${debouncedUserName}`
@@ -59,7 +53,7 @@ export default function SignUpForm() {
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
           setUserNameMessage(
-            axiosError.response?.data.message ?? 'Error checking username'
+            axiosError.response?.data.message ?? "Error checking username"
           );
         } finally {
           setIsCheckingUserName(false);
@@ -72,22 +66,23 @@ export default function SignUpForm() {
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post<ApiResponse>('/api/sign-up', data);
+      const response = await axios.post<ApiResponse>("/api/sign-up", data);
 
       toast({
-        title: 'Success',
+        title: "Success",
         description: response.data.message,
       });
 
       router.replace(`/verify-email/${data.userName}`);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      const errorMessage = axiosError.response?.data.message || 'There was a problem with your sign-up. Please try again.';
+      const errorMessage =
+        axiosError.response?.data.message ||
+        "There was a problem with your sign-up. Please try again.";
 
       toast({
-        title: 'Sign Up Failed',
+        title: "Sign Up Failed",
         description: errorMessage,
-        variant: 'destructive',
       });
     } finally {
       setIsSubmitting(false);
@@ -95,121 +90,134 @@ export default function SignUpForm() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100">
-      <Header />
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md mt-8">
-        <div className="text-center mb-6">
-          <h1 className="text-4xl font-extrabold tracking-tight">Sign up</h1>
-        </div>
+    <Box w={{base: '100vw', md: '40vw', lg: '30vw'}} maxW="500px" h={'75vh'} mx="auto" mt="8" p="8" rounded="lg" shadow="lg">
+      <VStack spacing="6">
+        <Heading as="h1" size="xl" textAlign="center">
+          Sign up
+        </Heading>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              name="userName"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <Input
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      setUserName(e.target.value);
-                    }}
-                    placeholder="SteveJobless"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                  {isCheckingUserName && <Loader2 className="animate-spin" />}
-                  {!isCheckingUserName && userNameMessage && (
-                    <p
-                      className={`text-sm ${
-                        userNameMessage === 'Username is unique'
-                          ? 'text-green-500'
-                          : 'text-red-500'
-                      }`}
-                    >
-                      {userNameMessage}
-                    </p>
-                  )}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="email"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <Input
-                    {...field}
-                    type="email"
-                    placeholder="Example@Example.com"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                  <p className="text-sm text-gray-500">We will send you a verification code</p>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="password"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <Input
-                    type="password"
-                    {...field}
-                    placeholder="••••••••"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="confirmPassword"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <Input
-                    type="password"
-                    {...field}
-                    placeholder="••••••••"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              type="submit"
-              className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Please wait
-                </>
-              ) : (
-                'Sign Up'
-              )}
-            </Button>
+            <VStack>
+              <FormField
+                name="userName"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <VStack>
+                      <FormLabel>USERNAME</FormLabel>
+                      <Input
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          setUserName(e.target.value);
+                        }}
+                        placeholder="Steve Jobless"
+                      />
+                      {isCheckingUserName ? (
+                        <Flex align="center">
+                          <Loader2 className="animate-spin" />
+                          <Text ml="2">Checking...</Text>
+                        </Flex>
+                      ) : (
+                        userNameMessage && (
+                          <Text
+                            color={
+                              userNameMessage === "Username is unique"
+                                ? "green.500"
+                                : "red.500"
+                            }
+                            mt="1"
+                          >
+                            {userNameMessage}
+                          </Text>
+                        )
+                      )}
+                      <FormMessage />
+                    </VStack>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                name="email"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <VStack>
+                      <FormLabel>EMAIL</FormLabel>
+                      <Input
+                        {...field}
+                        type="email"
+                        placeholder="Example@Example.com"
+                      />
+                      <Text fontSize="sm" color="gray.500">
+                        We will send you a verification code
+                      </Text>
+                      <FormMessage />
+                    </VStack>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                name="password"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <VStack>
+                      <FormLabel>PASSWORD</FormLabel>
+                      <Input
+                        {...field}
+                        type="password"
+                        placeholder="••••••••"
+                      />
+                      <FormMessage />
+                    </VStack>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                name="confirmPassword"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <VStack>
+                      <FormLabel>CONFIRM PASSWORD</FormLabel>
+                      <Input
+                        {...field}
+                        type="password"
+                        placeholder="••••••••"
+                      />
+                      <FormMessage />
+                    </VStack>
+                  </FormItem>
+                )}
+              />
+
+              <Button
+                type="submit"
+                disabled={!isValid || errors.confirmPassword !== undefined || formSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                  </>
+                ) : (
+                  "Sign Up"
+                )}
+              </Button>
+            </VStack>
           </form>
         </Form>
-        <div className="text-center mt-4">
-          <p>
-            Already signed up?{' '}
-            <Link href="/login">
-              <a className="text-indigo-600 hover:text-indigo-500">
-                Sign in
-              </a>
-            </Link>
-          </p>
-        </div>
-      </div>
-    </div>
+        <Text textAlign="center">
+          Already signed up?{" "}
+          <Link href="/login">
+            <Button variant="link">Sign in</Button>
+          </Link>
+        </Text>
+      </VStack>
+    </Box>
   );
 }

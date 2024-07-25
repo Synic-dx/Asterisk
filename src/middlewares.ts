@@ -11,9 +11,9 @@ export async function middleware(request: NextRequest) {
   // Redirecting to the correct page based on whether logged in or not
   if (
     token &&
-    (url.pathname.startsWith("/auth/sign-in") ||
-      url.pathname.startsWith("/auth/verify") ||
-      url.pathname.startsWith("/auth/sign-up") ||
+    (url.pathname.startsWith("/sign-in") ||
+      url.pathname.startsWith("/verify") ||
+      url.pathname.startsWith("/sign-up") ||
       url.pathname === "/")
   ) {
     return NextResponse.redirect(new URL("/secure/dashboard", request.url));
@@ -21,11 +21,11 @@ export async function middleware(request: NextRequest) {
 
   if (
     !token &&
-    (url.pathname.startsWith("/secure/dashboard") ||
-      url.pathname.startsWith("/secure/user") ||
-      url.pathname.startsWith("/secure/practice") ||
-      url.pathname.startsWith("/secure/analyse") ||
-      url.pathname.startsWith("/secure/upgrade"))
+    (url.pathname.startsWith("/dashboard") ||
+      url.pathname.startsWith("/user") ||
+      url.pathname.startsWith("/practice") ||
+      url.pathname.startsWith("/analyse") ||
+      url.pathname.startsWith("/upgrade"))
   ) {
     return NextResponse.redirect(new URL("/", request.url));
   }
