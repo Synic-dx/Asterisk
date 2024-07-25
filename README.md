@@ -7,9 +7,8 @@ An app to serve IGCSE & A Level MCQ Questions.
 - MERN with NextJS (TypeScript)
 - GPT 4o-mini model customed trained on the syllabus for MCQ Question generation
 - GPT 4o-mini model custom trained on official grading principles for Essay Grading
-- Formik and Yup for Client Side Validation
 - ShadCN/ui Libary for NextJS | For the Minimalistic Flat design desired
-- Mongoose + ZOD for extra layer of Server Side Validation
+- ZOD for Client + Server Side Validation
 - NextAuthJS, ResendEmail (custom email after domain purchase) for signin authentication (OTP Verification)
 - ReactEmail for formatting the email to be sent
 - BcryptJS for password encryption and matching
