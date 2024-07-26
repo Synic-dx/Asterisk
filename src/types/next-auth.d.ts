@@ -1,18 +1,57 @@
-// This code is there just to tackle the nextauthjs's User tokens being too simple
-// (just accepting a few datapoints) while not even specifying their types.
-// This code will set the types for the User datapoints, which are themselves
-// added in src\app\api\auth\[...nextauth]\options.ts file
+// src/types/next-auth.d.ts
 
 import "next-auth";
+import mongoose from "mongoose";
 
 declare module "next-auth" {
   interface User {
     _id?: string;
     isVerified?: boolean;
     userName?: string;
-    premiumAccess?: boolean;
-    questionsSolvedDetails?: mongoose.Types.ObjectId[];
-    selectedSubjects?: number[];
+    premiumAccess?: {
+      valid: boolean;
+      accessTill?: Date;
+      accessModel?: string;
+    };
+    graderAccess?: {
+      valid: boolean;
+      accessTill?: Date;
+      model?: string;
+      weeklyEssayLimit?: number;
+    };
+    questionsSolvedDetails?: {
+      questionObjectId: mongoose.Types.ObjectId;
+      userAnswer: string;
+      userQuestionTime: number;
+      isCorrect: boolean;
+      attemptedOn: Date;
+      averageTimeTaken?: number;
+    }[];
+    selectedSubjects?: {
+      subjectObjectId: mongoose.Types.ObjectId;
+      subjectName: string;
+      subjectCode: string;
+      userRating: number;
+      userAttempts: number;
+      userCorrectAnswers: number;
+      userPercentile?: number;
+      dateAdded: Date;
+    }[];
+    forgotPasswordToken?: string;
+    forgotPasswordTokenExpiry?: Date;
+    isAdmin?: boolean;
+    essaysGraded?: {
+      essayId: mongoose.Types.ObjectId;
+      date: Date;
+      question: string;
+      subjectName: string;
+      subjectCode: string;
+      questionType: string;
+      userEssay: string;
+      totalMarks: number;
+      grade: string;
+      feedback: string;
+    }[];
   }
 
   interface Session {
@@ -20,9 +59,50 @@ declare module "next-auth" {
       _id?: string;
       isVerified?: boolean;
       userName?: string;
-      premiumAccess?: boolean;
-      questionsSolvedDetails?: mongoose.Types.ObjectId[];
-      selectedSubjects?: number[];
+      premiumAccess?: {
+        valid: boolean;
+        accessTill?: Date;
+        accessModel?: string;
+      };
+      graderAccess?: {
+        valid: boolean;
+        accessTill?: Date;
+        model?: string;
+        weeklyEssayLimit?: number;
+      };
+      questionsSolvedDetails?: {
+        questionObjectId: mongoose.Types.ObjectId;
+        userAnswer: string;
+        userQuestionTime: number;
+        isCorrect: boolean;
+        attemptedOn: Date;
+        averageTimeTaken?: number;
+      }[];
+      selectedSubjects?: {
+        subjectObjectId: mongoose.Types.ObjectId;
+        subjectName: string;
+        subjectCode: string;
+        userRating: number;
+        userAttempts: number;
+        userCorrectAnswers: number;
+        userPercentile?: number;
+        dateAdded: Date;
+      }[];
+      forgotPasswordToken?: string;
+      forgotPasswordTokenExpiry?: Date;
+      isAdmin?: boolean;
+      essaysGraded?: {
+        essayId: mongoose.Types.ObjectId;
+        date: Date;
+        question: string;
+        subjectName: string;
+        subjectCode: string;
+        questionType: string;
+        userEssay: string;
+        totalMarks: number;
+        grade: string;
+        feedback: string;
+      }[];
     } & DefaultSession["user"];
   }
 }
@@ -32,9 +112,37 @@ declare module "next-auth/jwt" {
     _id?: string;
     isVerified?: boolean;
     userName?: string;
-    premiumAccess?: boolean;
-    questionsSolvedDetails?: mongoose.Types.ObjectId[];
-    selectedSubjects?: number[];
+    premiumAccess?: {
+      valid: boolean;
+      accessTill?: Date;
+      accessModel?: string;
+    };
+    graderAccess?: {
+      valid: boolean;
+      accessTill?: Date;
+      model?: string;
+      weeklyEssayLimit?: number;
+    };
+    questionsSolvedDetails?: {
+      questionObjectId: mongoose.Types.ObjectId;
+      userAnswer: string;
+      userQuestionTime: number;
+      isCorrect: boolean;
+      attemptedOn: Date;
+      averageTimeTaken?: number;
+    }[];
+    selectedSubjects?: {
+      subjectObjectId: mongoose.Types.ObjectId;
+      subjectName: string;
+      subjectCode: string;
+      userRating: number;
+      userAttempts: number;
+      userCorrectAnswers: number;
+      userPercentile?: number;
+      dateAdded: Date;
+    }[];
+    forgotPasswordToken?: string;
+    forgotPasswordTokenExpiry?: Date;
     isAdmin?: boolean;
   }
 }

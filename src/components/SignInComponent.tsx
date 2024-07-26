@@ -5,22 +5,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import axios, { AxiosError } from "axios";
+import { useToast, Box, Heading, Text, VStack, Button, FormControl, FormLabel, FormErrorMessage, Input as ChakraInput, Spinner } from "@chakra-ui/react";
+import { signIn } from "next-auth/react";
 import * as z from "zod";
-import {
-  Box,
-  Heading,
-  Text,
-  VStack,
-  Button,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Input as ChakraInput,
-  useToast,
-  Spinner
-} from "@chakra-ui/react";
-import { ApiResponse } from "@/types/ApiResponse";
 import { signInSchema } from "@/schemas/signInSchema"; // Create this schema if needed
 
 type SignInFormData = z.infer<typeof signInSchema>;
@@ -61,15 +48,20 @@ export default function SignInForm() {
   const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post<ApiResponse>("/api/sign-in", data);
-      showToast("success", response.data.message);
-      router.replace(`/dashboard`); // Redirect to a protected route or dashboard
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+      });
+
+      if (result?.error) {
+        showToast("error", result.error);
+      } else if (result?.ok) {
+        showToast("success", "Sign in successful!");
+        router.replace(`/dashboard`); // Redirect to a protected route or dashboard
+      }
     } catch (error) {
-      const axiosError = error as AxiosError<ApiResponse>;
-      const errorMessage =
-        axiosError.response?.data.message ||
-        "There was a problem with your sign-in. Please try again.";
-      showToast("error", errorMessage);
+      showToast("error", "There was a problem with your sign-in. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

@@ -62,20 +62,34 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token._id = user._id?.toString() ?? "";
-        token.isVerified = user.isVerified;
         token.userName = user.userName;
+        token.email = user.email;
+        token.isVerified = user.isVerified;
         token.premiumAccess = user.premiumAccess;
+        token.graderAccess = user.graderAccess;
+        token.questionsSolvedDetails = user.questionsSolvedDetails;
         token.selectedSubjects = user.selectedSubjects;
+        token.forgotPasswordToken = user.forgotPasswordToken;
+        token.forgotPasswordTokenExpiry = user.forgotPasswordTokenExpiry;
+        token.essaysGraded = user.essaysGraded;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user._id = token._id;
-        session.user.isVerified = token.isVerified;
-        session.user.userName = token.userName;
-        session.user.premiumAccess = token.premiumAccess;
-        session.user.selectedSubjects = token.selectedSubjects;
+        session.user = {
+          _id: token._id,
+          userName: token.userName,
+          email: token.email,
+          isVerified: token.isVerified,
+          premiumAccess: token.premiumAccess,
+          graderAccess: token.graderAccess,
+          questionsSolvedDetails: token.questionsSolvedDetails,
+          selectedSubjects: token.selectedSubjects,
+          forgotPasswordToken: token.forgotPasswordToken,
+          forgotPasswordTokenExpiry: token.forgotPasswordTokenExpiry,
+          essaysGraded: token.essaysGraded,
+        };
       }
       return session;
     },
