@@ -9,41 +9,44 @@ import mongoose from "mongoose";
 dotenv.config();
 
 export async function POST(req: NextRequest) {
-  const {
-    question,
-    totalMarks,
-    userEssay,
-    subjectName,
-    subjectCode,
-    questionType,
-    userId,
-  } = await req.json();
-
-  if (
-    !question ||
-    totalMarks === undefined ||
-    !userEssay ||
-    !subjectName ||
-    !subjectCode ||
-    !questionType ||
-    !userId
-  ) {
-    return NextResponse.json(
-      { error: "Missing required fields" },
-      { status: 400 }
-    );
-  }
-
   try {
+    const {
+      question,
+      totalMarks,
+      userEssay,
+      subjectName,
+      subjectCode,
+      questionType,
+      userId,
+    } = await req.json();
+
+    // Validate required fields
+    if (
+      !question ||
+      totalMarks === undefined ||
+      !userEssay ||
+      !subjectName ||
+      !subjectCode ||
+      !questionType ||
+      !userId
+    ) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    // Fetch user
     const user = await UserModel.findById(userId);
 
-    if (!user || !user.graderAccess || !user.graderAccess.graderAccessModel) {
+    if (!user || !user.graderAccess || !user.graderAccess.model) {
       return NextResponse.json(
         { error: "Grader access required or not found" },
         { status: 403 }
       );
     }
 
+    // Check if grader access is still valid
     const now = new Date();
     if (user.graderAccess.accessTill && user.graderAccess.accessTill < now) {
       return NextResponse.json(
@@ -52,8 +55,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const weeklyEssayLimit =
-      user.graderAccess.graderAccessModel.weeklyEssayLimit;
+    // Check weekly essay limit
+    const weeklyEssayLimit = user.graderAccess.weeklyEssayLimit;
+    if (weeklyEssayLimit === undefined) {
+      return NextResponse.json(
+        { error: "Weekly essay limit is not defined" },
+        { status: 500 }
+      );
+    }
+
     const weekStart = new Date(now.setDate(now.getDate() - now.getDay()));
     const essaysGradedThisWeek = user.essaysGraded.filter(
       (essay) => new Date(essay.date) >= weekStart
@@ -66,25 +76,36 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const prompt = `Evaluate the following descriptive writing based on the provided grading criteria:\n\nSubject: ${subjectName}\nEssay Type: ${questionType}\nUser's Essay: ${userEssay}\nTotal Marks: ${totalMarks}\n\nProvide:\n1. A grade out of ${totalMarks} for the user's descriptive writing, strictly based on the grading criteria of this type of writing.\n2. Detailed feedback on the writing and reasoning behind each grade component.`;
+    // Create grading prompt
+    const prompt = (
+      `Evaluate the following descriptive writing based on the provided grading criteria: ` +
+      `Subject: ${subjectName} ` +
+      `Essay Type: ${questionType} ` +
+      `User's Essay: ${userEssay} ` +
+      `Total Marks: ${totalMarks} ` +
+      `Provide: ` +
+      `1. A grade out of ${totalMarks} for the user's descriptive writing, strictly based on the grading criteria of this type of writing. ` +
+      `2. Detailed feedback on the writing and reasoning behind each grade component.`
+    ).trim();
 
+    // Define response schema
     const schema = z.object({
       grade: z.string(),
       feedback: z.string(),
     });
 
+    // Generate grading response
     const { object: generatedResponse } = await generateObject({
-      model: openai(user.graderAccess.graderAccessModel.model),
+      model: openai(user.graderAccess.model),
       schema,
       prompt,
     });
 
     const { grade, feedback } = generatedResponse;
 
-    // Generate a unique essay ID
+    // Generate a unique essay ID and save grading information
     const essayId = new mongoose.Types.ObjectId();
 
-    // Save grading information
     user.essaysGraded.push({
       essayId,
       date: new Date(),
@@ -97,6 +118,7 @@ export async function POST(req: NextRequest) {
       grade,
       feedback,
     });
+
     await user.save();
 
     return NextResponse.json({ grade, feedback }, { status: 200 });

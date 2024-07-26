@@ -21,7 +21,7 @@ export interface SelectedSubjectsAndStats {
 }
 
 export interface EssayGraded {
-  essayId: mongoose.Types.ObjectId; // Unique identifier for each essay
+  essayId: mongoose.Types.ObjectId;
   date: Date;
   question: string;
   subjectName: string;
@@ -33,17 +33,17 @@ export interface EssayGraded {
   feedback: string;
 }
 
-const QuestionDetailsSchema = new Schema({
-  questionObjectId: { type: mongoose.Types.ObjectId, required: true },
+const QuestionDetailsSchema = new Schema<QuestionDetails>({
+  questionObjectId: { type: Schema.Types.ObjectId, required: true, ref: 'Question' },
   userAnswer: { type: String, required: true },
   userQuestionTime: { type: Number, required: true },
   isCorrect: { type: Boolean, required: true },
   attemptedOn: { type: Date, required: true, default: Date.now },
-  averageTimeTaken: { type: Number, required: false },
+  averageTimeTaken: { type: Number },
 });
 
-const SelectedSubjectsAndStatsSchema = new Schema({
-  subjectObjectId: { type: mongoose.Types.ObjectId, required: true },
+const SelectedSubjectsAndStatsSchema = new Schema<SelectedSubjectsAndStats>({
+  subjectObjectId: { type: Schema.Types.ObjectId, required: true, ref: 'Subject' },
   subjectName: { type: String, required: true },
   subjectCode: { type: String, required: true },
   userRating: { type: Number, default: 50 },
@@ -53,29 +53,25 @@ const SelectedSubjectsAndStatsSchema = new Schema({
   dateAdded: { type: Date, required: true, default: Date.now },
 });
 
-const GraderAccessModelSchema = new Schema({
-  model: {
-    type: String,
-    enum: ["GPT-4o", "GPT-4o-mini"],
-    required: true,
-  },
-  weeklyEssayLimit: {
-    type: Number,
-    enum: [10, 20],
-    required: true,
-  },
-});
-
 const PremiumAccessDetailsSchema = new Schema({
   valid: { type: Boolean, required: true, default: false },
-  accessTill: { type: Date, required: false },
-  accessModel: { type: String, required: false },
+  accessTill: { type: Date },
+  accessModel: { type: String },
 });
 
 const GraderAccessDetailsSchema = new Schema({
   valid: { type: Boolean, required: true, default: false },
-  accessTill: { type: Date, required: false },
-  graderAccessModel: { type: GraderAccessModelSchema, required: false },
+  accessTill: { type: Date },
+  model: {
+    type: String,
+    enum: ["GPT-4o", "GPT-4o-mini"],
+    required: false,
+  },
+  weeklyEssayLimit: {
+    type: Number,
+    enum: [10, 20],
+    required: false,
+  },
 });
 
 export interface User extends Document {
@@ -93,10 +89,8 @@ export interface User extends Document {
   graderAccess: {
     valid: boolean;
     accessTill?: Date;
-    graderAccessModel?: {
-      model: string;
-      weeklyEssayLimit: number;
-    };
+    model?: string;
+    weeklyEssayLimit?: number;
   };
   questionsSolvedDetails: QuestionDetails[];
   selectedSubjects: SelectedSubjectsAndStats[];
@@ -106,7 +100,7 @@ export interface User extends Document {
   essaysGraded: EssayGraded[];
 }
 
-const UserSchema = new Schema(
+const UserSchema = new Schema<User>(
   {
     userName: { type: String, required: true },
     email: {
@@ -124,11 +118,11 @@ const UserSchema = new Schema(
     verificationCode: { type: String, required: true },
     verificationCodeExpiry: { type: Date, required: true },
     isVerified: { type: Boolean, default: false },
-    forgotPasswordToken: { type: String, required: false },
-    forgotPasswordTokenExpiry: { type: Date, required: false },
+    forgotPasswordToken: { type: String },
+    forgotPasswordTokenExpiry: { type: Date },
     essaysGraded: [
       {
-        essayId: { type: mongoose.Types.ObjectId, required: true, default: mongoose.Types.ObjectId },
+        essayId: { type: Schema.Types.ObjectId, required: true, default: new mongoose.Types.ObjectId },
         date: { type: Date, required: true },
         question: { type: String, required: true },
         subjectName: { type: String, required: true },

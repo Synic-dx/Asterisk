@@ -23,6 +23,7 @@ const Header: React.FC = () => {
 
   return (
     <PageWrapper>
+      <header>
       <Flex
         align="center"
         justify="space-between"
@@ -49,6 +50,7 @@ const Header: React.FC = () => {
           />
         </Box>
       </Flex>
+      </header>
     </PageWrapper>
   );
 };

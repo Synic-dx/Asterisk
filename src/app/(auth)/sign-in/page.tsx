@@ -1,18 +1,17 @@
-'use client'
+import { Box, Flex, Image } from '@chakra-ui/react';
+import SignInForm from '@/components/SignInComponent'; // Ensure this path is correct
 import { NextPage } from 'next';
-import React, {useState} from 'react';
-import { Flex, Image } from '@chakra-ui/react';
-import PageWrapper from '@/components/FullScreenPage';
+import PageWrapper from '@/components/FullScreenPage'; // Ensure this path is correct
 
-const SignIn: NextPage = () => {
+const SignInPage: NextPage = () => {
   return (
-    <PageWrapper>
-      <Flex direction="column">
+    <PageWrapper minHeight={{ base: '95vh', md: 'auto' }}>
+      <Flex direction="column" align="center" justify="center" py={8}>
         <Flex
           direction={{ base: 'column', md: 'row' }}
           align="center"
           justify="space-between"
-          gap={"10vw"}
+          gap={{ base: '4', md: '10vw' }}
           px="8"
         >
           <Image
@@ -24,10 +23,11 @@ const SignIn: NextPage = () => {
             draggable="false"
             display={{ base: 'none', md: 'block' }}
           />
+          <SignInForm />
         </Flex>
       </Flex>
     </PageWrapper>
   );
 };
 
-export default SignIn;
+export default SignInPage;

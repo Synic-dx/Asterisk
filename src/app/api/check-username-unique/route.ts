@@ -14,19 +14,17 @@ export async function GET(req: Request) {
     console.log("Request URL:", req.url);
 
     // Extract and validate query parameters
-    const { searchParams } = new URL(req.url);
-    const userNameParam = searchParams.get("userName");
+    const url = new URL(req.url);
+    const userNameParam = url.searchParams.get("userName");
     console.log("Extracted userName:", userNameParam);
 
-    const queryParam = { userName: userNameParam };
-
     // Validate query parameters using zod
-    const result = UserNameQuerySchema.safeParse(queryParam);
+    const validationResult = UserNameQuerySchema.safeParse({ userName: userNameParam });
 
-    console.log("Validation result:", result);
+    console.log("Validation result:", validationResult);
 
-    if (!result.success) {
-      const userNameErrors = result.error.format().userName?._errors || [];
+    if (!validationResult.success) {
+      const userNameErrors = validationResult.error.format().userName?._errors || [];
       console.warn("Validation errors:", userNameErrors);
       return new Response(
         JSON.stringify({
@@ -40,7 +38,7 @@ export async function GET(req: Request) {
       );
     }
 
-    const { userName } = result.data;
+    const { userName } = validationResult.data;
     console.log("Validated userName:", userName);
 
     // Check if the username is taken

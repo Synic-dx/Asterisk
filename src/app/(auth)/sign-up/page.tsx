@@ -1,14 +1,11 @@
-'use client';
-
 import { Box, Flex, Image } from '@chakra-ui/react';
-import Header from '@/components/Header';
 import SignUpForm from '@/components/SignUpComponent';
 import { NextPage } from 'next';
 import PageWrapper from '@/components/FullScreenPage';
 
 const SignUpPage: NextPage = () => {
   return (
-    <PageWrapper>
+    <PageWrapper minHeight={{ base: '95vh', md: 'auto' }}>
       <Flex direction="column">
         <Flex
           direction={{ base: 'column', md: 'row' }}

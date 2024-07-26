@@ -19,11 +19,11 @@ import {
   FormLabel,
   FormErrorMessage,
   Input as ChakraInput,
+  useToast,
+  Spinner,
 } from "@chakra-ui/react";
-import { Loader2 } from "lucide-react";
 import { ApiResponse } from "@/types/ApiResponse";
 import { signUpSchema } from "@/schemas/signUpSchema";
-import { useToast } from "./ui/use-toast";
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
@@ -33,9 +33,8 @@ export default function SignUpForm() {
   const [isCheckingUserName, setIsCheckingUserName] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const debouncedUserName = useDebounce(userName, 300);
-
   const router = useRouter();
-  const { toast } = useToast();
+  const toast = useToast();
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
@@ -76,24 +75,32 @@ export default function SignUpForm() {
     checkUserNameUnique();
   }, [debouncedUserName]);
 
+  const showToast = (status: "success" | "error" | "info" | "warning", message: string) => {
+    toast({
+      title: status === "success" ? "Success" : "Error",
+      description: message,
+      status: status,
+      position: "bottom-left",
+      duration: 5000,
+      isClosable: true,
+      containerStyle: {
+        maxWidth: "300px",
+      },
+    });
+  };
+
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
     setIsSubmitting(true);
     try {
       const response = await axios.post<ApiResponse>("/api/sign-up", data);
-      toast({
-        title: "Success",
-        description: response.data.message,
-      });
+      showToast("success", response.data.message);
       router.replace(`/verify-email/${data.userName}`);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       const errorMessage =
         axiosError.response?.data.message ||
         "There was a problem with your sign-up. Please try again.";
-      toast({
-        title: "Sign Up Failed",
-        description: errorMessage,
-      });
+      showToast("error", errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -110,7 +117,7 @@ export default function SignUpForm() {
       py="6"
       px={12}
       rounded="lg"
-      shadow="xl"
+      shadow="md"
       bg="background"
       display="flex"
       flexDirection={"column"}
@@ -142,7 +149,7 @@ export default function SignUpForm() {
               onChange={(e) => {
                 setUserName(e.target.value);
               }}
-              placeholder="Steve Jobless"
+              placeholder="SteveJobless"
               size="md"
               variant="outline"
               borderColor="gray.300"
@@ -155,10 +162,12 @@ export default function SignUpForm() {
               px="4"
             />
             {isCheckingUserName ? (
-              <Flex align="center">
-                <Loader2
-                  className="animate-spin"
-                  style={{ color: "#271144" }}
+              <Flex align="center" mt={2}>
+                <Spinner
+                  mr="2"
+                  size="sm"
+                  color="#271144"
+                  thickness="2px"
                 />
                 <Text ml="2" fontSize="xs">
                   Checking...
@@ -170,7 +179,7 @@ export default function SignUpForm() {
                   mt="1"
                   fontSize="xs"
                   color={
-                    userNameMessage === "Username is unique"
+                    userNameMessage === "Username is available"
                       ? "green.500"
                       : "red.500"
                   }
@@ -207,13 +216,13 @@ export default function SignUpForm() {
               fontSize="sm"
               px="4"
             />
-            <Text fontSize="xs" color="gray.500">
+            <Text fontSize="xs" color="gray.500" mt={1}>
               We will send you a verification code
             </Text>
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={!!errors.password} className="w-full">
+          <FormControl isInvalid={!!errors.password} className="w-full" mt={-1}>
             <FormLabel
               fontSize="xs"
               fontWeight="bold"
@@ -277,15 +286,17 @@ export default function SignUpForm() {
             w="full"
             bg="#271144"
             color="white"
-            _hover={{ bg: "#2c1446" }}
+            _hover={{ bg: "#3e1d55" }} // Lighter shade
             fontFamily="Karla, sans-serif"
             fontSize="sm"
           >
             {isSubmitting ? (
               <>
-                <Loader2
-                  className="mr-2 h-4 w-4 animate-spin"
-                  style={{ color: "white" }}
+                <Spinner
+                  mr="2"
+                  size="sm"
+                  color="white"
+                  thickness="2px"
                 />
                 Please wait
               </>
@@ -297,7 +308,7 @@ export default function SignUpForm() {
       </form>
       <Text fontSize="xs" textAlign="center" fontFamily="Roboto">
         Already signed up?{" "}
-        <Link href="/login">
+        <Link href="/sign-in">
           <Button
             variant="link"
             fontSize="xs"

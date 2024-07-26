@@ -1,11 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import dbConnect from '@/lib/dbConnect';
-import checkAndUpdateAccess from '@/lib/checkAndUpdateAccess';
 import cron from 'node-cron';
+import checkAndUpdateAccess from '@/lib/checkAndUpdateAccess';
+
+let isScheduled = false; // Flag to ensure the cron job is only scheduled once
 
 const runCron = async (req: NextApiRequest, res: NextApiResponse) => {
-  // Connect to the database
-  await dbConnect();
+  if (isScheduled) {
+    return res.status(200).json({ message: 'Cron job is already scheduled' });
+  }
 
   // Schedule the access check to run daily at midnight (UTC time)
   cron.schedule('0 0 * * *', async () => {
@@ -18,6 +20,7 @@ const runCron = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   });
 
+  isScheduled = true; // Set the flag to indicate the cron job has been scheduled
   res.status(200).json({ message: 'Cron job scheduled' });
 };
 

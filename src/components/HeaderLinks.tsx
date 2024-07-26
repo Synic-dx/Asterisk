@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Flex,
@@ -13,11 +13,10 @@ import {
   DrawerCloseButton,
   useDisclosure,
   useBreakpointValue,
-} from '@chakra-ui/react';
-import { Session } from 'next-auth';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { usePathname } from 'next/navigation';
+} from "@chakra-ui/react";
+import { Session } from "next-auth";
+import { usePathname } from "next/navigation";
+import { Menu } from "lucide-react"; // Import the Lucide React Menu icon
 
 interface NavLink {
   name: string;
@@ -26,7 +25,7 @@ interface NavLink {
 }
 
 interface HeaderLinksProps {
-  status: 'loading' | 'authenticated' | 'unauthenticated';
+  status: "loading" | "authenticated" | "unauthenticated";
   session: Session | null;
   onNavigate: (href?: string, action?: () => void) => void;
   onSignOut: () => void;
@@ -42,39 +41,67 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
   const isMobile = useBreakpointValue({ base: true, md: false });
   const pathname = usePathname();
 
+  const [clickedLink, setClickedLink] = useState<string | null>(null);
+
   const publicNavLinks: NavLink[] = [
-    { name: 'Info', href: '/' },
-    { name: 'Features', href: '/features' },
-    { name: 'Sign In', href: '/sign-in' },
-    { name: 'Sign Up', href: '/sign-up' },
+    { name: "Info", href: "/" },
+    { name: "Features", href: "/features" },
+    { name: "Sign In", href: "/sign-in" },
+    { name: "Sign Up", href: "/sign-up" },
   ];
 
   const privateNavLinks: NavLink[] = [
-    { name: 'Home', href: '/dashboard' },
-    { name: 'Practice', href: '/practice' },
-    { name: 'Grader', href: '/grader' },
-    { name: 'Analyse', href: '/analyse' },
-    { name: 'Personalise', href: '/personalise' },
-    { name: 'Upgrade', href: '/upgrade' },
-    { name: 'Sign Out', action: onSignOut },
+    { name: "Home", href: "/dashboard" },
+    { name: "Practice", href: "/practice" },
+    { name: "Grader", href: "/grader" },
+    { name: "Analyse", href: "/analyse" },
+    { name: "Personalise", href: "/personalise" },
+    { name: "Upgrade", href: "/upgrade" },
+    { name: "Sign Out", action: onSignOut },
   ];
 
   // Determine which links to show based on the status
   const links =
-    status === 'loading'
+    status === "loading"
       ? publicNavLinks
       : session
       ? privateNavLinks
       : publicNavLinks;
 
-  const linkGap = session ? '4vw' : '7vw';
+  const linkGap = session ? "4vw" : "7vw";
+
+  useEffect(() => {
+    if (isMobile) {
+      const handleTouchStart = (e: TouchEvent) => {
+        const touchStartX = e.touches[0].clientX;
+        const handleTouchMove = (moveEvent: TouchEvent) => {
+          const touchEndX = moveEvent.touches[0].clientX;
+          if (touchStartX < touchEndX - 50) {
+            onOpen();
+          }
+          document.removeEventListener("touchmove", handleTouchMove);
+        };
+        document.addEventListener("touchmove", handleTouchMove);
+      };
+      document.addEventListener("touchstart", handleTouchStart);
+
+      return () => {
+        document.removeEventListener("touchstart", handleTouchStart);
+      };
+    }
+  }, [isMobile, onOpen]);
 
   return (
     <Flex justifyContent="space-between" alignItems="center">
       {isMobile ? (
         <>
-          <Box as="button" aria-label="Open Menu" onClick={onOpen} _hover={{ boxShadow: 'xl' }}>
-            <FontAwesomeIcon icon={faBars} size="lg" />
+          <Box
+            as="button"
+            aria-label="Open Menu"
+            onClick={onOpen}
+            _hover={{ boxShadow: "xl" }}
+          >
+            <Menu size={24} /> {/* Use the Lucide Menu icon */}
           </Box>
           <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
             <DrawerOverlay />
@@ -87,17 +114,25 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
                     <Button
                       key={link.name}
                       variant="link"
-                      color="#130529"
-                      fontFamily="Roboto, sans-serif"
+                      color={link.href === pathname ? "#130529" : "#271144"}
+                      width="100%"
                       fontSize="lg"
-                      fontWeight={link.href === pathname ? 'bold' : 'normal'}
+                      padding="1rem"
+                      backgroundColor="white"
+                      borderRadius="md"
+                      fontWeight={link.href === pathname ? "700" : "500"}
                       _hover={{
-                        transform: 'translateY(-2px)',
-                        color: '#130529',
+                        backgroundColor: "#f0f0f0",
+                        color: "#130529",
                       }}
                       onClick={() => {
+                        setClickedLink(link.href ?? null);
+                        setTimeout(() => setClickedLink(null), 300); // Reset color after 300ms
                         onNavigate(link.href, link.action);
                         onClose(); // Close drawer on navigation
+                      }}
+                      _active={{
+                        color: "#130529",
                       }}
                     >
                       {link.name}
@@ -114,15 +149,19 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
             <Box key={link.name}>
               <Button
                 variant="link"
-                color="#130529"
+                color={link.href === pathname || link.href === clickedLink ? "#3b2a6a" : "#271144"}
                 fontFamily="Roboto, sans-serif"
                 fontSize="lg"
-                fontWeight={link.href === pathname ? 'bold' : 'normal'}
+                fontWeight={link.href === pathname ? "bold" : "normal"}
                 _hover={{
-                  transform: 'translateY(2px)',
-                  color: '#130529',
+                  transform: "translateY(2px)",
+                  color: "#130529",
                 }}
-                onClick={() => onNavigate(link.href, link.action)}
+                onClick={() => {
+                  setClickedLink(link.href ?? null);
+                  setTimeout(() => setClickedLink(null), 300); // Reset color after 300ms
+                  onNavigate(link.href, link.action);
+                }}
               >
                 {link.name}
               </Button>

@@ -1,9 +1,12 @@
-import React from 'react'
+import { NextPage } from 'next';
 
-function resetPassword() {
+const ResetPassword: NextPage = () => {
   return (
-    <div>resetPassword</div>
-  )
-}
+    <div>
+      <h1>ResetPassword</h1>
+      <p>This is a basic Next.js page.</p>
+    </div>
+  );
+};
 
-export default resetPassword
+export default ResetPassword;

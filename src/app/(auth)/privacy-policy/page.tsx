@@ -1,12 +1,13 @@
+'use client'
 import { NextPage } from 'next';
 
-const TermsAndConditions: NextPage = () => {
+const PrivacyPolicy: NextPage = () => {
   return (
     <div>
-      <h1>TermsAndConditions</h1>
+      <h1>PrivacyPolicy</h1>
       <p>This is a basic Next.js page.</p>
     </div>
   );
 };
 
-export default TermsAndConditions;
+export default PrivacyPolicy;

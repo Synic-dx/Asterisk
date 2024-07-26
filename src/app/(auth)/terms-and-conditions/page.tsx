@@ -1,12 +1,12 @@
 import { NextPage } from 'next';
 
-const PrivacyPolicy: NextPage = () => {
+const TermsConditionsPage: NextPage = () => {
   return (
     <div>
-      <h1>PrivacyPolicy</h1>
+      <h1>TermsConditionsPage</h1>
       <p>This is a basic Next.js page.</p>
     </div>
   );
 };
 
-export default PrivacyPolicy;
+export default TermsConditionsPage;

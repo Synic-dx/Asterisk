@@ -1,5 +1,5 @@
-import React, { Suspense } from 'react';
-import ClientLayout from './client-layout'; // Import the new client layout
+import React, { Suspense } from "react";
+import ClientLayout from "./client-layout"; // Import the new client layout
 import { Metadata } from "next";
 
 const BASE_URL = process.env.BASE_URL || "https://asterisk.academy";
@@ -53,11 +53,15 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/Images/Logo.svg" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&family=Karla:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body>
-        <ClientLayout>
-            {children}
-        </ClientLayout>
+      <body style={{ overflowX: "hidden"}}>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

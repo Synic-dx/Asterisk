@@ -1,19 +1,18 @@
 {
   "Subjective_Essay_Grading_Scheme": {
-    "gradingNotes": "The ratings provided in the training data (the training_data.jsonl file) are slightly inflated as they do not account for the length of the responses, which were quite short on average. During actual grading, please be stricter and ensure that length, detail, and depth are appropriately considered in the evaluation. Refer to the grading scheme below for length guidelines. Scrictly stick to this grading scheme as much as possible and as accurately as possible",
     "AS Level Business (9609)": {
       "Analyze_Questions": {
         "AO1 Knowledge and Understanding": "2/2 marks if Developed knowledge of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited knowledge of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
         "AO2 Application": "2/2 marks if developed Application of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited application of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
         "AO3 Analysis": "3-4/4 marks for developed Analysis that identifies connections between causes, impacts, and/or consequences. 1-2/4 mark for Limited Analysis that identifies connections between causes, impacts, and/or consequences.  0 marks if No creditable response.",
-        "Total_Mark": "AO1 + AO2 + AO3, with a maximum of 8 total attainable marks. Expect atleast 125 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
+        "Total_Mark": "AO1 + AO2 + AO3, with a maximum of 8 total attainable marks. Expect atleast 220 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
       },
       "Evaluate_Questions": {
         "AO1 Knowledge and Understanding": "2/2 marks if Developed knowledge of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited knowledge of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
         "AO2 Application": "2/2 marks if developed Application of relevant key term(s) and/or factor(s) is used to answer the question. 1/2 mark Limited application of relevant key term(s) and/or factor(s) is used to answer the question.  0 marks if No creditable response.",
         "AO3 Analysis": "2/2 marks for developed Analysis that identifies connections between causes, impacts, and/or consequences. 1/2 mark for Limited Analysis that identifies connections between causes, impacts, and/or consequences.  0 marks if No creditable response.",
         "AO4 Evaluation": "5-6/6 marks for Developed evaluation IN CONTEXT: A developed judgement/conclusion is made in the business context && Developed evaluative comments which balance some key arguments in the business context. 3-4/6 for Developed evaluation if A developed judgement/conclusion is made && there are Developed evaluative comments which balance some key arguments, but with limited application of the business context provided. 1-2 marks for Limited evaluation: if a judgement/conclusion is made with limited supporting comment/evidence or and attempt is made to balance the arguments. 0 marks if No creditable response.",
-        "Total_Mark": "AO1 + AO2 + AO3 + AO4, with a maximum of 12 total attainable marks. Expect atleast 250 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
+        "Total_Mark": "AO1 + AO2 + AO3 + AO4, with a maximum of 12 total attainable marks. Expect atleast 450 words in the essay, shorter yet then it should have some penalty, yet if its too long and drifts away from the point, still penalize"
       }
     },
     "IGCSE History (0450)": {
@@ -62,7 +61,42 @@
           "Description": "No evidence submitted or response does not address the question."
         },
         "Total_Marks": "Marks are based on the explanation quality and the number of reasons explained. Expect at least 150 words in the response. Shorter answers may receive a penalty, and longer answers that drift away from the point should also be penalized."
+      },
+      "Evaluation": {
+    "Total_Marks": 10,
+    "Levels": {
+      "Level_5": {
+        "Description": "Explains with evaluation of 'how far'.",
+        "Marks": "10",
+        "Criteria": "Provides a well-balanced explanation that evaluates the extent to which the 1905 Revolution led to significant reform. Includes detailed analysis of both sides and how far the statement is true."
+      },
+      "Level_4": {
+        "Description": "Explanation of both sides, plus evaluation.",
+        "Marks": "7–9",
+        "Criteria": "Explains both sides of the argument with a minimum of three explanations (2 on one side, 1 on the other). Provides a more detailed explanation of one issue. An answer with only one explanation on one side cannot be awarded more than 8 marks."
+      },
+      "Level_3": {
+        "Description": "One-sided explanation OR one explanation of both sides.",
+        "Marks": "5–6",
+        "Criteria": "Provides a detailed explanation of one issue or a one-sided explanation. Could also offer one explanation of both sides with less detail."
+      },
+      "Level_2": {
+        "Description": "Identifies AND/OR describes.",
+        "Marks": "2–4",
+        "Criteria": "Identifies and/or describes relevant points with one mark for each point. For example, mentions specific reforms or actions taken and their impact or lack thereof."
+      },
+      "Level_1": {
+        "Description": "General answer lacking specific contextual knowledge.",
+        "Marks": "1",
+        "Criteria": "Provides a general answer without specific details or contextual knowledge. Lacks depth and understanding of the topic."
+      },
+      "Level_0": {
+        "Description": "No evidence submitted or response does not address the question.",
+        "Marks": "0",
+        "Criteria": "No relevant content or fails to address the question in any meaningful way."
       }
+    }
+  }
     },
     "English General Paper (8021)": {
       "Levels_of_Response_Descriptions": {
@@ -100,9 +134,86 @@
           "Marks": "0",
           "Description": "No evidence submitted or response does not address the question."
         },
-        "Total_Marks": "Marks are based on the quality of selection, application, analysis, evaluation, and communication. Expect at least 300 words in the essay. Shorter answers may be penalized, and longer responses that drift away from the point should also be penalized."
+        "Total_Marks": "Marks are based on the quality of selection, application, analysis, evaluation, and communication. Expect at least 500 words in the essay. Shorter answers may be penalized, and longer responses that drift away from the point should also be penalized. Total marks 30"
       }
+    },
+    "IGCSE_First_Language_English_Descriptive_and_Narrative_Writing": {
+    "Composition_Content_and_Structure": {
+      "Level_6": {
+        "General": "Content is complex, engaging and effective. (W1) Structure is secure, well balanced and carefully managed for deliberate effect. (W2)",
+        "Specific_Descriptive": "Many well-defined and developed ideas and images create a convincing overall picture with varieties of focus.",
+        "Specific_Narrative": "The plot is well-defined and strongly developed with features of fiction writing such as description, characterisation and effective climax, and convincing details.",
+        "Marks": "14–16"
+      },
+      "Level_5": {
+        "General": "Content is developed, engaging and effective. (W1) Structure is well managed, with some choices made for deliberate effect. (W2)",
+        "Specific_Descriptive": "Frequent, well-chosen images and details give a mostly convincing picture.",
+        "Specific_Narrative": "The plot is defined and developed with features of fiction writing such as description, characterisation, climax and details.",
+        "Marks": "11–13"
+      },
+      "Level_4": {
+        "General": "Content is relevant with some development. (W1) Structure is competently managed. (W2)",
+        "Specific_Descriptive": "A selection of relevant ideas, images and details, even where there is a tendency to write in a narrative style.",
+        "Specific_Narrative": "The plot is relevant and cohesive, with some features such as characterisation and setting of scene.",
+        "Marks": "8–10"
+      },
+      "Level_3": {
+        "General": "Content is straightforward and briefly developed. (W1) Structure is mostly organised but may not always be effective. (W2)",
+        "Specific_Descriptive": "The task is addressed with a series of relevant but straightforward details, which may be more typical of a narrative.",
+        "Specific_Narrative": "The plot is straightforward, with limited use of the features of narrative writing.",
+        "Marks": "5–7"
+      },
+      "Level_2": {
+        "General": "Content is simple, and ideas and events may be limited. (W1) Structure is partially organised but limited in its effect. (W2)",
+        "Specific_Descriptive": "The recording of some relevant events with limited detail.",
+        "Specific_Narrative": "The plot is a simple narrative that may consist of events that are only partially linked and/or which are presented with partial clarity.",
+        "Marks": "3–4"
+      },
+      "Level_1": {
+        "General": "Content is occasionally relevant or clear. (W1) Structure is limited and ineffective. (W2)",
+        "Specific_Descriptive": "The description is unclear and lacks detail.",
+        "Specific_Narrative": "The plot and/or narrative lacks coherence.",
+        "Marks": "1–2"
+      },
+      "Level_0": {
+        "Marks": "0",
+        "Description": "No creditable content."
+      }
+    },
+    "Composition_Style_and_Accuracy": {
+      "Level_6": {
+        "Description": "Precise, well-chosen vocabulary and varied sentence structures, chosen for effect. (W3) Consistent well-chosen register suitable for the context. (W4) Spelling, punctuation and grammar almost always accurate. (W5)",
+        "Marks": "21–24"
+      },
+      "Level_5": {
+        "Description": "Mostly precise vocabulary and a range of sentence structures mostly used for effect. (W3) Mostly consistent appropriate register suitable for the context. (W4) Spelling, punctuation and grammar mostly accurate, with occasional minor errors. (W5)",
+        "Marks": "17–20"
+      },
+      "Level_4": {
+        "Description": "Some precise vocabulary and a range of sentence structures sometimes used for effect. (W3) Some appropriate register for the context. (W4) Spelling, punctuation and grammar generally accurate, but with some errors. (W5)",
+        "Marks": "13–16"
+      },
+      "Level_3": {
+        "Description": "Simple vocabulary and a range of straightforward sentence structures. (W3) Simple register with a general awareness of the context. (W4) Frequent errors of spelling, punctuation and grammar, occasionally serious. (W5)",
+        "Marks": "9–12"
+      },
+      "Level_2": {
+        "Description": "Limited and/or imprecise vocabulary and sentence structures. (W3) Limited and/or imprecise register for the context. (W4) Persistent errors of spelling, punctuation and grammar. (W5)",
+        "Marks": "5–8"
+      },
+      "Level_1": {
+        "Description": "Frequently imprecise vocabulary and sentence structures. (W3) Register demonstrates little or no sense of the context. (W4) Persistent errors of spelling, punctuation and grammar impair communication. (W5)",
+        "Marks": "1–4"
+      },
+      "Level_0": {
+        "Marks": "0",
+        "Description": "No creditable content."
+      }
+    },
+    "Total_Marks": {
+      "Description": "Marks are based on the total of the Composition Content and Structure and Composition Style and Accuracy sections. The maximum total mark is 40. Expect a minimum of 250 words in the essay. Shorter answers may be penalized, and longer responses that drift away from the point should also be penalized."
     }
+  }
   },
   "MCQ_Subject_Syllabus": {
     "IGCSE_Biology": {

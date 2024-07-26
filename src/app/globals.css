@@ -80,3 +80,62 @@
     background-color: hsl(var(--input)); /* Use the updated input variable */
   }
 }
+
+.flip-card {
+  background-color: white;
+  width: 180px; /* or your cardSize */
+  height: 180px; /* or your cardSize */
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.flip-card-back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #271144;
+  color: white;
+  transform: rotateY(180deg);
+  text-align: center;
+  padding: 1rem;
+}
+
+.fade-text {
+  position: absolute;
+  transition: opacity 0.5s ease-in-out;
+  width: 100%;
+}
+
+.fade-text.hidden {
+  opacity: 0;
+}
+
+.fade-text.visible {
+  opacity: 1;
+}

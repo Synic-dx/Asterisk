@@ -4,12 +4,12 @@ import QuestionModel from "@/models/question.model";
 import UserModel from "@/models/user.model";
 import {
   FREE_DAILY_QUESTION_LIMIT,
-  FREE_SUBJECT_LIMIT,
   QUESTION_DIFFICULTY_RANGE,
 } from "@/constants";
 import mongoose from "mongoose";
 
 const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
+  // Connect to the database
   await dbConnect();
 
   if (req.method !== "GET") {
@@ -19,6 +19,7 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
   const { subjectCode, userId, onlyASLevel, onlyALevel, topic, subtopic } =
     req.query;
 
+  // Validate required fields
   if (!subjectCode || !userId) {
     return res.status(400).json({
       message: "Subject code and user ID are required",
@@ -30,23 +31,24 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
     : subjectCode;
 
   try {
+    // Find the user
     const user = await UserModel.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Check daily attempts
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const dailyAttempts = await UserModel.aggregate([
+    const dailyAttemptsResult = await UserModel.aggregate([
       { $match: { _id: new mongoose.Types.ObjectId(userId as string) } },
       { $unwind: "$questionsSolvedDetails" },
       { $match: { "questionsSolvedDetails.attemptedOn": { $gte: today } } },
       { $count: "dailyAttempts" },
     ]);
 
-    const attemptsToday =
-      dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
+    const attemptsToday = dailyAttemptsResult.length > 0 ? dailyAttemptsResult[0].dailyAttempts : 0;
 
     if (!user.premiumAccess?.valid && attemptsToday >= FREE_DAILY_QUESTION_LIMIT) {
       return res.status(403).json({
@@ -55,20 +57,16 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
 
+    // Determine difficulty range
     const subjectStats = user.selectedSubjects.find(
       (subject) => subject.subjectObjectId.toString() === subjectCodeString
     );
 
     const userPercentile = subjectStats?.userPercentile ?? 50;
-    const minPercentile = Math.max(
-      userPercentile - QUESTION_DIFFICULTY_RANGE,
-      0
-    );
-    const maxPercentile = Math.min(
-      userPercentile + QUESTION_DIFFICULTY_RANGE,
-      100
-    );
+    const minPercentile = Math.max(userPercentile - QUESTION_DIFFICULTY_RANGE, 0);
+    const maxPercentile = Math.min(userPercentile + QUESTION_DIFFICULTY_RANGE, 100);
 
+    // Prepare query conditions
     const solvedQuestionIds = user.questionsSolvedDetails.map(
       (detail) => detail.questionObjectId
     );
@@ -98,9 +96,11 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
       matchConditions.subtopic = subtopic;
     }
 
-    const pipeline = [{ $match: matchConditions }, { $sample: { size: 1 } }];
-
-    const questions = await QuestionModel.aggregate(pipeline);
+    // Fetch a random question based on conditions
+    const questions = await QuestionModel.aggregate([
+      { $match: matchConditions },
+      { $sample: { size: 1 } },
+    ]);
 
     if (questions.length === 0) {
       return res.status(404).json({
@@ -108,14 +108,18 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
 
-    const randomQuestion = questions[0];
-
-    return res.status(200).json(randomQuestion);
-  } catch (error) {
+    return res.status(200).json(questions[0]);
+  } catch (error: unknown) {
     console.error("Error retrieving questions:", error);
-    return res
-      .status(500)
-      .json({ message: "Error retrieving questions", error });
+    if (error instanceof Error) {
+      return res.status(500).json({
+        message: "Error retrieving questions",
+        error: error.message,
+      });
+    }
+    return res.status(500).json({
+      message: "An unknown error occurred",
+    });
   }
 };
 

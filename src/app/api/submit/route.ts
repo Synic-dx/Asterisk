@@ -10,20 +10,18 @@ export const calculateUserRating = (
   attempts: number,
   correctAnswers: number
 ): number => {
-  if (attempts === 0) return 50; // Default rating if no attempts
-  const accuracy = correctAnswers / attempts;
-  return Math.round(accuracy * 100); // Scale accuracy to a rating out of 100
+  return attempts === 0 ? 50 : Math.round((correctAnswers / attempts) * 100);
 };
 
 // Function to calculate percentile
 const calculatePercentile = async (
-  model: mongoose.Model<any>, // The model type
-  field: string, // The field in the document to calculate the percentile for
-  value: number // The value to compare against
+  model: mongoose.Model<any>,
+  field: string,
+  value: number
 ): Promise<number> => {
   const count = await model.countDocuments({ [field]: { $lte: value } });
   const totalCount = await model.countDocuments();
-  return (count / totalCount) * 100;
+  return totalCount === 0 ? 0 : (count / totalCount) * 100;
 };
 
 // Function to generate a new question
@@ -51,8 +49,7 @@ const generateNewQuestion = async (data: {
       throw new Error(errorResponse.error || "Failed to generate new question");
     }
 
-    const newQuestion = await response.json();
-    return newQuestion;
+    return await response.json();
   } catch (error) {
     console.error("Error generating new question:", error);
     throw error;
@@ -80,6 +77,7 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
     difficultyRating,
   } = req.body;
 
+  // Validate input
   if (
     !questionId ||
     !userAnswer ||
@@ -94,8 +92,7 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
     !difficultyRating
   ) {
     return res.status(400).json({
-      message:
-        "All fields (questionId, userAnswer, isCorrect, userQuestionTime, userId, subjectCode, subjectName, level, topic, subtopic, difficultyRating) are required",
+      message: "All fields (questionId, userAnswer, isCorrect, userQuestionTime, userId, subjectCode, subjectName, level, topic, subtopic, difficultyRating) are required",
     });
   }
 
@@ -107,23 +104,22 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(404).json({ message: "Question or User not found" });
     }
 
+    // Check daily attempt limit for non-premium users
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Set to start of the day
+    today.setHours(0, 0, 0, 0);
 
     const dailyAttempts = await UserModel.aggregate([
       { $match: { _id: new mongoose.Types.ObjectId(userId) } },
       { $unwind: "$questionsSolvedDetails" },
       { $match: { "questionsSolvedDetails.attemptedOn": { $gte: today } } },
-      { $count: "dailyAttempts" }, // Count of total number of problems attempted today
+      { $count: "dailyAttempts" },
     ]);
 
-    const attemptsToday =
-      dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
+    const attemptsToday = dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
 
     if (!user.premiumAccess?.valid && attemptsToday >= FREE_DAILY_QUESTION_LIMIT) {
       return res.status(403).json({
-        message:
-          "Daily quota of questions reached. Upgrade to premium for unlimited access.",
+        message: "Daily quota of questions reached. Upgrade to premium for unlimited access.",
       });
     }
 
@@ -133,39 +129,29 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
       question.totalCorrect += 1;
     }
 
-    // Calculate difficulty rating if attempts >= 10
     if (question.totalAttempts >= 10) {
       question.difficultyRating =
-        ((question.totalAttempts - question.totalCorrect) /
-          question.totalAttempts) *
-        100;
+        ((question.totalAttempts - question.totalCorrect) / question.totalAttempts) * 100;
     }
 
-    // Update average time taken for the question
-    if (question.averageTimeTakenInSeconds !== undefined) {
-      question.averageTimeTakenInSeconds =
-        (question.averageTimeTakenInSeconds * (question.totalAttempts - 1) +
-          userQuestionTime) /
-        question.totalAttempts;
-    } else {
-      question.averageTimeTakenInSeconds = userQuestionTime;
-    }
+    question.averageTimeTakenInSeconds = question.averageTimeTakenInSeconds
+      ? (question.averageTimeTakenInSeconds * (question.totalAttempts - 1) + userQuestionTime) / question.totalAttempts
+      : userQuestionTime;
 
     await question.save();
 
     // Update user's question solved details
     user.questionsSolvedDetails.push({
-      questionObjectId: question._id as mongoose.Types.ObjectId, // Store the MongoDB ObjectId
+      questionObjectId: question._id as mongoose.Types.ObjectId,
       userAnswer,
       userQuestionTime,
       isCorrect,
-      attemptedOn: new Date(), // Record the attempt time
+      attemptedOn: new Date(),
     });
 
     // Update or add subject stats
     let subjectStats = user.selectedSubjects.find(
-      (subject) =>
-        subject.subjectCode === question.subject.subjectCode
+      (subject) => subject.subjectCode === question.subject.subjectCode
     );
 
     if (subjectStats) {
@@ -185,21 +171,19 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
         return res
           .status(403)
           .json({ message: "Upgrade to premium to add more subjects." });
-      } else {
-        user.selectedSubjects.push({
-          subjectObjectId: new mongoose.Types.ObjectId(
-            question.subject.subjectCode
-          ),
-          subjectName: question.subject.name,
-          subjectCode: question.subject.subjectCode,
-          userRating: calculateUserRating(1, isCorrect ? 1 : 0),
-          userAttempts: 1,
-          userCorrectAnswers: isCorrect ? 1 : 0,
-          dateAdded: new Date(),
-        });
-
-        subjectStats = user.selectedSubjects[user.selectedSubjects.length - 1];
       }
+
+      user.selectedSubjects.push({
+        subjectObjectId: new mongoose.Types.ObjectId(question.subject.subjectCode),
+        subjectName: question.subject.name,
+        subjectCode: question.subject.subjectCode,
+        userRating: calculateUserRating(1, isCorrect ? 1 : 0),
+        userAttempts: 1,
+        userCorrectAnswers: isCorrect ? 1 : 0,
+        dateAdded: new Date(),
+      });
+
+      subjectStats = user.selectedSubjects[user.selectedSubjects.length - 1];
     }
 
     // Calculate and update user's rating percentile
@@ -228,8 +212,8 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
       newQuestion,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error submitting answer", error });
+    console.error("Error submitting answer:", error);
+    res.status(500).json({ message: "Error submitting answer", error: (error as Error).message });
   }
 };
 

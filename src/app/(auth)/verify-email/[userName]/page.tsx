@@ -13,9 +13,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { useToast } from "@/components/ui/use-toast";
-import { ApiResponse } from "@/types/ApiResponse";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@chakra-ui/react";
 import axios, { AxiosError } from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -27,11 +25,13 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
+import { ApiResponse } from "@/types/ApiResponse";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function VerifyAccount() {
   const router = useRouter();
   const params = useParams<{ userName: string }>();
-  const { toast } = useToast();
+  const toast = useToast();
   const form = useForm<z.infer<typeof verifySchema>>({
     resolver: zodResolver(verifySchema),
   });
@@ -46,6 +46,10 @@ export default function VerifyAccount() {
       toast({
         title: "Success",
         description: response.data.message,
+        status: "success",
+        position: "bottom-left",
+        duration: 5000,
+        isClosable: true,
       });
 
       router.replace("/sign-in");
@@ -56,14 +60,17 @@ export default function VerifyAccount() {
         description:
           axiosError.response?.data.message ??
           "An error occurred. Please try again.",
-        variant: "destructive",
+        status: "error",
+        position: "bottom-left",
+        duration: 5000,
+        isClosable: true,
       });
     }
   };
 
   return (
-    <Flex justify="center" align="center" minH="100vh" bg="gray.100">
-      <Box w="full" maxW="md" p={8} gap={8} bg="white" borderRadius="lg" shadow="md">
+    <Flex justify="center" align="center" minH="100vh">
+      <Box w="full" maxW="md" p={8} gap={8} bg="white" borderRadius="lg" shadow="xl">
         <Flex direction="column" align="center">
           <Heading as="h1" size="2xl" mb={6} fontWeight="extrabold">
             Verify Your Account

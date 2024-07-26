@@ -31,9 +31,9 @@ const updateAccountDetails = async (req: NextApiRequest, res: NextApiResponse) =
 
   const userId = session.user._id;
   const { selectedSubjects, currentPassword, newPassword } = req.body as {
-    selectedSubjects: Subject[];
-    currentPassword: string;
-    newPassword: string;
+    selectedSubjects?: Subject[];
+    currentPassword?: string;
+    newPassword?: string;
   };
 
   // Check if userId is present and if at least one of selectedSubjects or password fields are provided

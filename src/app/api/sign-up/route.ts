@@ -12,6 +12,7 @@ export async function POST(req: Request) {
     const { email, password, userName } = await req.json();
     console.log("Request data:", { email, password, userName });
 
+    // Validate input fields
     if (!email || !password || !userName) {
       console.warn("Missing required fields");
       return new Response(
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
       );
     }
 
+    // Check if username is already taken
     const existingUserVerifiedByUserName = await UserModel.findOne({
       userName,
       isVerified: true,
@@ -41,6 +43,7 @@ export async function POST(req: Request) {
       );
     }
 
+    // Check if email is already registered
     const existingUserByEmail = await UserModel.findOne({ email });
     const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
@@ -90,6 +93,7 @@ export async function POST(req: Request) {
       console.log("Created new user:", newUser);
     }
 
+    // Send verification email
     const emailResponse = await sendVerificationEmail(email, userName, verificationCode);
     console.log("Verification email response:", emailResponse);
 
@@ -108,10 +112,16 @@ export async function POST(req: Request) {
       }),
       { status: 201 }
     );
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error registering user:", error);
+    if (error instanceof Error) {
+      return new Response(
+        JSON.stringify({ success: false, message: error.message }),
+        { status: 500 }
+      );
+    }
     return new Response(
-      JSON.stringify({ success: false, message: "Error registering user" }),
+      JSON.stringify({ success: false, message: "An unknown error occurred" }),
       { status: 500 }
     );
   }
@@ -121,6 +131,7 @@ function validateEmail(email: string): boolean {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return emailRegex.test(email);
 }
+
 function validatePassword(password: string): boolean {
   return password.length >= 6;
 }

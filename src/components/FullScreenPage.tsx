@@ -1,11 +1,12 @@
 import React from "react";
-import { Container } from "@chakra-ui/react";
+import { Container, ResponsiveValue } from "@chakra-ui/react";
 
 interface PageWrapperProps {
   children: React.ReactNode;
+  minHeight?: string | ResponsiveValue<string>; // Update type here
 }
 
-const PageWrapper: React.FC<PageWrapperProps> = ({ children }) => {
+const PageWrapper: React.FC<PageWrapperProps> = ({ children, minHeight }) => {
   return (
     <Container
       minW="100vw"
@@ -15,9 +16,11 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ children }) => {
       justifyContent="center"
       bg="var(--background)"
       color="var(--foreground)"
-      p={4}
+      py={4}
+      px={0}
+      minHeight={minHeight} // Use minHeight here
     >
-        {children}
+      {children}
     </Container>
   );
 };
