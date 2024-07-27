@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React from 'react';
 import ReactMarkdown, { Components } from 'react-markdown';
 import { Box, Text, Link as ChakraLink, Heading, Code as ChakraCode } from '@chakra-ui/react';
@@ -33,26 +33,26 @@ const MarkdownWrapper = ({
   maxWidth?: string;
   height?: string;
 }) => {
-  // Preprocess content to replace '/n' with Markdown line breaks
-  const processedContent = children.replace(/\/n/g, '\n\n');  // Replace '/n' with double newlines
+  // Ensure that the content is correctly formatted for Markdown
+  const processedContent = children;
 
   // Define custom components compatible with ReactMarkdown's expected types
   const components: Partial<Components> = {
-    p: ({ children }) => <Text mb={4}>{children}</Text>,
-    h1: ({ children }) => <Heading as="h1" size="2xl" mb={4}>{children}</Heading>,
-    h2: ({ children }) => <Heading as="h2" size="xl" mb={4}>{children}</Heading>,
-    h3: ({ children }) => <Heading as="h3" size="lg" mb={4}>{children}</Heading>,
-    h4: ({ children }) => <Heading as="h4" size="md" mb={4}>{children}</Heading>,
-    h5: ({ children }) => <Heading as="h5" size="sm" mb={4}>{children}</Heading>,
-    h6: ({ children }) => <Heading as="h6" size="xs" mb={4}>{children}</Heading>,
+    p: ({ children }) => <Text mb={4} fontFamily="Roboto, sans-serif">{children}</Text>,
+    h1: ({ children }) => <Heading as="h1" size="2xl" mb={4} fontFamily="Roboto, sans-serif">{children}</Heading>,
+    h2: ({ children }) => <Heading as="h2" size="xl" mb={4} fontFamily="Roboto, sans-serif">{children}</Heading>,
+    h3: ({ children }) => <Heading as="h3" size="lg" mb={4} fontFamily="Roboto, sans-serif">{children}</Heading>,
+    h4: ({ children }) => <Heading as="h4" size="md" mb={4} fontFamily="Roboto, sans-serif">{children}</Heading>,
+    h5: ({ children }) => <Heading as="h5" size="sm" mb={4} fontFamily="Roboto, sans-serif">{children}</Heading>,
+    h6: ({ children }) => <Heading as="h6" size="xs" mb={4} fontFamily="Roboto, sans-serif">{children}</Heading>,
     a: ({ href, children }) => (
-      <ChakraLink href={href} color="blue.500" isExternal>
+      <ChakraLink href={href} color="blue.500" isExternal fontFamily="Roboto, sans-serif">
         {children}
       </ChakraLink>
     ),
     code: (props) => <Code {...props as any} />,  // Type assertion for Code component
     blockquote: ({ children }) => (
-      <Box as="blockquote" borderLeft="4px solid" borderColor="gray.300" pl={4} my={4} bg="gray.50" p={2}>
+      <Box as="blockquote" borderLeft="4px solid" borderColor="gray.300" pl={4} my={4} bg="gray.50" p={2} fontFamily="Roboto, sans-serif">
         {children}
       </Box>
     ),
@@ -65,27 +65,27 @@ const MarkdownWrapper = ({
     ),
     tr: ({ children }) => <Box as="tr" borderBottom="1px solid" borderColor="gray.200">{children}</Box>,
     th: ({ children }) => (
-      <Box as="th" borderBottom="2px solid" borderColor="gray.200" p={2} textAlign="left" fontWeight="bold">
+      <Box as="th" borderBottom="2px solid" borderColor="gray.200" p={2} textAlign="left" fontWeight="bold" fontFamily="Roboto, sans-serif">
         {children}
       </Box>
     ),
     td: ({ children }) => (
-      <Box as="td" borderBottom="1px solid" borderColor="gray.200" p={2} textAlign="left">
+      <Box as="td" borderBottom="1px solid" borderColor="gray.200" p={2} textAlign="left" fontFamily="Roboto, sans-serif">
         {children}
       </Box>
     ),
     ul: ({ children }) => (
-      <Box as="ul" pl={6} mb={4} listStyleType="disc">
+      <Box as="ul" pl={6} mb={4} listStyleType="disc" fontFamily="Roboto, sans-serif">
         {children}
       </Box>
     ),
     ol: ({ children }) => (
-      <Box as="ol" pl={6} mb={4} listStyleType="decimal">
+      <Box as="ol" pl={6} mb={4} listStyleType="decimal" fontFamily="Roboto, sans-serif">
         {children}
       </Box>
     ),
     li: ({ children }) => (
-      <Box as="li" mb={2}>
+      <Box as="li" mb={2} fontFamily="Roboto, sans-serif">
         {children}
       </Box>
     ),
@@ -93,7 +93,7 @@ const MarkdownWrapper = ({
     img: ({ src, alt }) => (
       <Box as="figure" my={4}>
         <Box as="img" src={src} alt={alt} maxW="full" borderRadius="md" />
-        {alt && <Text as="figcaption" mt={2} fontSize="sm" color="gray.500">{alt}</Text>}
+        {alt && <Text as="figcaption" mt={2} fontSize="sm" color="gray.500" fontFamily="Roboto, sans-serif">{alt}</Text>}
       </Box>
     ),
   };
@@ -105,6 +105,7 @@ const MarkdownWrapper = ({
       mx="auto"
       px={4}
       py={6}
+      fontFamily="Roboto, sans-serif"
     >
       <ReactMarkdown remarkPlugins={[gfm]} components={components}>
         {processedContent}

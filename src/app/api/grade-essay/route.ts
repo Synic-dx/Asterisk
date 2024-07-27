@@ -77,21 +77,20 @@ export async function POST(req: NextRequest) {
     }
 
     // Create grading prompt
-    const prompt = (
-      `Evaluate the following descriptive writing based on the provided grading criteria: ` +
-      `Subject: ${subjectName} ` +
-      `Essay Type: ${questionType} ` +
-      `User's Essay: ${userEssay} ` +
-      `Total Marks: ${totalMarks} ` +
-      `Provide: ` +
-      `1. A grade out of ${totalMarks} for the user's descriptive writing, strictly based on the grading criteria of this type of writing. ` +
-      `2. Detailed feedback on the writing and reasoning behind each grade component, the criteria of the grading scheme it succeeded and/or failed to achieve, using properly formated Markdown for JSON. Do not use quotation marks.`
-    ).trim();
+    const prompt =
+      `Evaluate the following descriptive writing based on the provided grading criteria: 
+      Subject: ${subjectName} 
+      Essay Type: ${questionType} 
+      User's Essay: ${userEssay} 
+      Total Marks: ${totalMarks} 
+      Provide: 
+      1. A grade out of ${totalMarks} for the user's descriptive writing, strictly based on the grading criteria of this type of writing. 
+      2. Detailed feedback on the writing and reasoning behind each grade component, the criteria of the grading scheme it succeeded and/or failed to achieve, using properly formatted Markdown for JSON. Do not use quotation marks quotation marks and use /n instead of linebreaks.`.trim();
 
     // Define response schema
     const schema = z.object({
-      grade: z.string(),
-      feedback: z.string(),
+      grade: z.string().nonempty("Grade is required"),
+      feedback: z.string().nonempty("Feedback is required"),
     });
 
     // Generate grading response
@@ -101,7 +100,7 @@ export async function POST(req: NextRequest) {
       prompt,
     });
 
-    const { grade, feedback } = generatedResponse;
+    const { grade, feedback } = schema.parse(generatedResponse);
 
     // Generate a unique essay ID and save grading information
     const essayId = new mongoose.Types.ObjectId();

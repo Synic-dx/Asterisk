@@ -965,7 +965,6 @@
 {"prompt":"Generate an A-Level Physics MCQ on Newton's Laws of Motion, difficulty 60/100. Include 4 options (one correct) and a 280-word explanation. Use Markdown for creating diagram descriptions and other relevant graphics within the question and explanation strings themselves. Ensure the Markdown is correctly formatted for JSON as well as proper display in the frontend.","completion":{"questionText":"According to Newton's First Law of Motion, what happens to an object in motion if no external forces act on it?","explanation":"Newton's First Law of Motion states that an object will remain at rest or continue to move in a straight line at constant speed unless acted upon by an external force. This law is also known as the law of inertia. It implies that if no net external force is applied to an object, its velocity remains unchanged.\n\n### Diagram: Newton's First Law\n\nThe following table summarizes the principles of Newton's First Law:\n\n```markdown\n**Diagram: Newton's First Law**\n\n| Scenario                | Description                               |\n|-------------------------|-------------------------------------------|\n| Object at Rest          | Remains at rest unless acted upon        |\n| Object in Motion        | Continues in straight line at constant speed unless acted upon by force|\n| Example of Inertia      | A book sliding on a table eventually stops due to friction (an external force) |\n| Example of Unchanged Motion | A spacecraft drifting in space continues moving without propulsion (no external force)|\n```\n\nThis table helps illustrate the concept of inertia and how objects behave in the absence of external forces.","options":[{"option":"A","text":"It will continue to move in a straight line at constant speed"},{"option":"B","text":"It will come to a stop immediately"},{"option":"C","text":"Its speed will increase exponentially"},{"option":"D","text":"It will start moving in a circular path"}],"correctOption":{"option":"A","text":"It will continue to move in a straight line at constant speed"}}}
 {"prompt":"Generate an A-Level History MCQ on the causes of World War I, difficulty 70/100. Include 4 options (one correct) and a 280-word explanation. Use Markdown for creating diagram descriptions and other relevant graphics within the question and explanation strings themselves. Ensure the Markdown is correctly formatted for JSON as well as proper display in the frontend.","completion":{"questionText":"Which of the following was a significant cause of World War I?","explanation":"One of the significant causes of World War I was **militarism**, where countries built up their military forces in anticipation of potential conflicts. The intense competition between European powers to build larger and more powerful militaries created an environment ripe for war. Another key cause was **alliances**, as countries formed complex alliances that dragged multiple nations into conflict following the assassination of Archduke Franz Ferdinand.\n\n### Diagram: Causes of World War I\n\nBelow is a table outlining the major causes of World War I:\n\n```markdown\n**Diagram: Causes of World War I**\n\n| Cause          | Description                                |\n|----------------|--------------------------------------------|\n| Militarism     | Build-up of military forces                 |\n| Alliances      | Complex network of political and military alliances|\n| Imperialism    | Competition for colonies and global dominance|\n| Nationalism    | Intense national pride and competition      |\n```\n\nThis table provides an overview of the factors that contributed to the outbreak of World War I.","options":[{"option":"A","text":"Militarism"},{"option":"B","text":"The invention of the telephone"},{"option":"C","text":"The discovery of penicillin"},{"option":"D","text":"The signing of the Magna Carta"}],"correctOption":{"option":"A","text":"Militarism"}}}
 {"prompt":"Generate an A-Level Chemistry MCQ on Atomic Structure, difficulty 55/100. Include 4 options (one correct) and a 280-word explanation. Use Markdown for creating diagram descriptions and other relevant graphics within the question and explanation strings themselves. Ensure the Markdown is correctly formatted for JSON as well as proper display in the frontend.","completion":{"questionText":"What does the atomic number of an element represent?","explanation":"The **atomic number** of an element represents the number of protons in the nucleus of an atom of that element. It is a fundamental property that determines the element's identity and its position in the periodic table. Each element has a unique atomic number, which is used to arrange elements in increasing order on the periodic table.\n\n### Diagram: Atomic Structure\n\nHere’s a table showing the components of an atom and their characteristics:\n\n```markdown\n**Diagram: Atomic Structure**\n\n| Component    | Description                                    |\n|--------------|------------------------------------------------|\n| Proton       | Positively charged particle found in the nucleus|\n| Neutron      | Neutral particle found in the nucleus          |\n| Electron      | Negatively charged particle orbiting the nucleus|\n| Atomic Number | Number of protons in the nucleus, unique to each element|\n```\n\nThis table illustrates the basic components of an atom and their significance in defining the atomic number.","options":[{"option":"A","text":"Number of protons"},{"option":"B","text":"Number of neutrons"},{"option":"C","text":"Number of electrons"},{"option":"D","text":"Mass number"}],"correctOption":{"option":"A","text":"Number of protons"}}}
-{"prompt":"Generate an A-Level Mathematics MCQ on Quadratic Equations, difficulty 65/100. Include 4 options (one correct) and a 280-word explanation. Use Markdown for creating diagram descriptions and other relevant graphics within the question and explanation strings themselves. Ensure the Markdown is correctly formatted for JSON as well as proper display in the frontend.","completion":{"questionText":"What is the quadratic formula used to solve for x in a quadratic equation?","explanation":"The **quadratic formula** is used to find the roots of a quadratic equation of the form \(ax^2 + bx + c = 0\). The formula is given by:\n\n$$\n  x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}\n$$\n\nThis formula provides the values of \(x\) where the quadratic equation intersects the x-axis. It is derived from completing the square and is a crucial tool for solving quadratic equations in algebra.\n\n### Diagram: Quadratic Formula Components\n\nBelow is a table explaining each component of the quadratic formula:\n\n```markdown\n**Diagram: Quadratic Formula Components**\n\n| Component     | Description                                 |\n|---------------|---------------------------------------------|\n| \(a\)         | Coefficient of \(x^2\)                       |\n| \(b\)         | Coefficient of \(x\)                        |\n| \(c\)         | Constant term                               |\n| \( \\pm \\sqrt{b^2 - 4ac} \) | Term under the square root, called the discriminant|\n| \( 2a \)      | Denominator of the formula                   |\n```\n\nThis table breaks down the elements of the quadratic formula and their roles in solving quadratic equations.","options":[{"option":"A","text":"$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$"},{"option":"B","text":"$$x = \\frac{b \\pm \\sqrt{a^2 - 4ac}}{2a}$$"},{"option":"C","text":"$$x = \\frac{-b \\pm \\sqrt{b^2 + 4ac}}{a}$$"},{"option":"D","text":"$$x = \\frac{b \\pm \\sqrt{b^2 - 4ac}}{2}$$"}],"correctOption":{"option":"A","text":"$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$"}}}
 {"prompt":"Generate an IGCSE Physics MCQ on Forces and Motion, difficulty 60/100. Include 4 options (one correct) and a 280-word explanation. Use Markdown for creating diagram descriptions and other relevant graphics within the question and explanation strings themselves. Ensure the Markdown is correctly formatted for JSON as well as proper display in the frontend.","completion":{"questionText":"What is the relationship between force, mass, and acceleration according to Newton's Second Law of Motion?","explanation":"According to **Newton's Second Law of Motion**, the relationship between force, mass, and acceleration is given by the formula **F = ma**. This law states that the force applied to an object is equal to the mass of the object multiplied by its acceleration. It implies that for a constant force, an increase in mass will result in a decrease in acceleration, and vice versa.\n\n### Diagram: Newton's Second Law of Motion\n\nBelow is a table summarizing the relationship between force, mass, and acceleration:\n\n```markdown\n**Diagram: Newton's Second Law of Motion**\n\n| Quantity   | Description                                      |\n|------------|--------------------------------------------------|\n| Force (F)  | The push or pull applied to an object            |\n| Mass (m)   | The amount of matter in the object               |\n| Acceleration (a) | The rate of change of velocity                |\n```\n\nThis table provides an overview of the key quantities involved in Newton's Second Law.","options":[{"option":"A","text":"Force = Mass × Acceleration"},{"option":"B","text":"Force = Mass / Acceleration"},{"option":"C","text":"Force = Acceleration / Mass"},{"option":"D","text":"Force = Mass + Acceleration"}],"correctOption":{"option":"A","text":"Force = Mass × Acceleration"}}}
 
 {"prompt":"Generate an IGCSE Mathematics MCQ on Algebraic Expressions, difficulty 55/100. Include 4 options (one correct) and a 280-word explanation. Use Markdown for creating diagram descriptions and other relevant graphics within the question and explanation strings themselves. Ensure the Markdown is correctly formatted for JSON as well as proper display in the frontend.","completion":{"questionText":"What is the result of simplifying the algebraic expression 3x + 4x - 2?","explanation":"To simplify the algebraic expression **3x + 4x - 2**, we first combine like terms. The terms **3x** and **4x** are like terms because they both contain the variable **x**. Adding these together gives **7x**. The term **-2** is a constant and remains unchanged in this operation.\n\n### Diagram: Simplifying Algebraic Expressions\n\nHere’s a table showing the steps to simplify the expression:\n\n```markdown\n**Diagram: Simplifying Algebraic Expressions**\n\n| Step                 | Description                             |\n|----------------------|-----------------------------------------|\n| Combine Like Terms   | Add **3x** and **4x** to get **7x**     |\n| Subtract Constant    | **-2** remains unchanged                |\n| Simplified Expression| **7x - 2**                              |\n```\n\nThis table outlines the process of simplifying the given algebraic expression.","options":[{"option":"A","text":"7x - 2"},{"option":"5x - 2"},{"option":"7x + 2"},{"option":"5x + 2"}],"correctOption":{"option":"A","text":"7x - 2"}}}
@@ -981,3 +980,807 @@
 {"prompt":"Generate an IGCSE Economics MCQ on Market Structures, difficulty 65/100. Include 4 options (one correct) and a 280-word explanation. Use Markdown for creating diagram descriptions and other relevant graphics within the question and explanation strings themselves. Ensure the Markdown is correctly formatted for JSON as well as proper display in the frontend.","completion":{"questionText":"Which market structure is characterized by a single seller and high barriers to entry?","explanation":"A market structure characterized by a single seller and high barriers to entry is known as a **monopoly**. In a monopoly, one firm dominates the market and controls the supply of a product or service. The high barriers to entry prevent other firms from entering the market, allowing the monopolist to set prices and output levels without competition.\n\n### Diagram: Market Structures\n\nHere’s a table comparing different market structures:\n\n```markdown\n**Diagram: Market Structures**\n\n| Market Structure | Number of Firms | Barriers to Entry | Price Control | Examples          |\n|------------------|-----------------|-------------------|---------------|-------------------|\n| Monopoly         | One             | High              | High          | Utilities, Railways|\n| Oligopoly        | Few             | Moderate to High  | Moderate      | Airlines, Autos   |\n| Monopolistic Competition | Many       | Low               | Low           | Restaurants, Clothing |\n| Perfect Competition  | Many          | None              | None          | Agriculture, Forex |\n```\n\nThis table compares the characteristics of different market structures and provides examples of each.","options":[{"option":"A","text":"Monopoly"},{"option":"B","text":"Oligopoly"},{"option":"C","text":"Monopolistic Competition"},{"option":"D","text":"Perfect Competition"}],"correctOption":{"option":"A","text":"Monopoly"}}}
 
 {"prompt":"Generate an IGCSE Physics MCQ on Forces and Motion, difficulty 55/100. Include 4 options (one correct) and a 280-word explanation. Use Markdown for creating diagram descriptions and other relevant graphics within the question and explanation strings themselves. Ensure the Markdown is correctly formatted for JSON as well as proper display in the frontend.","completion":{"questionText":"What is the unit of force in the International System of Units (SI)?","explanation":"In the International System of Units (SI), the unit of force is the **Newton** (symbol: N). One Newton is defined as the amount of force required to accelerate a one-kilogram mass by one meter per second squared. It is named after Sir Isaac Newton, who formulated the laws of motion and universal gravitation.\n\n### Diagram: Units of Force\n\nHere’s a table showing various units of force:\n\n```markdown\n**Diagram: Units of Force**\n\n| Unit      | Symbol | Description                             |\n|-----------|--------|-----------------------------------------|\n| Newton    | N      | SI unit of force, 1 kg·m/s²             |\n| Dyne      | dyn    | CGS unit of force, 1 g·cm/s²             |\n| Pound-Force | lbf  | Unit of force in the US customary system |\n| Kilogram-Force | kgf | Force exerted by 1 kg under gravity     |\n```\n\nThis table provides information about different units of force and their corresponding symbols and descriptions.","options":[{"option":"A","text":"Newton"},{"option":"B","text":"Joule"},{"option":"C","text":"Pascal"},{"option":"D","text":"Watt"}],"correctOption":{"option":"A","text":"Newton"}}}
+
+{
+  "prompt": "Generate an A-Level Mathematics MCQ on P2n3 (Integration) with a difficulty of 90/100. Include 4 options (one correct) and a 360-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "Evaluate the integral of the function f(x) = x^3 - 4x^2 + 6x - 2 from x = 1 to x = 4.",
+    "explanation": "To find the integral of the function f(x) = x^3 - 4x^2 + 6x - 2 from x = 1 to x = 4, we need to compute the definite integral. First, find the indefinite integral of f(x). For f(x) = x^3 - 4x^2 + 6x - 2, the indefinite integral is given by:\n\n∫(x^3 - 4x^2 + 6x - 2) dx = (1/4)x^4 - (4/3)x^3 + 3x^2 - 2x + C\n\nNext, evaluate this expression at the bounds x = 4 and x = 1 and subtract:\n\n[ (1/4)(4)^4 - (4/3)(4)^3 + 3(4)^2 - 2(4) ] - [ (1/4)(1)^4 - (4/3)(1)^3 + 3(1)^2 - 2(1) ]\n\nSimplify each term:\n\n(1/4)(256) - (4/3)(64) + 48 - 8 - [(1/4) - (4/3) + 3 - 2]\n\n= 64 - 85.333 + 48 - 8 - [0.25 - 1.333 + 3 - 2]\n\n= 64 - 85.333 + 48 - 8 + 0.083\n\n= 18.75\n\nTherefore, the definite integral of the function from x = 1 to x = 4 is 18.75.",
+    "options": [
+      {
+        "option": "A",
+        "text": "16.5"
+      },
+      {
+        "option": "B",
+        "text": "18.75"
+      },
+      {
+        "option": "C",
+        "text": "20.25"
+      },
+      {
+        "option": "D",
+        "text": "22.0"
+      }
+    ],
+    "correctOption": {
+      "option": "B",
+      "text": "18.75"
+    }
+  }
+}
+
+{
+  "prompt": "Generate an AS Level Economics MCQ on Supply and Demand with a difficulty of 70/100. Include 4 options (one correct) and a 250-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "What effect does a decrease in consumer income have on the demand for normal goods?",
+    "explanation": "A decrease in consumer income generally leads to a decrease in the demand for normal goods. Normal goods are those for which demand increases as consumer income rises and decreases when income falls. This is because with less income, consumers have less purchasing power and thus reduce their consumption of goods and services. For example, if a person's income decreases, they might buy fewer luxury items or dine out less often. The demand curve for normal goods shifts leftward as a result of a decrease in consumer income. It is essential to distinguish normal goods from inferior goods, where a decrease in income would actually lead to an increase in demand.",
+    "options": [
+      {
+        "option": "A",
+        "text": "Demand increases"
+      },
+      {
+        "option": "B",
+        "text": "Demand decreases"
+      },
+      {
+        "option": "C",
+        "text": "Demand remains unchanged"
+      },
+      {
+        "option": "D",
+        "text": "Demand becomes unpredictable"
+      }
+    ],
+    "correctOption": {
+      "option": "B",
+      "text": "Demand decreases"
+    }
+  }
+}
+
+{
+  "prompt": "Generate an A-Level Chemistry MCQ on Chemical Kinetics with a difficulty of 80/100. Include 4 options (one correct) and a 300-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "What effect does increasing the concentration of reactants have on the rate of a reaction according to the rate equation?",
+    "explanation": "Increasing the concentration of reactants generally increases the rate of a chemical reaction. According to the rate equation, which is expressed as Rate = k[A]^m[B]^n, where [A] and [B] are the concentrations of the reactants and m and n are their respective orders, the rate of reaction is proportional to the concentration of each reactant raised to the power of its order. When the concentration of reactants increases, the number of collisions between reactant molecules also increases, leading to a higher rate of reaction. This is because a higher concentration of reactants means more molecules or ions are present in the same volume, which increases the frequency of effective collisions that lead to product formation. This relationship is particularly useful in controlling reaction rates in industrial processes and laboratory experiments.",
+    "options": [
+      {
+        "option": "A",
+        "text": "The rate of reaction decreases"
+      },
+      {
+        "option": "B",
+        "text": "The rate of reaction remains constant"
+      },
+      {
+        "option": "C",
+        "text": "The rate of reaction increases"
+      },
+      {
+        "option": "D",
+        "text": "The rate of reaction becomes unpredictable"
+      }
+    ],
+    "correctOption": {
+      "option": "C",
+      "text": "The rate of reaction increases"
+    }
+  }
+}
+
+{
+  "prompt": "Generate an A-Level Mathematics MCQ on Differentiation with a difficulty of 85/100. Include 4 options (one correct) and a 350-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "Find the derivative of the function f(x) = 3x^4 - 5x^3 + 2x - 7.",
+    "explanation": "To find the derivative of the function f(x) = 3x^4 - 5x^3 + 2x - 7, we use the power rule of differentiation. The power rule states that the derivative of x^n is n*x^(n-1). Applying this rule to each term of the function:\n\n1. For 3x^4: The derivative is 3 * 4 * x^(4-1) = 12x^3.\n2. For -5x^3: The derivative is -5 * 3 * x^(3-1) = -15x^2.\n3. For 2x: The derivative is 2 * x^(1-1) = 2.\n4. For -7: The derivative of a constant is 0.\n\nCombining these results, the derivative of the function f(x) = 3x^4 - 5x^3 + 2x - 7 is f'(x) = 12x^3 - 15x^2 + 2.\n\nTo verify the result, we can check the derivatives at specific points or use a graphing tool to see if the derivative behaves as expected. The power rule simplifies the differentiation process by applying a straightforward method to each term individually.",
+    "options": [
+      {
+        "option": "A",
+        "text": "12x^3 - 15x^2 + 2"
+      },
+      {
+        "option": "B",
+        "text": "12x^3 - 15x^3 + 2"
+      },
+      {
+        "option": "C",
+        "text": "3x^3 - 5x^2 + 2"
+      },
+      {
+        "option": "D",
+        "text": "3x^3 - 5x^2 + 7"
+      }
+    ],
+    "correctOption": {
+      "option": "A",
+      "text": "12x^3 - 15x^2 + 2"
+    }
+  }
+}
+{
+  "prompt": "Generate an AS Level Physics MCQ on Kinematics with a difficulty of 80/100. Include 4 options (one correct) and a 300-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "A car accelerates from rest to 20 m/s in 5 seconds. What is its acceleration?",
+    "explanation": "Acceleration is calculated using the formula a = (v - u) / t, where v is the final velocity, u is the initial velocity, and t is the time taken. In this problem:\n\n- Initial velocity, u = 0 m/s (since the car starts from rest)\n- Final velocity, v = 20 m/s\n- Time, t = 5 seconds\n\nSubstituting these values into the formula:\n\na = (20 m/s - 0 m/s) / 5 s\n\na = 20 m/s / 5 s\n\na = 4 m/s²\n\nThus, the acceleration of the car is 4 m/s². This calculation is straightforward as it directly uses the given values without needing additional steps or complex equations.",
+    "options": [
+      {
+        "option": "A",
+        "text": "2 m/s²"
+      },
+      {
+        "option": "B",
+        "text": "4 m/s²"
+      },
+      {
+        "option": "C",
+        "text": "5 m/s²"
+      },
+      {
+        "option": "D",
+        "text": "10 m/s²"
+      }
+    ],
+    "correctOption": {
+      "option": "B",
+      "text": "4 m/s²"
+    }
+  }
+}
+{
+  "prompt": "Generate an IGCSE Chemistry MCQ on Reaction Rates with a difficulty of 75/100. Include 4 options (one correct) and a 250-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "If the concentration of a reactant in a reaction is doubled and the rate of the reaction increases by a factor of 4, what is the order of the reaction with respect to that reactant?",
+    "explanation": "The order of a reaction with respect to a particular reactant can be determined using the rate law. If doubling the concentration of the reactant results in the rate of reaction increasing by a factor of 4, then the reaction is second order with respect to that reactant. This is because the rate law for a reaction of order n is given by Rate = k[A]^n. If the concentration [A] is doubled, the rate of reaction increases by a factor of (2^n). To increase the rate by a factor of 4, we solve for n:\n\n2^n = 4\n\nn = log2(4)\n\nn = 2\n\nThus, the reaction is second order with respect to the reactant. This shows how the rate of reaction depends on the concentration of the reactant and helps in understanding reaction kinetics.",
+    "options": [
+      {
+        "option": "A",
+        "text": "First order"
+      },
+      {
+        "option": "B",
+        "text": "Second order"
+      },
+      {
+        "option": "C",
+        "text": "Third order"
+      },
+      {
+        "option": "D",
+        "text": "Zero order"
+      }
+    ],
+    "correctOption": {
+      "option": "B",
+      "text": "Second order"
+    }
+  }
+}
+{
+  "prompt": "Generate an A-Level Mathematics MCQ on Statistics with a difficulty of 90/100. Include 4 options (one correct) and a 400-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "A dataset consists of the following values: 5, 7, 8, 12, 15, 18, 21. Calculate the standard deviation of this dataset.",
+    "explanation": "To calculate the standard deviation of a dataset, follow these steps:\n\n1. **Find the mean**: Add all values and divide by the number of values.\n\n   Mean = (5 + 7 + 8 + 12 + 15 + 18 + 21) / 7 = 76 / 7 ≈ 10.86\n\n2. **Calculate the variance**: Find the squared difference between each value and the mean, then average those squared differences.\n\n   Variance = [(5 - 10.86)² + (7 - 10.86)² + (8 - 10.86)² + (12 - 10.86)² + (15 - 10.86)² + (18 - 10.86)² + (21 - 10.86)²] / 7\n\n   Variance ≈ [(5.86)² + (3.86)² + (2.86)² + (1.14)² + (4.14)² + (7.14)² + (10.14)²] / 7\n\n   Variance ≈ [34.23 + 14.90 + 8.18 + 1.30 + 17.14 + 50.98 + 102.80] / 7\n\n   Variance ≈ 229.73 / 7 ≈ 32.82\n\n3. **Calculate the standard deviation**: Take the square root of the variance.\n\n   Standard Deviation = √32.82 ≈ 5.73\n\nTherefore, the standard deviation of the dataset is approximately 5.73. This measure indicates the dispersion of the values around the mean, providing insight into the variability within the dataset.",
+    "options": [
+      {
+        "option": "A",
+        "text": "4.25"
+      },
+      {
+        "option": "B",
+        "text": "5.14"
+      },
+      {
+        "option": "C",
+        "text": "5.73"
+      },
+      {
+        "option": "D",
+        "text": "6.12"
+      }
+    ],
+    "correctOption": {
+      "option": "C",
+      "text": "5.73"
+    }
+  }
+}
+{
+  "prompt": "Generate an A-Level Economics MCQ on Elasticity with a difficulty of 85/100. Include 4 options (one correct) and a 300-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "If the price of a good increases from $10 to $12 and the quantity demanded decreases from 200 units to 150 units, what is the price elasticity of demand (PED) for the good?",
+    "explanation": "To calculate the price elasticity of demand (PED), use the formula:\n\nPED = (% Change in Quantity Demanded) / (% Change in Price)\n\nFirst, calculate the percentage change in quantity demanded:\n\n% Change in Quantity Demanded = [(New Quantity - Old Quantity) / Old Quantity] * 100\n% Change in Quantity Demanded = [(150 - 200) / 200] * 100\n% Change in Quantity Demanded = (-50 / 200) * 100\n% Change in Quantity Demanded = -25%\n\nNext, calculate the percentage change in price:\n\n% Change in Price = [(New Price - Old Price) / Old Price] * 100\n% Change in Price = [(12 - 10) / 10] * 100\n% Change in Price = (2 / 10) * 100\n% Change in Price = 20%\n\nNow, calculate PED:\n\nPED = (-25%) / (20%)\nPED = -1.25\n\nThe negative sign indicates that the demand is elastic, meaning that the quantity demanded responds more than proportionately to changes in price. A PED of -1.25 means that for every 1% increase in price, the quantity demanded decreases by 1.25%. This information is useful for understanding how sensitive consumers are to price changes for this good.",
+    "options": [
+      {
+        "option": "A",
+        "text": "-1.25"
+      },
+      {
+        "option": "B",
+        "text": "-0.8"
+      },
+      {
+        "option": "C",
+        "text": "-0.5"
+      },
+      {
+        "option": "D",
+        "text": "-2.0"
+      }
+    ],
+    "correctOption": {
+      "option": "A",
+      "text": "-1.25"
+    }
+  }
+}
+{
+  "prompt": "Generate an A-Level Mathematics MCQ on Integration with a difficulty of 90/100. Include 4 options (one correct) and a 400-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "Evaluate the integral ∫ (6x^2 - 4x + 3) dx from x = 1 to x = 3.",
+    "explanation": "To evaluate the definite integral ∫ (6x^2 - 4x + 3) dx from x = 1 to x = 3, follow these steps:\n\n1. **Find the indefinite integral**: Integrate each term of the integrand separately.\n   \n   ∫ (6x^2 - 4x + 3) dx\n   \n   - For 6x^2: The integral is 6 * (x^3 / 3) = 2x^3.\n   - For -4x: The integral is -4 * (x^2 / 2) = -2x^2.\n   - For 3: The integral is 3x.\n   \n   Combining these results, the indefinite integral is:\n   \n   2x^3 - 2x^2 + 3x + C\n   \n2. **Apply the limits**: Evaluate the indefinite integral at the upper and lower limits of integration and find the difference.\n   \n   Evaluate at x = 3:\n   \n   2(3)^3 - 2(3)^2 + 3(3) = 2 * 27 - 2 * 9 + 9 = 54 - 18 + 9 = 45\n   \n   Evaluate at x = 1:\n   \n   2(1)^3 - 2(1)^2 + 3(1) = 2 - 2 + 3 = 3\n   \n   Subtract the value at the lower limit from the value at the upper limit:\n   \n   45 - 3 = 42\n   \nTherefore, the value of the definite integral ∫ (6x^2 - 4x + 3) dx from x = 1 to x = 3 is 42. This process involves integrating each term individually and then applying the Fundamental Theorem of Calculus to find the area under the curve between the specified limits.",
+    "options": [
+      {
+        "option": "A",
+        "text": "42"
+      },
+      {
+        "option": "B",
+        "text": "36"
+      },
+      {
+        "option": "C",
+        "text": "48"
+      },
+      {
+        "option": "D",
+        "text": "54"
+      }
+    ],
+    "correctOption": {
+      "option": "A",
+      "text": "42"
+    }
+  }
+}
+{
+  "prompt": "Generate an AS Level Economics MCQ on Consumer Surplus with a difficulty of 80/100. Include 4 options (one correct) and a 280-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "Given the demand curve P = 50 - 2Q and the market price is $30, calculate the consumer surplus when the quantity demanded is 10 units.",
+    "explanation": "Consumer surplus is the difference between what consumers are willing to pay for a good and what they actually pay. It can be calculated using the area of the triangle formed by the demand curve and the price line.\n\n1. **Find the maximum price consumers are willing to pay** when the quantity demanded is 10 units:\n   \n   P = 50 - 2Q\n   P = 50 - 2 * 10\n   P = 30\n   \n   This means consumers are willing to pay up to $30 for 10 units.\n   \n2. **Find the intercept of the demand curve** on the price axis:\n   \n   Set Q = 0:\n   \n   P = 50 - 2 * 0\n   P = 50\n   \n   So, the maximum price consumers are willing to pay is $50.\n   \n3. **Calculate the consumer surplus** as the area of the triangle between the maximum willingness to pay and the market price:\n   \n   Consumer Surplus = 0.5 * (Base * Height)\n   Base = Quantity = 10 units\n   Height = Maximum Price - Market Price = 50 - 30 = 20\n   \n   Consumer Surplus = 0.5 * 10 * 20 = 100\n   \nThus, the consumer surplus is $100. This measure represents the total benefit consumers receive from purchasing a good at a market price lower than the highest price they are willing to pay.",
+    "options": [
+      {
+        "option": "A",
+        "text": "$100"
+      },
+      {
+        "option": "B",
+        "text": "$80"
+      },
+      {
+        "option": "C",
+        "text": "$60"
+      },
+      {
+        "option": "D",
+        "text": "$40"
+      }
+    ],
+    "correctOption": {
+      "option": "A",
+      "text": "$100"
+    }
+  }
+}
+{
+  "prompt": "Generate an IGCSE Mathematics MCQ on Probability with a difficulty of 70/100. Include 4 options (one correct) and a 250-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "A bag contains 5 red balls and 3 blue balls. What is the probability of drawing a red ball from the bag?",
+    "explanation": "To calculate the probability of drawing a red ball from the bag, use the formula:\n\nProbability = (Number of Favorable Outcomes) / (Total Number of Outcomes)\n\nIn this case:\n\n- Number of favorable outcomes (red balls) = 5\n- Total number of outcomes (total balls) = 5 red balls + 3 blue balls = 8\n\nSo, the probability of drawing a red ball is:\n\nProbability = 5 / 8\n\nThis result indicates that if you randomly select one ball from the bag, the chance of it being red is 5 out of 8. Expressed as a decimal, this probability is 0.625, or 62.5%. Probability calculations are essential for determining the likelihood of different outcomes in scenarios with multiple possible results.",
+    "options": [
+      {
+        "option": "A",
+        "text": "5/8"
+      },
+      {
+        "option": "B",
+        "text": "3/8"
+      },
+      {
+        "option": "C",
+        "text": "2/3"
+      },
+      {
+        "option": "D",
+        "text": "1/2"
+      }
+    ],
+    "correctOption": {
+      "option": "A",
+      "text": "5/8"
+    }
+  }
+}
+{
+  "prompt": "Generate an A-Level Economics MCQ on Cost-Benefit Analysis with a difficulty of 90/100. Include 4 options (one correct) and a 350-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "A company is considering investing in a new project with an expected revenue of $500,000 and costs of $350,000. If the project has an additional annual maintenance cost of $30,000 and the expected lifespan of the project is 5 years, what is the total cost-benefit analysis value of the project?",
+    "explanation": "To perform a cost-benefit analysis, you need to calculate the total costs and benefits associated with the project and then determine the net benefit.\n\n1. **Calculate the total costs**: \n   - Initial costs: $350,000\n   - Maintenance costs over 5 years: $30,000 * 5 = $150,000\n   - Total costs = Initial costs + Maintenance costs = $350,000 + $150,000 = $500,000\n\n2. **Calculate the total benefits**:\n   - Expected revenue = $500,000\n\n3. **Determine the net benefit**:\n   - Net benefit = Total benefits - Total costs\n   - Net benefit = $500,000 - $500,000 = $0\n\nIn this case, the net benefit of the project is $0, which indicates that the project would break even. The cost-benefit analysis shows that, given the expected revenue and costs, the project does not generate any additional financial benefit beyond covering its costs. This analysis is crucial for assessing the viability and profitability of investment decisions.",
+    "options": [
+      {
+        "option": "A",
+        "text": "$0"
+      },
+      {
+        "option": "B",
+        "text": "$50,000"
+      },
+      {
+        "option": "C",
+        "text": "$100,000"
+      },
+      {
+        "option": "D",
+        "text": "$150,000"
+      }
+    ],
+    "correctOption": {
+      "option": "A",
+      "text": "$0"
+    }
+  }
+}
+{
+  "prompt": "Generate an A-Level Mathematics MCQ on Differentiation with a difficulty of 85/100. Include 4 options (one correct) and a 320-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "Find the derivative of the function f(x) = 3x^3 - 5x^2 + 2x - 7.",
+    "explanation": "To find the derivative of the function f(x) = 3x^3 - 5x^2 + 2x - 7, use the power rule for differentiation, which states that d/dx [x^n] = n*x^(n-1).\n\n1. **Differentiate each term separately**:\n   - For 3x^3: The derivative is 3 * 3x^(3-1) = 9x^2.\n   - For -5x^2: The derivative is -5 * 2x^(2-1) = -10x.\n   - For 2x: The derivative is 2.\n   - For -7: The derivative is 0 (as the derivative of a constant is zero).\n\n2. **Combine the results**:\n   \n   The derivative of f(x) = 3x^3 - 5x^2 + 2x - 7 is:\n   \n   f'(x) = 9x^2 - 10x + 2\n   \nThis result represents the rate of change of the function f(x) with respect to x. Differentiation is essential for analyzing the behavior of functions, including finding slopes of tangents, rates of change, and optimization problems.",
+    "options": [
+      {
+        "option": "A",
+        "text": "9x^2 - 10x + 2"
+      },
+      {
+        "option": "B",
+        "text": "6x^2 - 10x + 2"
+      },
+      {
+        "option": "A",
+        "text": "9x^2 - 5x + 2"
+      },
+      {
+        "option": "D",
+        "text": "3x^2 - 5x - 2"
+      }
+    ],
+    "correctOption": {
+      "option": "A",
+      "text": "9x^2 - 10x + 2"
+    }
+  }
+}
+{
+  "prompt": "Generate an AS Level Mathematics MCQ on Sequences and Series with a difficulty of 80/100. Include 4 options (one correct) and a 290-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "Find the sum of the first 8 terms of the arithmetic series where the first term is 5 and the common difference is 3.",
+    "explanation": "To find the sum of the first n terms of an arithmetic series, use the formula:\n\nS_n = n/2 * (2a + (n-1)d)\n\nwhere:\n- S_n is the sum of the first n terms\n- n is the number of terms\n- a is the first term\n- d is the common difference\n\nIn this problem:\n- a = 5\n- d = 3\n- n = 8\n\nSubstitute these values into the formula:\n\nS_8 = 8/2 * (2 * 5 + (8-1) * 3)\nS_8 = 4 * (10 + 21)\nS_8 = 4 * 31\nS_8 = 124\n\nSo, the sum of the first 8 terms of the arithmetic series is 124. This formula allows you to calculate the total sum of any number of terms in an arithmetic series by knowing the first term, the common difference, and the number of terms.",
+    "options": [
+      {
+        "option": "A",
+        "text": "124"
+      },
+      {
+        "option": "B",
+        "text": "108"
+      },
+      {
+        "option": "C",
+        "text": "96"
+      },
+      {
+        "option": "D",
+        "text": "144"
+      }
+    ],
+    "correctOption": {
+      "option": "A",
+      "text": "124"
+    }
+  }
+}
+{
+  "prompt": "Generate an IGCSE Economics MCQ on Supply and Demand with a difficulty of 75/100. Include 4 options (one correct) and a 270-word explanation. Use Markdown for creating tables, diagrams, graphs, and other models of graphics. Ensure the Markdown is correctly formatted for proper display in the frontend.",
+  "completion": {
+    "questionText": "If the demand function for a product is Qd = 80 - 2P and the supply function is Qs = 10 + 3P, where Qd is the quantity demanded, Qs is the quantity supplied, and P is the price, what is the equilibrium price?",
+    "explanation": "To find the equilibrium price, set the quantity demanded equal to the quantity supplied and solve for P.\n\nSet Qd = Qs:\n   \n   80 - 2P = 10 + 3P\n\nCombine and solve for P:\n   \n   80 - 10 = 3P + 2P\n   70 = 5P\n   P = 70 / 5\n   P = 14\n   \nThe equilibrium price is $14. At this price, the quantity demanded equals the quantity supplied, which ensures that there is no excess supply or demand in the market. This concept is fundamental in economics as it determines the price at which the quantity of a product demanded by consumers equals the quantity supplied by producers.",
+    "options": [
+      {
+        "option": "A",
+        "text": "$14"
+      },
+      {
+        "option": "B",
+        "text": "$12"
+      },
+      {
+        "option": "C",
+        "text": "$16"
+      },
+      {
+        "option": "D",
+        "text": "$18"
+      }
+    ],
+    "correctOption": {
+      "option": "A",
+      "text": "$14"
+    }
+
+  }
+}
+{
+  "prompt": "Generate an A-Level Mathematics MCQ on Integration with a difficulty of 85/100. Include 4 options (one correct) and a 320-word explanation. Use ASCII characters for superscripts and subscripts where needed.",
+  "completion": {
+    "questionText": "Evaluate the integral ∫ (3x² - 5x + 2) dx.",
+    "explanation": "To evaluate the integral ∫ (3x² - 5x + 2) dx, you integrate each term separately using the power rule for integration. The power rule states that ∫ xⁿ dx = (x^(n+1))/(n+1) + C, where C is the constant of integration.\n\n1. **Integrate 3x²**:\n   \n   ∫ 3x² dx = 3 * (x^(2+1))/(2+1) = x³\n\n2. **Integrate -5x**:\n   \n   ∫ -5x dx = -5 * (x^(1+1))/(1+1) = -5x²/2\n\n3. **Integrate 2**:\n   \n   ∫ 2 dx = 2x\n\n4. **Combine the results**:\n   \n   The result of the integral is:\n   \n   ∫ (3x² - 5x + 2) dx = x³ - 5x²/2 + 2x + C\n\nThus, the integral of the function (3x² - 5x + 2) with respect to x is x³ - 5x²/2 + 2x + C.",
+    "options": [
+      {
+        "option": "A",
+        "text": "x³ - 5x²/2 + 2x + C"
+      },
+      {
+        "option": "B",
+        "text": "x² - 5x + 2 + C"
+      },
+      {
+        "option": "C",
+        "text": "3x³ - 5x² + 2x + C"
+      },
+      {
+        "option": "D",
+        "text": "x³ - 5x + 2 + C"
+      }
+    ],
+    "correctOption": {
+      "option": "A",
+      "text": "x³ - 5x²/2 + 2x + C"
+    }
+  }
+}
+{
+  "prompt": "Generate an A-Level Chemistry MCQ on Reaction Rates with a difficulty of 80/100. Include 4 options (one correct) and a 300-word explanation. Use ASCII characters for superscripts and subscripts where needed.",
+  "completion": {
+    "questionText": "For a reaction with the rate law rate = k[A]²[B], if the concentration of A is doubled and the concentration of B is halved, by what factor does the rate of the reaction change?",
+    "explanation": "To determine how the rate of the reaction changes when concentrations are altered, use the rate law provided: rate = k[A]²[B].\n\n1. **Initial Rate**:\n   \n   Let the initial concentrations be [A] and [B]. The initial rate is rate₀ = k[A]²[B].\n\n2. **New Rate with altered concentrations**:\n   \n   If [A] is doubled, it becomes 2[A].\n   If [B] is halved, it becomes (1/2)[B].\n   \n   The new rate, rate₁, is:\n   \n   rate₁ = k(2[A])²(1/2[B])\n   rate₁ = k * 4[A]² * (1/2)[B]\n   rate₁ = 2k[A]²[B]\n   \n3. **Compare the rates**:\n   \n   The new rate is twice the initial rate, so the rate of the reaction changes by a factor of 2. This means that the reaction rate is doubled when the concentration of A is doubled and the concentration of B is halved.",
+    "options": [
+      {
+        "option": "A",
+        "text": "2 times"
+      },
+      {
+        "option": "B",
+        "text": "4 times"
+      },
+      {
+        "option": "C",
+        "text": "0.5 times"
+      },
+      {
+        "option": "D",
+        "text": "1 time"
+      }
+    ],
+    "correctOption": {
+      "option": "A",
+      "text": "2 times"
+    }
+  }
+}
+{
+  "prompt": "Generate an AS Level Physics MCQ on Kinematics with a difficulty of 85/100. Include 4 options (one correct) and a 320-word explanation. Use ASCII characters for superscripts and subscripts where needed.",
+  "completion": {
+    "questionText": "A car accelerates uniformly from rest to a speed of 20 m/s in 10 seconds. What is the distance traveled by the car during this time?",
+    "explanation": "To find the distance traveled by the car, use the kinematic equation for uniformly accelerated motion:\n\ns = ut + ½at²\n\nwhere:\n- s is the distance traveled\n- u is the initial velocity\n- t is the time\n- a is the acceleration\n\n1. **Find the acceleration**:\n   \n   The car starts from rest, so u = 0.\n   Final velocity (v) = 20 m/s\n   Time (t) = 10 s\n   Using the equation v = u + at, solve for a:\n   \n   a = (v - u) / t\n   a = 20 / 10\n   a = 2 m/s²\n\n2. **Calculate the distance**:\n   \n   Substitute a and other known values into the kinematic equation:\n   \n   s = 0 * 10 + ½ * 2 * 10²\n   s = 1 * 100\n   s = 100 m\n\nSo, the distance traveled by the car is 100 meters.",
+    "options": [
+      {
+        "option": "A",
+        "text": "100 meters"
+      },
+      {
+        "option": "B",
+        "text": "200 meters"
+      },
+      {
+        "option": "C",
+        "text": "50 meters"
+      },
+      {
+        "option": "D",
+        "text": "80 meters"
+      }
+    ],
+    "correctOption": {
+      "option": "A",
+      "text": "100 meters"
+    }
+  }
+}
+{
+  "prompt": "Generate a medium IGCSE Maths MCQ on Quadratics (Roots) with a difficulty of 50/100; include 4 options (one correct) and a 100-word explanation. Format using Markdown (no external images or LaTeX), and use ASCII character encoding for mathematical symbols, superscripts, and subscripts where necessary (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, and ∏ for product). Avoid quotation marks and use /n instead of line breaks. Ensure that Markdown, including tables, ordered/unordered lists, and other formatting elements, is correctly represented in JSON for frontend display.",
+  "completion": {
+    "questionText": "What are the roots of the quadratic equation x² - 5x + 6 = 0?",
+    "options": [
+      { "option": "A", "text": "1 and 6" },
+      { "option": "B", "text": "2 and 3" },
+      { "option": "C", "text": "3 and 4" },
+      { "option": "D", "text": "1 and 2" }
+    ],
+    "correctOption": { "option": "B", "text": "2 and 3" },
+    "explanation": "To find the roots of the quadratic equation x² - 5x + 6 = 0, use factorization. We need to find two numbers that multiply to +6 and add up to -5. The numbers 2 and 3 satisfy this condition. Therefore, the factors of the equation are (x - 2)(x - 3) = 0, giving roots x = 2 and x = 3. Thus, the correct answer is 2 and 3."
+  }
+},
+{
+  "prompt": "Generate a high AS Physics MCQ on Kinematics (Acceleration) with a difficulty of 75/100; include 4 options (one correct) and a 150-word explanation. Format using Markdown (no external images or LaTeX), and use ASCII character encoding for mathematical symbols, superscripts, and subscripts where necessary (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, and ∏ for product). Avoid quotation marks and use /n instead of line breaks. Ensure that Markdown, including tables, ordered/unordered lists, and other formatting elements, is correctly represented in JSON for frontend display.",
+  "completion": {
+    "questionText": "A car accelerates from rest to 30 m/s in 5 seconds. What is the acceleration of the car?",
+    "options": [
+      { "option": "A", "text": "2 m/s²" },
+      { "option": "B", "text": "4 m/s²" },
+      { "option": "C", "text": "6 m/s²" },
+      { "option": "D", "text": "8 m/s²" }
+    ],
+    "correctOption": { "option": "C", "text": "6 m/s²" },
+    "explanation": "Acceleration (a) is calculated using the formula a = Δv / Δt, where Δv is the change in velocity and Δt is the time taken. Here, Δv = 30 m/s (final velocity) and Δt = 5 s. So, a = 30 m/s / 5 s = 6 m/s². The car’s acceleration is thus 6 m/s², making option C the correct answer."
+  }
+},
+{
+  "prompt": "Generate a low A Level Economics MCQ on Supply and Demand (Equilibrium) with a difficulty of 30/100; include 4 options (one correct) and a 75-word explanation. Format using Markdown (no external images or LaTeX), and use ASCII character encoding for mathematical symbols, superscripts, and subscripts where necessary (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, and ∏ for product). Avoid quotation marks and use /n instead of line breaks. Ensure that Markdown, including tables, ordered/unordered lists, and other formatting elements, is correctly represented in JSON for frontend display.",
+  "completion": {
+    "questionText": "What happens at the equilibrium price in a market?",
+    "options": [
+      { "option": "A", "text": "Quantity demanded equals quantity supplied" },
+      { "option": "B", "text": "Quantity demanded exceeds quantity supplied" },
+      { "option": "C", "text": "Quantity supplied exceeds quantity demanded" },
+      { "option": "D", "text": "Price is below the market clearing level" }
+    ],
+    "correctOption": { "option": "A", "text": "Quantity demanded equals quantity supplied" },
+    "explanation": "At the equilibrium price, the quantity of goods demanded by consumers equals the quantity of goods supplied by producers. This balance ensures that there is neither excess demand nor excess supply in the market. Therefore, option A is correct."
+  }
+},
+{
+  "prompt": "Generate a medium IGCSE Chemistry MCQ on Chemical Reactions (Balancing Equations) with a difficulty of 50/100; include 4 options (one correct) and a 100-word explanation. Format using Markdown (no external images or LaTeX), and use ASCII character encoding for mathematical symbols, superscripts, and subscripts where necessary (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, and ∏ for product). Avoid quotation marks and use /n instead of line breaks. Ensure that Markdown, including tables, ordered/unordered lists, and other formatting elements, is correctly represented in JSON for frontend display.",
+  "completion": {
+    "questionText": "Balance the chemical equation: Fe + O₂ → Fe₂O₃.",
+    "options": [
+      { "option": "A", "text": "2 Fe + 3 O₂ → Fe₂O₃" },
+      { "option": "B", "text": "4 Fe + 3 O₂ → 2 Fe₂O₃" },
+      { "option": "C", "text": "3 Fe + 2 O₂ → Fe₂O₃" },
+      { "option": "D", "text": "2 Fe + O₂ → Fe₃O₂" }
+    ],
+    "correctOption": { "option": "B", "text": "4 Fe + 3 O₂ → 2 Fe₂O₃" },
+    "explanation": "To balance the equation Fe + O₂ → Fe₂O₃, ensure that the number of each type of atom is equal on both sides. Start by balancing iron atoms: Fe₂O₃ has 2 Fe atoms, so place a 2 in front of Fe. Next, balance oxygen atoms: Fe₂O₃ has 3 O atoms, so place a 3/2 in front of O₂. To avoid fractions, multiply the entire equation by 2: 4 Fe + 3 O₂ → 2 Fe₂O₃. Hence, option B is correct."
+  }
+}
+  {
+    "prompt": "Generate a low IGCSE Maths MCQ on Algebra (Simplifying Expressions) with a difficulty of 20/100; include 4 options (one correct) and a 50-word explanation. Format using Markdown (no external images or LaTeX), and use ASCII character encoding for mathematical symbols, superscripts, and subscripts where necessary (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, and ∏ for product). Avoid quotation marks and use /n instead of line breaks. Ensure that Markdown, including tables, ordered/unordered lists, and other formatting elements, is correctly represented in JSON for frontend display.",
+    "completion": {
+      "questionText": "Simplify the expression: 3x + 2x.",
+      "options": [
+        { "option": "A", "text": "5x" },
+        { "option": "B", "text": "6x" },
+        { "option": "C", "text": "3x²" },
+        { "option": "D", "text": "2x²" }
+      ],
+      "correctOption": { "option": "A", "text": "5x" },
+      "explanation": "To simplify 3x + 2x, combine like terms. Adding 3x and 2x gives 5x. Thus, the simplified expression is 5x, making option A the correct answer."
+    }
+  },
+  {
+    "prompt": "Generate a high AS Physics MCQ on Waves (Doppler Effect) with a difficulty of 80/100; include 4 options (one correct) and a 200-word explanation. Format using Markdown (no external images or LaTeX), and use ASCII character encoding for mathematical symbols, superscripts, and subscripts where necessary (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, and ∏ for product). Avoid quotation marks and use /n instead of line breaks. Ensure that Markdown, including tables, ordered/unordered lists, and other formatting elements, is correctly represented in JSON for frontend display.",
+    "completion": {
+      "questionText": "A police car moving towards a stationary observer emits a siren with a frequency of 500 Hz. If the speed of sound in air is 340 m/s, what frequency does the observer hear? Assume the speed of the car is 30 m/s.",
+      "options": [
+        { "option": "A", "text": "545 Hz" },
+        { "option": "B", "text": "500 Hz" },
+        { "option": "C", "text": "455 Hz" },
+        { "option": "D", "text": "630 Hz" }
+      ],
+      "correctOption": { "option": "A", "text": "545 Hz" },
+      "explanation": "The observed frequency (f') due to the Doppler effect is given by f' = f (v + vo) / (v - vs), where f is the source frequency, v is the speed of sound, vo is the speed of the observer (0 for stationary), and vs is the speed of the source. Here, f = 500 Hz, v = 340 m/s, vo = 0, and vs = 30 m/s. Thus, f' = 500 Hz * (340 m/s / (340 m/s - 30 m/s)) = 500 Hz * 340/310 = 545 Hz. Thus, option A is correct."
+    }
+  },
+  {
+    "prompt": "Generate a medium A Level Economics MCQ on Elasticity (Price Elasticity of Demand) with a difficulty of 60/100; include 4 options (one correct) and a 120-word explanation. Format using Markdown (no external images or LaTeX), and use ASCII character encoding for mathematical symbols, superscripts, and subscripts where necessary (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, and ∏ for product). Avoid quotation marks and use /n instead of line breaks. Ensure that Markdown, including tables, ordered/unordered lists, and other formatting elements, is correctly represented in JSON for frontend display.",
+    "completion": {
+      "questionText": "If the price of a product decreases from $10 to $8 and the quantity demanded increases from 100 units to 120 units, what is the price elasticity of demand?",
+      "options": [
+        { "option": "A", "text": "0.5" },
+        { "option": "B", "text": "1.5" },
+        { "option": "C", "text": "2.0" },
+        { "option": "D", "text": "3.0" }
+      ],
+      "correctOption": { "option": "B", "text": "1.5" },
+      "explanation": "Price elasticity of demand (PED) is calculated as PED = (% change in quantity demanded) / (% change in price). The percentage change in quantity demanded is (120 - 100) / 100 = 0.20, and the percentage change in price is (8 - 10) / 10 = -0.20. Therefore, PED = 0.20 / -0.20 = -1.5. The absolute value of the elasticity is 1.5, making option B correct."
+    }
+  },
+  {
+    "prompt": "Generate a high IGCSE Chemistry MCQ on Chemical Bonding (Covalent Bonds) with a difficulty of 70/100; include 4 options (one correct) and a 150-word explanation. Format using Markdown (no external images or LaTeX), and use ASCII character encoding for mathematical symbols, superscripts, and subscripts where necessary (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, and ∏ for product). Avoid quotation marks and use /n instead of line breaks. Ensure that Markdown, including tables, ordered/unordered lists, and other formatting elements, is correctly represented in JSON for frontend display.",
+    "completion": {
+      "questionText": "Which of the following molecules contains a triple covalent bond?",
+      "options": [
+        { "option": "A", "text": "H₂O" },
+        { "option": "B", "text": "CO₂" },
+        { "option": "C", "text": "N₂" },
+        { "option": "D", "text": "CH₄" }
+      ],
+      "correctOption": { "option": "C", "text": "N₂" },
+      "explanation": "A triple covalent bond occurs when three pairs of electrons are shared between two atoms. In the case of nitrogen (N₂), the molecule contains a triple bond between the two nitrogen atoms. This is different from H₂O (which has single bonds), CO₂ (which has double bonds), and CH₄ (which has single bonds). Thus, N₂ is the correct answer."
+    }
+  }
+
+  {
+    "prompt": "Generate a low IGCSE Maths MCQ on Fractions (Addition) with a difficulty of 25/100; include 4 options (one correct) and a 60-word explanation. Format using Markdown (no external images or LaTeX), and use ASCII character encoding for mathematical symbols, superscripts, and subscripts where necessary (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, and ∏ for product). Avoid quotation marks and use /n instead of line breaks. Ensure that Markdown, including tables, ordered/unordered lists, and other formatting elements, is correctly represented in JSON for frontend display.",
+    "completion": {
+      "questionText": "What is the sum of 3/4 and 2/5?",
+      "options": [
+        { "option": "A", "text": "13/20" },
+        { "option": "B", "text": "11/20" },
+        { "option": "C", "text": "7/9" },
+        { "option": "D", "text": "5/9" }
+      ],
+      "correctOption": { "option": "B", "text": "11/20" },
+      "explanation": "To add 3/4 and 2/5, first find a common denominator. The least common denominator for 4 and 5 is 20. Convert each fraction: 3/4 = 15/20 and 2/5 = 8/20. Add the fractions: 15/20 + 8/20 = 23/20. The correct answer is 11/20, making option B correct."
+    }
+  }
+  {
+    "prompt": "Generate a medium AS Physics MCQ on Energy (Kinetic Energy) with a difficulty of 55/100; include 4 options (one correct) and a 120-word explanation. Format using Markdown (no external images or LaTeX), and use ASCII character encoding for mathematical symbols, superscripts, and subscripts where necessary (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, and ∏ for product). Avoid quotation marks and use /n instead of line breaks. Ensure that Markdown, including tables, ordered/unordered lists, and other formatting elements, is correctly represented in JSON for frontend display.",
+    "completion": {
+      "questionText": "A 2 kg object is moving with a speed of 10 m/s. What is its kinetic energy?",
+      "options": [
+        { "option": "A", "text": "100 J" },
+        { "option": "B", "text": "200 J" },
+        { "option": "C", "text": "50 J" },
+        { "option": "D", "text": "400 J" }
+      ],
+      "correctOption": { "option": "D", "text": "400 J" },
+      "explanation": "The kinetic energy (KE) of an object is calculated using the formula KE = 0.5 * m * v², where m is the mass and v is the velocity. For a mass (m) of 2 kg and a velocity (v) of 10 m/s, KE = 0.5 * 2 kg * (10 m/s)² = 0.5 * 2 * 100 = 100 J. Therefore, the correct answer is 400 J, making option D correct."
+    }
+  }
+  {
+    "prompt": "Generate a high A Level Economics MCQ on Market Structures (Monopoly) with a difficulty of 70/100; include 4 options (one correct) and a 150-word explanation. Format using Markdown (no external images or LaTeX), and use ASCII character encoding for mathematical symbols, superscripts, and subscripts where necessary (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, and ∏ for product). Avoid quotation marks and use /n instead of line breaks. Ensure that Markdown, including tables, ordered/unordered lists, and other formatting elements, is correctly represented in JSON for frontend display.",
+    "completion": {
+      "questionText": "In a monopoly market, which of the following characteristics is most likely to be observed?",
+      "options": [
+        { "option": "A", "text": "Many firms selling identical products" },
+        { "option": "B", "text": "One firm controlling the entire market" },
+        { "option": "C", "text": "Easy entry and exit for firms" },
+        { "option": "D", "text": "Perfect competition among firms" }
+      ],
+      "correctOption": { "option": "B", "text": "One firm controlling the entire market" },
+      "explanation": "In a monopoly market, there is only one firm that controls the entire market and is the sole producer of the product or service. This firm sets prices and controls the supply. In contrast, characteristics such as many firms, easy entry and exit, or perfect competition are not features of a monopoly. Thus, option B is correct."
+    }
+  }
+  {
+    "prompt": "Generate a medium IGCSE Chemistry MCQ on Periodic Table (Groups) with a difficulty of 60/100; include 4 options (one correct) and a 120-word explanation. Format using Markdown (no external images or LaTeX), and use ASCII character encoding for mathematical symbols, superscripts, and subscripts where necessary (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, and ∏ for product). Avoid quotation marks and use /n instead of line breaks. Ensure that Markdown, including tables, ordered/unordered lists, and other formatting elements, is correctly represented in JSON for frontend display.",
+    "completion": {
+      "questionText": "Which of the following elements belongs to Group 17 of the periodic table?",
+      "options": [
+        { "option": "A", "text": "Oxygen" },
+        { "option": "B", "text": "Fluorine" },
+        { "option": "C", "text": "Calcium" },
+        { "option": "D", "text": "Magnesium" }
+      ],
+      "correctOption": { "option": "B", "text": "Fluorine" },
+      "explanation": "Group 17 of the periodic table is known as the halogens. Elements in this group are fluorine (F), chlorine (Cl), bromine (Br), and iodine (I). Oxygen (O) is in Group 16, while calcium (Ca) and magnesium (Mg) are in Groups 2 and 3, respectively. Therefore, the correct answer is Fluorine, making option B correct."
+    }
+  }
+  {
+    "prompt": "Generate a low IGCSE Maths MCQ on Algebra (Equations) with a difficulty of 30/100. Include 4 options (one correct) and a 60-word explanation. Use Markdown (no external images or LaTeX) and Unicode characters for math symbols (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, ∏ for product, × for multiplication, ÷ for division, ½ for one-half). Avoid quotation marks and use /n for line breaks. Ensure Markdown formatting is JSON-compatible.",
+    "completion": {
+      "questionText": "What is the value of x in the equation 2x + 4 = 10?",
+      "options": [
+        { "option": "A", "text": "x = 2" },
+        { "option": "B", "text": "x = 3" },
+        { "option": "C", "text": "x = 4" },
+        { "option": "D", "text": "x = 5" }
+      ],
+      "correctOption": { "option": "B", "text": "x = 3" },
+      "explanation": "To solve the equation 2x + 4 = 10, subtract 4 from both sides to get 2x = 6. Then divide by 2 to find x = 3. Therefore, option B is correct."
+    }
+  }
+  {
+    "prompt": "Generate a medium AS Physics MCQ on Motion (Velocity) with a difficulty of 50/100. Include 4 options (one correct) and a 100-word explanation. Use Markdown (no external images or LaTeX) and Unicode characters for math symbols (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, ∏ for product, × for multiplication, ÷ for division, ½ for one-half). Avoid quotation marks and use /n for line breaks. Ensure Markdown formatting is JSON-compatible.",
+    "completion": {
+      "questionText": "An object travels 100 m in 20 seconds. What is its average velocity?",
+      "options": [
+        { "option": "A", "text": "5 m/s" },
+        { "option": "B", "text": "10 m/s" },
+        { "option": "C", "text": "15 m/s" },
+        { "option": "D", "text": "20 m/s" }
+      ],
+      "correctOption": { "option": "A", "text": "5 m/s" },
+      "explanation": "Average velocity is calculated as total distance divided by total time. Here, the distance is 100 m and the time is 20 seconds. Thus, average velocity = 100 m / 20 s = 5 m/s. Therefore, option A is correct."
+    }
+  }
+  {
+    "prompt": "Generate a high A Level Economics MCQ on Elasticity (Price Elasticity of Demand) with a difficulty of 70/100. Include 4 options (one correct) and a 120-word explanation. Use Markdown (no external images or LaTeX) and Unicode characters for math symbols (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, ∏ for product, × for multiplication, ÷ for division, ½ for one-half). Avoid quotation marks and use /n for line breaks. Ensure Markdown formatting is JSON-compatible.",
+    "completion": {
+      "questionText": "If the price of a product decreases by 10% and the quantity demanded increases by 20%, what is the price elasticity of demand?",
+      "options": [
+        { "option": "A", "text": "0.5" },
+        { "option": "B", "text": "1" },
+        { "option": "C", "text": "2" },
+        { "option": "D", "text": "5" }
+      ],
+      "correctOption": { "option": "C", "text": "2" },
+      "explanation": "Price elasticity of demand (PED) is calculated as the percentage change in quantity demanded divided by the percentage change in price. Here, PED = 20% / 10% = 2. Thus, the correct answer is 2, making option C correct."
+    }
+  }
+  {
+    "prompt": "Generate a medium IGCSE Chemistry MCQ on Chemical Reactions (Acids and Bases) with a difficulty of 45/100. Include 4 options (one correct) and a 90-word explanation. Use Markdown (no external images or LaTeX) and Unicode characters for math symbols (e.g., x² for x squared, x₁ for x sub 1, Δ for delta, α for alpha, β for beta, γ for gamma, π for pi, σ for sigma, ω for omega, ∫ for integral, ∑ for summation, ∏ for product, × for multiplication, ÷ for division, ½ for one-half). Avoid quotation marks and use /n for line breaks. Ensure Markdown formatting is JSON-compatible.",
+    "completion": {
+      "questionText": "What is the pH of a solution with a hydrogen ion concentration of 1 × 10⁻³ M?",
+      "options": [
+        { "option": "A", "text": "1" },
+        { "option": "B", "text": "3" },
+        { "option": "C", "text": "7" },
+        { "option": "D", "text": "10" }
+      ],
+      "correctOption": { "option": "B", "text": "3" },
+      "explanation": "The pH of a solution is calculated as -log[H⁺]. For a hydrogen ion concentration of 1 × 10⁻³ M, pH = -log(1 × 10⁻³) = 3. Therefore, the correct answer is 3, making option B correct."
+    }
+  }
+  {
+    "prompt": "Generate an A Level Math MCQ on Trigonometric Identities with a difficulty of 80/100. Include 4 options (one correct) and a 320-word explanation. Use Markdown (no external images or LaTeX) and Unicode characters for math symbols (e.g. + − × ÷ % ½ ⅓ ¼ ¾ ⅛ ⅜ ⅝ ⅞ ⅐ ⅑ ⅒ ⅓ ⅔ ⅕ ⅖ ⅗ ⅘ ⅙ ⅚ ⅛ ⅜ ⅝ ⅞ x² x³ x₁ x₂ x₃ ₀ α β γ Δ π σ ω ∫ ∑ ∏ ∇ ∞ ≈ ≠ ≤ ≥ ＜ ＞ ∠ ° → ∈ ∉ ∪ ∩ ∀ ∃ √ 〇 ⊕ ⊖ ⊗ ⊘ [ ] { } ⌈ ⌉ ⌊ ⌋). Avoid quotation marks and use /n for line breaks. Ensure Markdown formatting is JSON-compatible.",
+    "completion": {
+      "questionText": "Which of the following is a correct trigonometric identity?",
+      "explanation": "To solve trigonometric equations, it's important to know and use the fundamental trigonometric identities. One such identity is the Pythagorean identity: sin²θ + cos²θ = 1. This identity is derived from the Pythagorean Theorem applied to the unit circle. By knowing this identity, one can simplify trigonometric expressions and solve equations more efficiently. The other options include incorrect or non-standard identities.",
+      "options": [
+        { "option": "A", "text": "sin²θ + cos²θ = 1" },
+        { "option": "B", "text": "sin²θ - cos²θ = 1" },
+        { "option": "C", "text": "tan²θ + sec²θ = 1" },
+        { "option": "D", "text": "cot²θ + cosec²θ = 1" }
+      ],
+      "correctOption": {
+        "option": "A",
+        "text": "sin²θ + cos²θ = 1"
+      }
+    }
+  }
+  {
+    "prompt": "Generate an AS Chemistry MCQ on Acid-Base Reactions with a difficulty of 70/100. Include 4 options (one correct) and a 280-word explanation. Use Markdown (no external images or LaTeX) and Unicode characters for math symbols (e.g. + − × ÷ % ½ ⅓ ¼ ¾ ⅛ ⅜ ⅝ ⅞ ⅐ ⅑ ⅒ ⅓ ⅔ ⅕ ⅖ ⅗ ⅘ ⅙ ⅚ ⅛ ⅜ ⅝ ⅞ x² x³ x₁ x₂ x₃ ₀ α β γ Δ π σ ω ∫ ∑ ∏ ∇ ∞ ≈ ≠ ≤ ≥ ＜ ＞ ∠ ° → ∈ ∉ ∪ ∩ ∀ ∃ √ 〇 ⊕ ⊖ ⊗ ⊘ [ ] { } ⌈ ⌉ ⌊ ⌋). Avoid quotation marks and use /n for line breaks. Ensure Markdown formatting is JSON-compatible.",
+    "completion": {
+      "questionText": "Which of the following is a correct description of an acid-base reaction?",
+      "explanation": "In an acid-base reaction, an acid donates a proton (H⁺) and a base accepts a proton. The reaction between hydrochloric acid (HCl) and sodium hydroxide (NaOH) is a classic example. HCl (an acid) reacts with NaOH (a base) to form water (H₂O) and sodium chloride (NaCl). This reaction is also known as a neutralization reaction. The other options describe incorrect or incomplete descriptions of acid-base reactions.",
+      "options": [
+        { "option": "A", "text": "An acid donates a proton and a base accepts a proton" },
+        { "option": "B", "text": "An acid donates an electron and a base accepts a proton" },
+        { "option": "C", "text": "An acid and base react to form only water" },
+        { "option": "D", "text": "An acid and base always produce a gas" }
+      ],
+      "correctOption": {
+        "option": "A",
+        "text": "An acid donates a proton and a base accepts a proton"
+      }
+    }
+  }
+  {
+    "prompt": "Generate an IGCSE Physics MCQ on Newton's Laws with a difficulty of 60/100. Include 4 options (one correct) and a 240-word explanation. Use Markdown (no external images or LaTeX) and Unicode characters for math symbols (e.g. + − × ÷ % ½ ⅓ ¼ ¾ ⅛ ⅜ ⅝ ⅞ ⅐ ⅑ ⅒ ⅓ ⅔ ⅕ ⅖ ⅗ ⅘ ⅙ ⅚ ⅛ ⅜ ⅝ ⅞ x² x³ x₁ x₂ x₃ ₀ α β γ Δ π σ ω ∫ ∑ ∏ ∇ ∞ ≈ ≠ ≤ ≥ ＜ ＞ ∠ ° → ∈ ∉ ∪ ∩ ∀ ∃ √ 〇 ⊕ ⊖ ⊗ ⊘ [ ] { } ⌈ ⌉ ⌊ ⌋). Avoid quotation marks and use /n for line breaks. Ensure Markdown formatting is JSON-compatible.",
+    "completion": {
+      "questionText": "Which of the following statements best describes Newton's First Law of Motion?",
+      "explanation": "Newton's First Law of Motion states that an object will remain at rest or in uniform motion unless acted upon by an external force. This principle is fundamental to understanding the concept of inertia. Inertia is the tendency of an object to resist changes in its state of motion. The other options either misinterpret the law or describe different principles.",
+      "options": [
+        { "option": "A", "text": "An object will remain at rest or in uniform motion unless acted upon by an external force" },
+        { "option": "B", "text": "For every action, there is an equal and opposite reaction" },
+        { "option": "C", "text": "The force on an object is equal to its mass times acceleration" },
+        { "option": "D", "text": "An object’s acceleration is directly proportional to the net force acting on it" }
+      ],
+      "correctOption": {
+        "option": "A",
+        "text": "An object will remain at rest or in uniform motion unless acted upon by an external force"
+      }
+    }
+  }
+      

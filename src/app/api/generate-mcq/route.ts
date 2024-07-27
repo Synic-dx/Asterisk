@@ -18,11 +18,18 @@ export async function POST(req: NextRequest) {
       level,
       topic,
       subtopic,
-      difficultyRating
+      difficultyRating,
     } = await req.json();
 
     // Validate the required fields
-    if (!subjectCode || !subjectName || !level || !topic || !subtopic || !difficultyRating) {
+    if (
+      !subjectCode ||
+      !subjectName ||
+      !level ||
+      !topic ||
+      !subtopic ||
+      !difficultyRating
+    ) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -30,27 +37,33 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate a new difficulty rating within ±35 range of the previous sum's difficultyRating
-    const newDifficultyRating = Math.max(0, Math.min(100, difficultyRating + Math.floor(Math.random() * 71) - 35));
+    const newDifficultyRating = Math.max(
+      0,
+      Math.min(100, difficultyRating + Math.floor(Math.random() * 71) - 35)
+    );
 
     // Prepare the prompt string
-    const prompt = `Generate an ${level} ${subjectName} MCQ on ${topic} (${subtopic}) with a difficulty of ${newDifficultyRating}/100. Provide 4 options (one correct) and a ${difficultyRating * 4}-word explanation. Use Markdown to format tables, diagrams, and any other relevant graphics. Do not use external image links, latex, and quotation marks. Ensure that Markdown is correctly formatted for proper display in LaTeX-supported and Markdown-supported environments. Confirm that all Markdown elements are correctly represented in the JSON output for accurate rendering in the frontend.`
+    const prompt = `Generate a ${level} ${subjectName} MCQ on ${topic} (${subtopic}) with a difficulty of ${newDifficultyRating}/100. Include 4 options (one correct) and a ${difficultyRating * 4}-word explanation. Use Markdown (no external images or LaTeX) and Unicode characters for math symbols (e.g. + − × ÷ % ½ ⅓ ¼ ¾ ⅛ ⅜ ⅝ ⅞ ⅐ ⅑ ⅒ ⅓ ⅔ ⅕ ⅖ ⅗ ⅘ ⅙ ⅚ ⅛ ⅜ ⅝ ⅞ x² x³ x₁ x₂ x₃ ₀ α β γ Δ π σ ω ∫ ∑ ∏ ∇ ∞ ≈ ≠ ≤ ≥ ＜ ＞ ∠ ° → ∈ ∉ ∪ ∩ ∀ ∃ √ 〇 ⊕ ⊖ ⊗ ⊘ [ ] { } ⌈ ⌉ ⌊ ⌋). Avoid quotation marks and use /n for line breaks. Ensure Markdown formatting is JSON-compatible.
+`;
 
     // Trim the prompt to remove any unwanted spaces or line breaks
     const trimmedPrompt = prompt.trim();
 
     // Define the schema for the generated response
     const schema = z.object({
-      questionText: z.string(),
-      explanation: z.string(),
-      options: z.array(
-        z.object({
-          option: z.string(),
-          text: z.string(),
-        })
-      ),
+      questionText: z.string().min(1, "Question text is required"),
+      explanation: z.string().min(1, "Explanation is required"),
+      options: z
+        .array(
+          z.object({
+            option: z.string().min(1, "Option identifier is required"),
+            text: z.string().min(1, "Option text is required"),
+          })
+        )
+        .length(4, "There should be exactly 4 options"),
       correctOption: z.object({
-        option: z.string(),
-        text: z.string(),
+        option: z.string().min(1, "Correct option identifier is required"),
+        text: z.string().min(1, "Correct option text is required"),
       }),
     });
 
@@ -61,6 +74,15 @@ export async function POST(req: NextRequest) {
       prompt: trimmedPrompt,
     });
 
+    // Validate generated question
+    const validationResult = schema.safeParse(generatedQuestion);
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { error: "Generated question did not match the schema" },
+        { status: 500 }
+      );
+    }
+
     // Create a new question document
     const newQuestion = new QuestionModel({
       subject: { name: subjectName, subjectCode },
@@ -68,10 +90,16 @@ export async function POST(req: NextRequest) {
       difficultyRating: newDifficultyRating,
       topic,
       subtopic,
-      questionText: generatedQuestion.questionText,
-      options: generatedQuestion.options,
-      correctOption: generatedQuestion.correctOption,
-      explanation: generatedQuestion.explanation,
+      questionText: generatedQuestion.questionText.trim(),
+      options: generatedQuestion.options.map((option) => ({
+        option: option.option.trim(),
+        text: option.text.trim(),
+      })),
+      correctOption: {
+        option: generatedQuestion.correctOption.option.trim(),
+        text: generatedQuestion.correctOption.text.trim(),
+      },
+      explanation: generatedQuestion.explanation.trim(),
       totalAttempts: 0,
       totalCorrect: 0,
     });
