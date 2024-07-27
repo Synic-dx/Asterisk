@@ -8,12 +8,11 @@ import {
   Section,
   Text,
   Button,
-  Img,
 } from "@react-email/components";
 
 interface VerificationEmailProps {
   userName: string;
-  verificationOTP: string;
+  verificationCode: string;
 }
 
 // Ensure NEXT_PUBLIC_BASE_URL is correctly imported from environment variables
@@ -21,7 +20,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"; //
 
 export default function VerificationEmail({
   userName,
-  verificationOTP,
+  verificationCode,
 }: VerificationEmailProps) {
   return (
     <Html lang="en" dir="ltr">
@@ -38,17 +37,8 @@ export default function VerificationEmail({
           fontStyle="normal"
         />
       </Head>
-      <Preview>Here's your verification code: {verificationOTP}</Preview>
+      <Preview>Here's your verification code: {verificationCode}</Preview>
       <Section style={{ backgroundColor: "white", padding: "20px" }}>
-        <Row>
-          <Img
-            src={`https://raw.githubusercontent.com/Synic-dx/Asterisk/f9ab7e6c49f1b002da9d91a7a95016741253b798/public/Images/Header.svg`} // Update to use BASE_URL
-            alt="Asterisk Logo"
-            width="150"
-            height="50"
-            style={{ marginBottom: "20px" }}
-          />
-        </Row>
         <Row>
           <Heading as="h1" style={{ color: "#27114D", fontFamily: "Karla, Roboto, Verdana, sans-serif" }}>
             Hello {userName},
@@ -61,7 +51,7 @@ export default function VerificationEmail({
         </Row>
         <Row>
           <Text style={{ color: "#130529", fontSize: "20px", fontWeight: "bold" }}>
-            {verificationOTP}
+            {verificationCode}
           </Text>
         </Row>
         <Row>

@@ -41,17 +41,8 @@ export default function VerificationEmail({
       <Preview>Here's your Password Reset code: {resetToken}</Preview>
       <Section style={{ padding: "20px" }}>
         <Row>
-          <Img
-            src={`https://raw.githubusercontent.com/Synic-dx/Asterisk/f9ab7e6c49f1b002da9d91a7a95016741253b798/public/Images/Header.svg`} // Assuming you host this image on your site
-            alt="Asterisk Logo"
-            width="150"
-            height="50"
-            style={{ marginBottom: "20px" }}
-          />
-        </Row>
-        <Row>
           <Heading as="h1" style={{ color: "#27114D", fontFamily: "Karla, Roboto, Verdana, sans-serif" }}>
-            Hi {userName},
+            Welcome to Asterisk Academy, {userName}!
           </Heading>
         </Row>
         <Row>

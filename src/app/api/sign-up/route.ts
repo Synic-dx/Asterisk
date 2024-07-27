@@ -21,14 +21,6 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!validateEmail(email) || !validatePassword(password)) {
-      console.warn("Invalid email format or password strength");
-      return new Response(
-        JSON.stringify({ success: false, message: "Invalid email format or password strength" }),
-        { status: 400 }
-      );
-    }
-
     // Check if username is already taken
     const existingUserVerifiedByUserName = await UserModel.findOne({
       userName,
@@ -125,13 +117,4 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-}
-
-function validateEmail(email: string): boolean {
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  return emailRegex.test(email);
-}
-
-function validatePassword(password: string): boolean {
-  return password.length >= 6;
 }

@@ -13,6 +13,7 @@ import {
   Center,
   PinInput,
   PinInputField,
+  Spinner,
 } from "@chakra-ui/react";
 import axios, { AxiosError } from "axios";
 import { useParams, useRouter } from "next/navigation";
@@ -21,6 +22,7 @@ import * as z from "zod";
 import { verifySchema } from "@/schemas/verifySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ApiResponse } from "@/types/ApiResponse";
+import { useState } from "react";
 
 export default function VerifyAccount() {
   const router = useRouter();
@@ -30,12 +32,22 @@ export default function VerifyAccount() {
     resolver: zodResolver(verifySchema),
   });
 
+  const [isVerifying, setIsVerifying] = useState(false);
+
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
+    setIsVerifying(true);
+
+    // Debug logging to verify data
+    console.debug("Form Data:", data);
+    console.debug("Params:", params);
+
     try {
       const response = await axios.post<ApiResponse>(`/api/verify-email-code`, {
         userName: params.userName,
-        code: data.token,
+        token: data.token,
       });
+
+      console.debug("API Response:", response.data);
 
       toast({
         title: "Success",
@@ -52,6 +64,8 @@ export default function VerifyAccount() {
 
       router.replace("/sign-in");
     } catch (error) {
+      // Improved error logging
+      console.error("Error during verification:", error);
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
         title: "Verification Failed",
@@ -67,6 +81,8 @@ export default function VerifyAccount() {
           padding: "0 16px",
         },
       });
+    } finally {
+      setIsVerifying(false);
     }
   };
 
@@ -78,16 +94,16 @@ export default function VerifyAccount() {
         p={8}
         bg="white"
         rounded="lg"
-        shadow="2xl" // XXL shadow
+        shadow="2xl"
         fontFamily="'Gothic A1', sans-serif"
       >
         <VStack spacing={6} align="center">
           <Heading
             size="lg"
             fontFamily="'Karla', sans-serif"
-            fontWeight="bold" // Make text bold
-            textAlign="center" // Center the text
-            color="#130529" // Update font color
+            fontWeight="bold"
+            textAlign="center"
+            color="#130529"
           >
             Verify Your Account
           </Heading>
@@ -98,50 +114,63 @@ export default function VerifyAccount() {
             onSubmit={form.handleSubmit(onSubmit)}
             style={{ width: "100%" }}
           >
-            <FormControl
-              isInvalid={!!form.formState.errors.token}
-              textAlign="center"
-            >
-              <FormLabel
-                htmlFor="verificationCode"
-                color="#130529" // Update font color
-                fontFamily="'Karla', sans-serif" // Apply font
-                textAlign="center" // Center the text
+            <VStack spacing={4} align="stretch">
+              <FormControl
+                isInvalid={!!form.formState.errors.token}
+                textAlign="center"
               >
-                Verification Code
-              </FormLabel>
-              <Box display="flex" justifyContent="center" gap="8px">
-                <PinInput
-                  id="verificationCode"
-                  otp
-                  placeholder="•"
-                  onChange={(value: string) => form.setValue("token", value)}
+                <FormLabel
+                  htmlFor="verificationCode"
+                  color="#130529"
+                  fontFamily="'Karla', sans-serif"
+                  textAlign="center"
                 >
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                </PinInput>
-              </Box>
-              <FormErrorMessage color="#130529">
-                {" "}
-                {/* Update font color */}
-                {form.formState.errors.token?.message}
-              </FormErrorMessage>
-            </FormControl>
-            <Button
-              mt={4}
-              bg="#271144"
-              color="white"
-              _hover={{ bg: "#130529" }} // Updated hover color
-              _active={{ bg: "#2A0557" }} // Even darker shade on active
-              type="submit"
-              width="full"
-            >
-              Verify
-            </Button>
+                  Verification Code
+                </FormLabel>
+                <Box display="flex" justifyContent="center" gap="8px">
+                  <PinInput
+                    id="verificationCode"
+                    otp
+                    placeholder="•"
+                    onChange={(value: string) => form.setValue("token", value)}
+                  >
+                    <PinInputField />
+                    <PinInputField />
+                    <PinInputField />
+                    <PinInputField />
+                    <PinInputField />
+                    <PinInputField />
+                  </PinInput>
+                </Box>
+                <FormErrorMessage
+                  color="red.500"
+                  textAlign="center"
+                  mb={-3}
+                >
+                  {form.formState.errors.token?.message}
+                </FormErrorMessage>
+              </FormControl>
+              <Button
+                mt={4}
+                bg="#271144"
+                color="white"
+                _hover={{ bg: "#130529" }}
+                _active={{ bg: "#2A0557" }}
+                type="submit"
+                width="full"
+                isDisabled={isVerifying}
+                opacity={isVerifying ? 0.6 : 1} // Set opacity when verifying
+              >
+                {isVerifying ? (
+                  <>
+                    <Spinner size="sm" mr={2} />
+                    Verifying...
+                  </>
+                ) : (
+                  "Verify"
+                )}
+              </Button>
+            </VStack>
           </form>
         </VStack>
       </Box>

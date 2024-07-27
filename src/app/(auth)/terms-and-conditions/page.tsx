@@ -25,7 +25,7 @@ const TermsConditionsPage: NextPage = () => {
           Platform Integrity and Security
         </Heading>
         <Text color="#271144">
-          We are committed to maintaining the security and integrity of our platform. To this end, any attempts to interfere with or compromise our system, including unauthorized access or manipulation of data, may result in the suspension or termination of your account. Additionally, we may take appropriate action to protect our platform's security and functionality. We appreciate your understanding and cooperation in helping us maintain a secure environment.
+          We are committed to maintaining the security and integrity of our platform. To this end, any attempts to interfere with or compromise our system, including unauthorized access or manipulation of data, may result in the suspension or termination of your account. Additionally, we may take appropriate action to protect our platform&apos;s security and functionality. We appreciate your understanding and cooperation in helping us maintain a secure environment.
         </Text>
 
         <Heading as="h2" fontSize="xl" color="#130529">

@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 
 const Footer: React.FC = () => {
   const router = useRouter(); // Initialize the router
-  const logo = "Images/Logo.svg";
+  const logo = "Images/Logo.png";
   const bgColor = "#271144";
   const fontColor = "white";
   const headerFontSize = useBreakpointValue({ base: "20px", md: "24px" });
@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
           mt={{base: 5, md: 0}}
         >
           <Image
-            src={logo}
+            src={`https://raw.githubusercontent.com/Synic-dx/Asterisk/d52d9480186477ee868633e66fabe0dd51ac39fa/public/Images/Logo.svg`}
             alt="Asterisk Logo"
             boxSize={{ base: "110px", md: "200px" }}
             draggable={false}
