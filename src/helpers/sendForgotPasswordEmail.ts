@@ -4,7 +4,7 @@ import { ApiResponse } from "../types/ApiResponse";
 
 export async function sendForgotPasswordEmail(
   email: string,
-  forgotPasswordToken: string,
+  resetToken: string,
   userName: string
 ): Promise<ApiResponse> {
   try {
@@ -12,7 +12,7 @@ export async function sendForgotPasswordEmail(
       from: "onboarding@resend.dev", // to be replaced by custom email after domain buying
       to: email,
       subject: "Asterisk | Password Reset Code",
-      react: ForgotPasswordEmail({ userName, forgotOTP: forgotPasswordToken }),
+      react: ForgotPasswordEmail({ userName, resetToken }),
     });
 
     return { success: true, message: "Password Reset Email Sent Successfully" };

@@ -42,7 +42,7 @@ export default function VerificationEmail({
       <Section style={{ backgroundColor: "white", padding: "20px" }}>
         <Row>
           <Img
-            src={`${BASE_URL}/public/Images/Header.svg`} // Update to use BASE_URL
+            src={`https://raw.githubusercontent.com/Synic-dx/Asterisk/f9ab7e6c49f1b002da9d91a7a95016741253b798/public/Images/Header.svg`} // Update to use BASE_URL
             alt="Asterisk Logo"
             width="150"
             height="50"
@@ -71,7 +71,7 @@ export default function VerificationEmail({
         </Row>
         <Row>
           <Button
-            href={`${BASE_URL}/verify-email`} // Use BASE_URL for the verification link
+            href={`${BASE_URL}/verify-email/${userName}`} // Use BASE_URL for the verification link
             style={{
               backgroundColor: "#27114D",
               color: "white",

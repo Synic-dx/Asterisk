@@ -5,15 +5,30 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useToast, Box, Heading, Text, VStack, Button, FormControl, FormLabel, FormErrorMessage, Input as ChakraInput, Spinner } from "@chakra-ui/react";
+import {
+  useToast,
+  Box,
+  Heading,
+  Text,
+  VStack,
+  Button,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Input as ChakraInput,
+  Spinner,
+} from "@chakra-ui/react";
 import { signIn } from "next-auth/react";
 import * as z from "zod";
-import { signInSchema } from "@/schemas/signInSchema"; // Create this schema if needed
+import { signInSchema } from "@/schemas/signInSchema";
 
 type SignInFormData = z.infer<typeof signInSchema>;
 
 export default function SignInForm() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isForgotPassword, setIsForgotPassword] = useState<boolean>(false);
+  const [showEmailError, setShowEmailError] = useState<boolean>(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string>("");
   const router = useRouter();
   const toast = useToast();
 
@@ -29,9 +44,13 @@ export default function SignInForm() {
     formState: { isValid, errors },
     handleSubmit,
     register,
+    watch,
   } = form;
 
-  const showToast = (status: "success" | "error" | "info" | "warning", message: string) => {
+  const showToast = (
+    status: "success" | "error" | "info" | "warning",
+    message: string
+  ) => {
     toast({
       title: status === "success" ? "Success" : "Error",
       description: message,
@@ -56,14 +75,59 @@ export default function SignInForm() {
 
       if (result?.error) {
         showToast("error", result.error);
-      } else if (result?.ok) {
+      } else if (result?.url) {
         showToast("success", "Sign in successful!");
-        router.replace(`/dashboard`); // Redirect to a protected route or dashboard
+        router.replace(`/dashboard`);
       }
     } catch (error) {
-      showToast("error", "There was a problem with your sign-in. Please try again.");
+      showToast(
+        "error",
+        "There was a problem with your sign-in. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    const email = watch("email");
+    if (!email) {
+      setEmailErrorMessage("Please enter your email address.");
+      setShowEmailError(true);
+    } else if (errors.email) {
+      setEmailErrorMessage(
+        errors.email.message || "Please enter a valid email address."
+      );
+      setShowEmailError(true);
+    } else {
+      setShowEmailError(false);
+      setIsForgotPassword(true);
+      try {
+        // Call the API to request a password reset
+        const response = await fetch("/api/forgot-password", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          showToast("success", "Password reset email sent successfully.");
+          router.push(`/reset-password/${encodeURIComponent(email)}`);
+        } else {
+          showToast("error", result.message || "Failed to send password reset email. Please try again.");
+        }
+      } catch (error) {
+        showToast(
+          "error",
+          "Failed to send password reset email. Please try again."
+        );
+      } finally {
+        setIsForgotPassword(false);
+      }
     }
   };
 
@@ -150,28 +214,36 @@ export default function SignInForm() {
             />
             <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             <Text fontSize="xs" color="#271144" fontFamily="Roboto" mt={3}>
-              <Link href="/reset-password">Forgot Password?</Link>
+              <Button
+                onClick={handleForgotPassword}
+                variant="link"
+                fontSize="xs"
+                fontFamily="Roboto"
+                color="#271144"
+              >
+                Forgot Password?
+              </Button>
+              {showEmailError && (
+                <Text fontSize="xs" color="red.500" mt={2}>
+                  {emailErrorMessage}
+                </Text>
+              )}
             </Text>
           </FormControl>
 
           <Button
             type="submit"
-            isDisabled={isSubmitting} // Only disable when submitting
+            isDisabled={isSubmitting}
             w="full"
             bg="#271144"
             color="white"
-            _hover={{ bg: "#3e1d55" }} // Lighter shade
+            _hover={{ bg: "#3e1d55" }}
             fontFamily="Karla, sans-serif"
             fontSize="sm"
           >
             {isSubmitting ? (
               <>
-                <Spinner
-                  mr="2"
-                  size="sm"
-                  color="white"
-                  thickness="2px"
-                />
+                <Spinner mr="2" size="sm" color="white" thickness="2px" />
                 Please wait
               </>
             ) : (
@@ -181,7 +253,7 @@ export default function SignInForm() {
         </VStack>
       </form>
       <Text fontSize="xs" textAlign="center" fontFamily="Roboto">
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <Link href="/sign-up">
           <Button
             variant="link"

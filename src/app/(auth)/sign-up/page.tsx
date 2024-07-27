@@ -5,7 +5,7 @@ import PageWrapper from '@/components/FullScreenPage';
 
 const SignUpPage: NextPage = () => {
   return (
-    <PageWrapper minHeight={{ base: '95vh', md: 'auto' }}>
+    <PageWrapper minHeight={{ base: '60vh', md: 'auto' }}>
       <Flex direction="column">
         <Flex
           direction={{ base: 'column', md: 'row' }}

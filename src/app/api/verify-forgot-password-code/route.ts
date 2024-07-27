@@ -6,10 +6,11 @@ export async function POST(request: Request) {
   await dbConnect();
 
   try {
-    const { userName, code, newPassword } = await request.json();
+    const { email, code } = await request.json();
 
-    const decodedUserName = decodeURIComponent(userName);
-    const user = await UserModel.findOne({ userName: decodedUserName });
+    const decodedEmail = decodeURIComponent(email);
+    const user = await UserModel.findOne({ email: decodedEmail });
+
     if (!user) {
       return new Response(
         JSON.stringify({ success: false, message: "User not found" }),
@@ -18,21 +19,29 @@ export async function POST(request: Request) {
     }
 
     const isCodeValid = user.forgotPasswordToken === code;
-    const isCodeNotExpired = user.forgotPasswordTokenExpiry && user.forgotPasswordTokenExpiry > new Date();
+    const isCodeNotExpired =
+      user.forgotPasswordTokenExpiry &&
+      user.forgotPasswordTokenExpiry > new Date();
 
     if (isCodeValid && isCodeNotExpired) {
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-      user.password = hashedPassword;
       user.forgotPasswordToken = undefined; // Clear the token
       user.forgotPasswordTokenExpiry = undefined; // Clear the token expiry
       await user.save();
+
       return new Response(
-        JSON.stringify({ success: true, message: "Password reset successfully" }),
+        JSON.stringify({
+          success: true,
+          message: "Reset token verified, proceed to change password",
+          token: code, // Return the token here
+        }),
         { status: 200 }
       );
     } else if (!isCodeNotExpired) {
       return new Response(
-        JSON.stringify({ success: false, message: "Reset token expired, please request a new one" }),
+        JSON.stringify({
+          success: false,
+          message: "Reset token expired, please request a new one",
+        }),
         { status: 400 }
       );
     } else {

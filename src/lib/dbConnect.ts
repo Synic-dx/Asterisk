@@ -6,7 +6,7 @@ type ConnectionObject = {
 
 const connection: ConnectionObject = {};
 
-const dbName = "asteriskDB"; // Replace with your actual database name
+const dbName = "Asterisk";
 
 async function dbConnect(): Promise<void> {
   if (connection.isConnected) {

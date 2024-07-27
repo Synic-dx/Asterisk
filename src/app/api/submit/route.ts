@@ -33,7 +33,7 @@ const generateNewQuestion = async (data: {
   subtopic: string;
   difficultyRating: number;
 }) => {
-  const generateQuestionApiUrl = `${process.env.BASE_URL}/api/generate-question`;
+  const generateQuestionApiUrl = `${process.env.BASE_URL}/api/generate-mcq`;
 
   try {
     const response = await fetch(generateQuestionApiUrl, {

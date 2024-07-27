@@ -78,8 +78,7 @@ export async function POST(req: NextRequest) {
 
     // Create grading prompt
     const prompt =
-      `Evaluate the following descriptive writing based on the provided grading criteria: 
-      Subject: ${subjectName} 
+      `Evaluate the following descriptive writing based on the provided grading criteria: Subject: ${subjectName} 
       Essay Type: ${questionType} 
       User's Essay: ${userEssay} 
       Total Marks: ${totalMarks} 

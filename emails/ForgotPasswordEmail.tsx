@@ -13,7 +13,7 @@ import {
 
 interface VerificationEmailProps {
   userName: string;
-  forgotOTP: string;
+  resetToken: string;
 }
 
 // Ensure NEXT_PUBLIC_BASE_URL is correctly imported from environment variables
@@ -21,7 +21,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"; //
 
 export default function VerificationEmail({
   userName,
-  forgotOTP,
+  resetToken,
 }: VerificationEmailProps) {
   return (
     <Html lang="en" dir="ltr">
@@ -38,11 +38,11 @@ export default function VerificationEmail({
           fontStyle="normal"
         />
       </Head>
-      <Preview>Here's your Password Reset code: {forgotOTP}</Preview>
+      <Preview>Here's your Password Reset code: {resetToken}</Preview>
       <Section style={{ padding: "20px" }}>
         <Row>
           <Img
-            src={`${BASE_URL}/public/Images/Header.svg`} // Assuming you host this image on your site
+            src={`https://raw.githubusercontent.com/Synic-dx/Asterisk/f9ab7e6c49f1b002da9d91a7a95016741253b798/public/Images/Header.svg`} // Assuming you host this image on your site
             alt="Asterisk Logo"
             width="150"
             height="50"
@@ -51,7 +51,7 @@ export default function VerificationEmail({
         </Row>
         <Row>
           <Heading as="h1" style={{ color: "#27114D", fontFamily: "Karla, Roboto, Verdana, sans-serif" }}>
-            Hello {userName},
+            Hi {userName},
           </Heading>
         </Row>
         <Row>
@@ -61,7 +61,7 @@ export default function VerificationEmail({
         </Row>
         <Row>
           <Text style={{ color: "#130529", fontSize: "20px", fontWeight: "bold" }}>
-            {forgotOTP}
+            {resetToken}
           </Text>
         </Row>
         <Row>
@@ -71,7 +71,7 @@ export default function VerificationEmail({
         </Row>
         <Row>
           <Button
-            href={`${BASE_URL}/reset-password`} // Use the BASE_URL for the reset link
+            href={`${BASE_URL}/set-new-password?token=${resetToken}`} // Use the BASE_URL for the reset link
             style={{
               backgroundColor: "#27114D",
               color: "white",

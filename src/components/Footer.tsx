@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <Box bg={bgColor} color={fontColor} py={6} px={10} w={"100vw"} mt={5}>
+    <Box bg={bgColor} color={fontColor} py={6} px={{base: 1, md: 10}} w={"100vw"} mt={5}>
       <Flex
         direction={{ base: "column", md: "row" }}
         justify="space-around"
@@ -40,15 +40,16 @@ const Footer: React.FC = () => {
         px={{ base: 4, md: 8 }}
       >
         <Flex
-          direction={{ base: "column", md: "row" }}
+          direction={'row'}
           align="center"
-          gap={5}
+          gap={10}
           mb={{ base: 6, md: 0 }}
+          mt={{base: 5, md: 0}}
         >
           <Image
-            src="/Images/Logo.svg"
+            src={logo}
             alt="Asterisk Logo"
-            boxSize={{ base: "100px", md: "200px" }}
+            boxSize={{ base: "110px", md: "200px" }}
             draggable={false}
           />
           <Box w={{ base: "100%", md: "30vw" }}>
@@ -56,10 +57,10 @@ const Footer: React.FC = () => {
               fontFamily={fontFamilyHeader}
               fontSize={headerFontSize}
               mb={4}
-              textAlign={{ base: "center", md: "left" }}
+              textAlign={'left'}
               fontWeight={"500"}
             >
-              Asterisk
+              &copy; Asterisk
             </Text>
             <Text
               fontFamily={fontFamilyText}
@@ -68,8 +69,7 @@ const Footer: React.FC = () => {
               mb={4}
             >
               All materials featured on this platform are unique and distinct
-              from any copyrighted CAIE past papers, ensuring no copyright
-              infringement.
+              from any copyrighted CAIE past papers.
             </Text>
           </Box>
         </Flex>

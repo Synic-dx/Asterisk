@@ -1,6 +1,6 @@
-// this code is just to setup the ApiResponse and its types to cut down hassle and duplication related to it
-
+// src/types/ApiResponse.ts
 export interface ApiResponse {
   success: boolean;
   message: string;
+  token?: string; // Add the token property
 }
