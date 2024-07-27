@@ -43,7 +43,7 @@ const Home: NextPage = () => {
                 size="2xl"
                 color="#130529"
                 fontFamily="Gothic A1, sans-serif"
-                mb={6}
+                mb={10  }
               >
                 Unlimited IGCSE & A Level Questions
               </Heading>
@@ -99,7 +99,7 @@ const Home: NextPage = () => {
                 size="xl"
                 color="white"
                 fontFamily="Gothic A1, sans-serif"
-                mb={6}
+                mb={10}
               >
                 Smart Algorithm. Smart results.
               </Heading>
@@ -129,7 +129,7 @@ const Home: NextPage = () => {
                 size="xl"
                 color="#130529"
                 fontFamily="Gothic A1, sans-serif"
-                mb={6}
+                mb={10}
               >
                 Ready for Hustle Mode? Try out our advanced AI auto-grader.
               </Heading>
@@ -171,7 +171,7 @@ const Home: NextPage = () => {
                 size="xl"
                 color="white"
                 fontFamily="Gothic A1, sans-serif"
-                mb={6}
+                mb={10}
               >
                 Made by Students, For Students
               </Heading>
@@ -371,11 +371,11 @@ const Home: NextPage = () => {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          transition: opacity 0.3s, background-color 0.3s;
+          transition: opacity 0.3s, background-color 0.5s;
         }
 
         .subject-card .card-header {
-          transition: opacity 0.1s;
+          transition: opacity 0.3s;
         }
 
         .subject-card:hover {

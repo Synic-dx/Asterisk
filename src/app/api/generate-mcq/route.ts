@@ -33,10 +33,7 @@ export async function POST(req: NextRequest) {
     const newDifficultyRating = Math.max(0, Math.min(100, difficultyRating + Math.floor(Math.random() * 71) - 35));
 
     // Prepare the prompt string
-    const prompt = `Generate an ${level} ${subjectName} MCQ on ${topic} (${subtopic}), difficulty ${newDifficultyRating}/100. ` +
-      `Include 4 options (one correct) and a ${difficultyRating * 4}-word explanation. ` +
-      `Use LaTex and Markdown for creating tables, diagrams, graphs, and other models of graphics if necessary and absolutely relevant within the question and explanation strings themselves. ` +
-      `Ensure the LaTex and Markdown is correctly formatted for JSON as well as proper display in the frontend.`;
+    const prompt = `Generate an ${level} ${subjectName} MCQ on ${topic} (${subtopic}) with a difficulty of ${newDifficultyRating}/100. Provide 4 options (one correct) and a ${difficultyRating * 4}-word explanation. Use Markdown to format tables, diagrams, and any other relevant graphics. Do not use external image links, latex, and quotation marks. Ensure that Markdown is correctly formatted for proper display in LaTeX-supported and Markdown-supported environments. Confirm that all Markdown elements are correctly represented in the JSON output for accurate rendering in the frontend.`
 
     // Trim the prompt to remove any unwanted spaces or line breaks
     const trimmedPrompt = prompt.trim();

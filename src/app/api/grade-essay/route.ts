@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
       `Total Marks: ${totalMarks} ` +
       `Provide: ` +
       `1. A grade out of ${totalMarks} for the user's descriptive writing, strictly based on the grading criteria of this type of writing. ` +
-      `2. Detailed feedback on the writing and reasoning behind each grade component.`
+      `2. Detailed feedback on the writing and reasoning behind each grade component, the criteria of the grading scheme it succeeded and/or failed to achieve, using properly formated Markdown for JSON. Do not use quotation marks.`
     ).trim();
 
     // Define response schema
