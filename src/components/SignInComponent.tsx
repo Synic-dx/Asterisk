@@ -91,15 +91,9 @@ export default function SignInForm() {
 
   const handleForgotPassword = async () => {
     const email = watch("email");
-    if (!email) {
-      setEmailErrorMessage("Please enter your email address.");
-      setShowEmailError(true);
-    } else if (errors.email) {
-      setEmailErrorMessage(
-        errors.email.message || "Please enter a valid email address."
-      );
-      setShowEmailError(true);
-    } else {
+    // Validate email using zod schema
+    try {
+      signInSchema.pick({ email: true }).parse({ email });
       setShowEmailError(false);
       setIsForgotPassword(true);
       try {
@@ -128,6 +122,11 @@ export default function SignInForm() {
       } finally {
         setIsForgotPassword(false);
       }
+    } catch (error) {
+      setEmailErrorMessage(
+        "Please enter a valid email address for the OTP."
+      );
+      setShowEmailError(true);
     }
   };
 
@@ -240,11 +239,12 @@ export default function SignInForm() {
             _hover={{ bg: "#3e1d55" }}
             fontFamily="Karla, sans-serif"
             fontSize="sm"
+            loadingText="Signing In..."
           >
             {isSubmitting ? (
               <>
                 <Spinner mr="2" size="sm" color="white" thickness="2px" />
-                Please wait
+                Signing In...
               </>
             ) : (
               "Sign In"

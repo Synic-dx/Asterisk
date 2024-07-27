@@ -20,9 +20,10 @@ import {
   FormLabel,
   FormErrorMessage,
   Input as ChakraInput,
-  useToast,
+  Checkbox,
   Spinner,
   Progress,
+  useToast,
 } from "@chakra-ui/react";
 import { ApiResponse } from "@/types/ApiResponse";
 import { signUpSchema } from "@/schemas/signUpSchema";
@@ -36,6 +37,7 @@ export default function SignUpForm() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [passwordStrength, setPasswordStrength] = useState<number>(0);
   const [passwordFeedback, setPasswordFeedback] = useState<string>("");
+  const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
   const debouncedUserName = useDebounce(userName, 300);
   const router = useRouter();
   const toast = useToast();
@@ -93,7 +95,10 @@ export default function SignUpForm() {
     }
   }, [password]);
 
-  const showToast = (status: "success" | "error" | "info" | "warning", message: string) => {
+  const showToast = (
+    status: "success" | "error" | "info" | "warning",
+    message: string
+  ) => {
     toast({
       title: status === "success" ? "Success" : "Error",
       description: message,
@@ -116,7 +121,7 @@ export default function SignUpForm() {
       showToast(
         "error",
         axiosError.response?.data.message ||
-        "There was a problem with your sign-up. Please try again."
+          "There was a problem with your sign-up. Please try again."
       );
     } finally {
       setIsSubmitting(false);
@@ -183,21 +188,30 @@ export default function SignUpForm() {
               variant="outline"
               borderColor="gray.300"
               borderRadius="lg"
-              _focus={{ borderColor: "#271144", boxShadow: "0 0 0 1px #271144" }}
+              _focus={{
+                borderColor: "#271144",
+                boxShadow: "0 0 0 1px #271144",
+              }}
               fontSize="sm"
               px="4"
             />
             {isCheckingUserName ? (
               <Flex align="center" mt={2}>
                 <Spinner mr="2" size="sm" color="#271144" thickness="2px" />
-                <Text ml="2" fontSize="xs">Checking...</Text>
+                <Text ml="2" fontSize="xs">
+                  Checking...
+                </Text>
               </Flex>
             ) : (
               userNameMessage && (
                 <Text
                   mt="1"
                   fontSize="xs"
-                  color={userNameMessage === "Username is available" ? "green.500" : "red.500"}
+                  color={
+                    userNameMessage === "Username is available"
+                      ? "green.500"
+                      : "red.500"
+                  }
                 >
                   {userNameMessage}
                 </Text>
@@ -224,11 +238,16 @@ export default function SignUpForm() {
               variant="outline"
               borderColor="gray.300"
               borderRadius="lg"
-              _focus={{ borderColor: "#271144", boxShadow: "0 0 0 1px #271144" }}
+              _focus={{
+                borderColor: "#271144",
+                boxShadow: "0 0 0 1px #271144",
+              }}
               fontSize="sm"
               px="4"
             />
-            <Text fontSize="xs" color="gray.500" mt={1}>We will send you a verification code</Text>
+            <Text fontSize="xs" color="gray.500" mt={1}>
+              We will send you a verification code
+            </Text>
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
           </FormControl>
 
@@ -250,7 +269,10 @@ export default function SignUpForm() {
               variant="outline"
               borderColor="gray.300"
               borderRadius="lg"
-              _focus={{ borderColor: "#271144", boxShadow: "0 0 0 1px #271144" }}
+              _focus={{
+                borderColor: "#271144",
+                boxShadow: "0 0 0 1px #271144",
+              }}
               fontSize="sm"
               px="4"
             />
@@ -262,7 +284,10 @@ export default function SignUpForm() {
                   size="sm"
                   colorScheme={getPasswordStrengthColor(passwordStrength)}
                 />
-                <Text fontSize="xs" color={getPasswordStrengthColor(passwordStrength)}>
+                <Text
+                  fontSize="xs"
+                  color={getPasswordStrengthColor(passwordStrength)}
+                >
                   {getPasswordStrengthText(passwordStrength)}
                 </Text>
                 {passwordFeedback && (
@@ -274,7 +299,11 @@ export default function SignUpForm() {
             )}
           </FormControl>
 
-          <FormControl isInvalid={!!errors.confirmPassword} className="w-full">
+          <FormControl
+            isInvalid={!!errors.confirmPassword}
+            className="w-full"
+            mt={-1}
+          >
             <FormLabel
               fontSize="xs"
               fontWeight="bold"
@@ -292,42 +321,62 @@ export default function SignUpForm() {
               variant="outline"
               borderColor="gray.300"
               borderRadius="lg"
-              _focus={{ borderColor: "#271144", boxShadow: "0 0 0 1px #271144" }}
+              _focus={{
+                borderColor: "#271144",
+                boxShadow: "0 0 0 1px #271144",
+              }}
               fontSize="sm"
               px="4"
             />
-            <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
+            <FormErrorMessage>
+              {errors.confirmPassword?.message}
+            </FormErrorMessage>
           </FormControl>
 
-          <Button
-            type="submit"
-            isDisabled={isSubmitting}
-            w="full"
-            bg="#271144"
-            color="white"
-            _hover={{ bg: "#3e1d55" }}
-            fontFamily="Karla, sans-serif"
-            fontSize="sm"
-          >
-            {isSubmitting ? (
-              <>
-                <Spinner mr="2" size="sm" color="white" thickness="2px" />
-                Please wait
-              </>
-            ) : (
-              "Sign Up"
-            )}
-          </Button>
+          <FormControl isInvalid={!!errors.terms} className="w-full" mb={1}>
+            <Checkbox
+              {...register("terms", {
+                required: "You must accept the terms and conditions",
+              })}
+              colorScheme="purple"
+              isChecked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+            >
+              <Text fontSize="xs" color="#271144">
+                I agree to the{" "}
+                <Link
+                  href="/terms-and-conditions"
+                >
+                  <Button
+                    variant="link"
+                    _hover={{ textDecoration: "underline" }}
+                    color="#271144"
+                    fontSize="xs"
+                  >
+                    Terms & Conditions
+                  </Button>
+                </Link>
+              </Text>
+            </Checkbox>
+            <FormErrorMessage>{errors.terms?.message}</FormErrorMessage>
+          </FormControl>
         </VStack>
+
+        <Button
+          type="submit"
+          w="full"
+          bg="#271144"
+          color="white"
+          _hover={{ bg: "#3e1d55" }}
+          fontFamily="Karla, sans-serif"
+          fontSize="sm"
+          loadingText="Signing Up..."
+          isDisabled={!acceptedTerms || isSubmitting || formSubmitting}
+          _disabled={{ bg: "rgba(39, 17, 68, 0.6)", cursor: "not-allowed" }}
+        >
+          {isSubmitting ? "Signing Up..." : "Sign Up"}
+        </Button>
       </form>
-      <Text fontSize="xs" textAlign="center" fontFamily="Roboto">
-        Already signed up?{" "}
-        <Link href="/sign-in">
-          <Button variant="link" fontSize="xs" fontFamily="Roboto" color="#271144">
-            Sign in
-          </Button>
-        </Link>
-      </Text>
     </Box>
   );
 }

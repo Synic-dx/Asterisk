@@ -13,6 +13,9 @@ export const userNameValidation = z
 export const signUpSchema = z.object({
   userName: userNameValidation,
   email: z.string().email({ message: "Invalid email address" }),
+  terms: z.boolean().refine((val) => val === true, {
+    message: "You must accept the terms and conditions",
+  }),
   password: z
     .string()
     .min(6, { message: "Password must be at least 6 characters long" }),
@@ -21,5 +24,5 @@ export const signUpSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters long" }),
 }).refine(data => data.password === data.confirmPassword, {
   message: "Passwords must match",
-  path: ["confirmPassword"], // Highlight the confirmPassword field if passwords don't match
+  path: ["confirmPassword"],
 });

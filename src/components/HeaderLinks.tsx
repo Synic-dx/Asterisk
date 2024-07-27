@@ -149,7 +149,7 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
             <Box key={link.name}>
               <Button
                 variant="link"
-                color={link.href === pathname || link.href === clickedLink ? "#3b2a6a" : "#271144"}
+                color={link.href === pathname || link.href === clickedLink ? "#130529" : "#271144"}
                 fontFamily="Roboto, sans-serif"
                 fontSize="lg"
                 fontWeight={link.href === pathname ? "bold" : "normal"}

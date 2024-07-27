@@ -54,13 +54,13 @@ const Footer: React.FC = () => {
           />
           <Box w={{ base: "100%", md: "30vw" }}>
             <Text
-              fontFamily={fontFamilyHeader}
+              fontFamily={'Karla, sans serif'}
               fontSize={headerFontSize}
               mb={4}
               textAlign={'left'}
               fontWeight={"500"}
             >
-              &copy; Asterisk
+              &copy; Asterisk Academy
             </Text>
             <Text
               fontFamily={fontFamilyText}

@@ -5,7 +5,7 @@ import PageWrapper from '@/components/FullScreenPage'; // Ensure this path is co
 
 const SignInPage: NextPage = () => {
   return (
-    <PageWrapper minHeight={{ base: '60vh', md: 'auto' }}>
+    <PageWrapper minHeight={{ base: '60vh', md: 'auto' }} mb={{base: '35vh', md: '0'}}>
       <Flex direction="column" align="center" justify="center" py={8}>
         <Flex
           direction={{ base: 'column', md: 'row' }}
