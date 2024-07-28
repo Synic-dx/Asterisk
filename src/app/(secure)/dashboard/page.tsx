@@ -47,7 +47,7 @@ ChartJS.register(
 );
 
 const tipsArray = [
-  "The more you solve, the better our algorithm responds to your needs",
+  "The more you solve, the better our algorithm responds to your requirements",
   "Premium and Grader Access Members can choose all subjects",
   "Your percentile is generated using your relative accuracy across all subjects",
   "With premium you can refer to and analyze past mistakes as well as solve unlimited MCQs",
