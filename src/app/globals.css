@@ -139,3 +139,7 @@
 .fade-text.visible {
   opacity: 1;
 }
+
+b.large {
+  font-size: larger;
+}
