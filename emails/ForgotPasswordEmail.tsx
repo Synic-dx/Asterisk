@@ -8,20 +8,18 @@ import {
   Section,
   Text,
   Button,
-  Img,
 } from "@react-email/components";
 
 interface VerificationEmailProps {
-  userName: string;
   resetToken: string;
+  userName: string;
 }
 
-// Ensure NEXT_PUBLIC_BASE_URL is correctly imported from environment variables
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"; // Fallback for local development
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 export default function VerificationEmail({
-  userName,
   resetToken,
+  userName,
 }: VerificationEmailProps) {
   return (
     <Html lang="en" dir="ltr">
@@ -62,7 +60,7 @@ export default function VerificationEmail({
         </Row>
         <Row>
           <Button
-            href={`${BASE_URL}/set-new-password?token=${resetToken}`} // Use the BASE_URL for the reset link
+            href={`${BASE_URL}/set-new-password?token=${resetToken}`}
             style={{
               backgroundColor: "#27114D",
               color: "white",

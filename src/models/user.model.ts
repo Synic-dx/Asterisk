@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface QuestionDetails {
   questionObjectId: mongoose.Types.ObjectId;
+  subjectCode: string;
   userAnswer: string;
   userQuestionTime: number;
   isCorrect: boolean;
@@ -35,6 +36,7 @@ export interface EssayGraded {
 
 const QuestionDetailsSchema = new Schema<QuestionDetails>({
   questionObjectId: { type: Schema.Types.ObjectId, required: true, ref: 'Question' },
+  subjectCode: { type: String, required: true },
   userAnswer: { type: String, required: true },
   userQuestionTime: { type: Number, required: true },
   isCorrect: { type: Boolean, required: true },
@@ -98,6 +100,10 @@ export interface User extends Document {
   forgotPasswordTokenExpiry?: Date;
   isAdmin?: boolean;
   essaysGraded: EssayGraded[];
+  userCumulativePercentile?: number; // Optional field
+  userCumulativeRating?: number; // Optional field
+  userCumulativeAttempts?: number; // Optional field
+  userCumulativeCorrects?: number; // Optional field
 }
 
 const UserSchema = new Schema<User>(
@@ -134,6 +140,10 @@ const UserSchema = new Schema<User>(
         feedback: { type: String, required: true },
       }
     ],
+    userCumulativePercentile: { type: Number }, // Optional field
+    userCumulativeRating: { type: Number }, // Optional field
+    userCumulativeAttempts: { type: Number }, // Optional field
+    userCumulativeCorrects: { type: Number }, // Optional field
   },
   { timestamps: true }
 );

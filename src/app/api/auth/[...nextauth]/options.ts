@@ -67,11 +67,9 @@ export const authOptions: NextAuthOptions = {
         token.isVerified = user.isVerified;
         token.premiumAccess = user.premiumAccess;
         token.graderAccess = user.graderAccess;
-        token.questionsSolvedDetails = user.questionsSolvedDetails;
         token.selectedSubjects = user.selectedSubjects;
         token.forgotPasswordToken = user.forgotPasswordToken;
         token.forgotPasswordTokenExpiry = user.forgotPasswordTokenExpiry;
-        token.essaysGraded = user.essaysGraded;
       }
       return token;
     },

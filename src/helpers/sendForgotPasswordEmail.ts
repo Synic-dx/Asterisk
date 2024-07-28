@@ -8,16 +8,28 @@ export async function sendForgotPasswordEmail(
   userName: string
 ): Promise<ApiResponse> {
   try {
-    await resend.emails.send({
-      from: "onboarding@resend.dev", // to be replaced by custom email after domain buying
+    // Ensure your email service is properly configured
+    const response = await resend.emails.send({
+      from: "onboarding@resend.dev", // Replace with your custom email after domain setup
       to: email,
       subject: "Asterisk | Password Reset Code",
-      react: ForgotPasswordEmail({ userName, resetToken }),
+      react: ForgotPasswordEmail({ resetToken, userName }),
     });
 
-    return { success: true, message: "Password Reset Email Sent Successfully" };
+    // Log response for debugging
+    console.log("Email sent response:", response);
+
+    return {
+      success: true,
+      message: "Password reset email sent successfully.",
+    };
   } catch (emailError) {
-    console.error("Error sending Password Reset email:", emailError);
-    return { success: false, message: "Failed to send Password Reset email" };
+    // Log detailed error for debugging
+    console.error("Error sending password reset email:", emailError);
+
+    return {
+      success: false,
+      message: "Failed to send password reset email. Please try again later.",
+    };
   }
 }

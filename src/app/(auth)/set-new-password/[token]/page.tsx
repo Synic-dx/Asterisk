@@ -21,19 +21,21 @@ import { ApiResponse } from "@/types/ApiResponse";
 export default function SetNewPassword() {
   const router = useRouter();
   const toast = useToast();
-  const params = useParams<{ token: string }>();
+  const params = useParams<{ token?: string }>(); // Make token optional
   const form = useForm({
     resolver: zodResolver(setNewPasswordSchema),
   });
+
+  // Decode the token
+  const resetToken = params.token ? decodeURIComponent(params.token) : '';
 
   const onSubmit = async (data: any) => {
     try {
       const response = await axios.post<ApiResponse>("/api/set-new-password", {
         password: data.password,
-        resetToken: params.token, // Assuming token is passed in the query params
+        resetToken, // Use decoded token
       });
 
-      // Handle the response based on the status code and message
       if (response.status === 200) {
         toast({
           title: "Password Updated",
@@ -45,7 +47,6 @@ export default function SetNewPassword() {
 
         router.replace("/sign-in");
       } else {
-        // Handle unexpected success response
         toast({
           title: "Update Failed",
           description: response.data.message ?? "An error occurred. Please try again.",

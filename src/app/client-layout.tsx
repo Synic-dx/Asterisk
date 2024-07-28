@@ -1,13 +1,12 @@
-// app/client-layout.tsx
 "use client";
 
-import React from 'react';
+import React from "react";
 import { ThemeProvider } from "./providers";
 import { SessionProvider } from "next-auth/react";
 import { ChakraProvider } from "@chakra-ui/react";
-import Header from "@/components/Header"; // Import your Header component
-import Loading from "@/components/ui/Loading"; // Import your Loading component
-import Footer from '@/components/Footer';
+import Header from "@/components/Header";
+import Loading from "@/components/ui/Loading";
+import Footer from "@/components/Footer";
 
 export default function ClientLayout({
   children,
@@ -20,7 +19,9 @@ export default function ClientLayout({
         <ChakraProvider>
           <React.Suspense fallback={<Loading />}>
             <Header />
+            <main>
             {children}
+            </main>
             <Footer />
           </React.Suspense>
         </ChakraProvider>

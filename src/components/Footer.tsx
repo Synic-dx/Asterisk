@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -12,10 +12,15 @@ import { IconContext } from "react-icons";
 import { useRouter } from "next/navigation";
 
 const Footer: React.FC = () => {
-  const router = useRouter(); // Initialize the router
-  const logo = "Images/Logo.png";
-  const bgColor = "#271144";
-  const fontColor = "white";
+  const router = useRouter();
+  const [isHomePage, setIsHomePage] = useState(false);
+
+  useEffect(() => {
+    setIsHomePage(window.location.pathname === '/');
+  }, []);
+
+  const bgColor = isHomePage ? "#271144" : "white";
+  const fontColor = isHomePage ? "white" : "gray.500";
   const headerFontSize = useBreakpointValue({ base: "20px", md: "24px" });
   const textFontSize = useBreakpointValue({ base: "14px", md: "14px" });
   const fontFamilyHeader = "'Gothic A1', sans-serif";
@@ -32,89 +37,92 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <Box bg={bgColor} color={fontColor} py={6} px={{base: 1, md: 10}} w={"100vw"} mt={5}>
-      <Flex
-        direction={{ base: "column", md: "row" }}
-        justify="space-around"
-        align="center"
-        px={{ base: 4, md: 8 }}
-      >
+    <Box bg={bgColor} color={fontColor} py={6} px={{ base: 1, md: 10 }} w={"100vw"} mt={5}>
+      {isHomePage ? (
         <Flex
-          direction={'row'}
+          direction={{ base: "column", md: "row" }}
+          justify="space-around"
           align="center"
-          gap={10}
-          mb={{ base: 6, md: 0 }}
-          mt={{base: 5, md: 0}}
+          px={{ base: 4, md: 8 }}
         >
-          <Image
-            src={`https://raw.githubusercontent.com/Synic-dx/Asterisk/d52d9480186477ee868633e66fabe0dd51ac39fa/public/Images/Logo.svg`}
-            alt="Asterisk Logo"
-            boxSize={{ base: "110px", md: "200px" }}
-            draggable={false}
-          />
-          <Box w={{ base: "100%", md: "30vw" }}>
+          <Flex
+            direction={'row'}
+            align="center"
+            gap={10}
+            mb={{ base: 6, md: 0 }}
+            mt={{ base: 5, md: 0 }}
+          >
+            <Image
+              src={`https://raw.githubusercontent.com/Synic-dx/Asterisk/d52d9480186477ee868633e66fabe0dd51ac39fa/public/Images/Logo.svg`}
+              alt="Asterisk Logo"
+              boxSize={{ base: "110px", md: "200px" }}
+              draggable={false}
+            />
+            <Box w={{ base: "100%", md: "30vw" }}>
+              <Text
+                fontFamily={'Karla, sans serif'}
+                fontSize={headerFontSize}
+                mb={4}
+                textAlign={'left'}
+                fontWeight={"500"}
+              >
+                &copy; Asterisk Academy
+              </Text>
+              <Text
+                fontFamily={fontFamilyText}
+                fontSize={textFontSize}
+                textAlign={{ base: "left", md: "left" }}
+                mb={4}
+              >
+                All materials featured on this platform are unique and distinct
+                from any copyrighted CAIE past papers.
+              </Text>
+            </Box>
+          </Flex>
+          <Flex direction="column" align="center">
             <Text
-              fontFamily={'Karla, sans serif'}
+              fontFamily={fontFamilyHeader}
+              fontWeight={"500"}
               fontSize={headerFontSize}
               mb={4}
-              textAlign={'left'}
-              fontWeight={"500"}
+              textAlign={{ base: "center", md: "left" }}
             >
-              &copy; Asterisk Academy
+              Contact
             </Text>
-            <Text
-              fontFamily={fontFamilyText}
-              fontSize={textFontSize}
-              textAlign={{ base: "left", md: "left" }}
-              mb={4}
+            <Flex
+              w={{ base: "100%", md: "30vw" }}
+              justify="center"
+              align={"center"}
             >
-              All materials featured on this platform are unique and distinct
-              from any copyrighted CAIE past papers.
-            </Text>
-          </Box>
-        </Flex>
-        <Flex direction="column" align="center">
-          <Text
-            fontFamily={fontFamilyHeader}
-            fontWeight={"500"}
-            fontSize={headerFontSize}
-            mb={4}
-            textAlign={{ base: "center", md: "left" }}
-          >
-            Contact
-          </Text>
-          <Flex
-            w={{ base: "100%", md: "30vw" }}
-            justify="center"
-            align={"center"}
-          >
-            <IconContext.Provider value={{ size: "2.5em" }}>
-              <Flex
-                align="center"
-                justify="space-around"
-                w="100%"
-                gap={{ base: 10, md: 0 }}
-              >
-                {socials.map((social, index) => (
-                  <Button
-                    key={index}
-                    aria-label={social.label}
-                    onClick={() => window.open(social.link, "_blank")}
-                    variant="link"
-                    color="inherit"
-                    _hover={{
-                      transform: "translateY(4px)",
-                      transition: "transform 0.2s",
-                    }}
-                  >
-                    <social.icon />
-                  </Button>
-                ))}
-              </Flex>
-            </IconContext.Provider>
+              <IconContext.Provider value={{ size: "2.5em" }}>
+                <Flex
+                  align="center"
+                  justify="space-around"
+                  w="100%"
+                  gap={{ base: 10, md: 0 }}
+                >
+                  {socials.map((social, index) => (
+                    <Button
+                      key={index}
+                      aria-label={social.label}
+                      onClick={() => window.open(social.link, "_blank")}
+                      variant="link"
+                      color="inherit"
+                      _hover={{
+                        transform: "translateY(4px)",
+                        transition: "transform 0.2s",
+                      }}
+                    >
+                      <social.icon />
+                    </Button>
+                  ))}
+                </Flex>
+              </IconContext.Provider>
+            </Flex>
           </Flex>
         </Flex>
-      </Flex>
+      ) : null}
+
       <Flex
         direction={"row"}
         justify="center"
@@ -130,7 +138,7 @@ const Footer: React.FC = () => {
           variant="link"
           fontSize={"10px"}
           onClick={() => handleNavigation("/privacy-policy")}
-          color="#ffffff"
+          color={fontColor}
           _hover={{ textDecoration: "underline" }}
         >
           Privacy Policy
@@ -139,7 +147,7 @@ const Footer: React.FC = () => {
           variant="link"
           fontSize={"10px"}
           onClick={() => handleNavigation("/terms-and-conditions")}
-          color="#ffffff"
+          color={fontColor}
           _hover={{ textDecoration: "underline" }}
         >
           Terms & Conditions

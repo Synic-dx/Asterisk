@@ -7,6 +7,8 @@ import {
   QUESTION_DIFFICULTY_RANGE,
 } from "@/constants";
 import mongoose from "mongoose";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/options";
 
 const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
   // Connect to the database
@@ -16,13 +18,12 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const { subjectCode, userId, onlyASLevel, onlyALevel, topic, subtopic } =
-    req.query;
+  const { subjectCode, onlyASLevel, onlyALevel, topic, subtopic } = req.query;
 
   // Validate required fields
-  if (!subjectCode || !userId) {
+  if (!subjectCode) {
     return res.status(400).json({
-      message: "Subject code and user ID are required",
+      message: "Subject code is required",
     });
   }
 
@@ -31,6 +32,14 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
     : subjectCode;
 
   try {
+    // Get user session
+    const session = await getServerSession(req, res, authOptions);
+    if (!session || !session.user || !session.user._id) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const userId = session.user._id;
+
     // Find the user
     const user = await UserModel.findById(userId);
     if (!user) {
@@ -42,7 +51,7 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
     today.setHours(0, 0, 0, 0);
 
     const dailyAttemptsResult = await UserModel.aggregate([
-      { $match: { _id: new mongoose.Types.ObjectId(userId as string) } },
+      { $match: { _id: new mongoose.Types.ObjectId(userId) } },
       { $unwind: "$questionsSolvedDetails" },
       { $match: { "questionsSolvedDetails.attemptedOn": { $gte: today } } },
       { $count: "dailyAttempts" },

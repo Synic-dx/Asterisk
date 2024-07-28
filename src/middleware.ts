@@ -3,8 +3,14 @@ import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 export async function middleware(request: NextRequest) {
-  const token = await getToken({ req: request });
   const url = request.nextUrl;
+
+  // Skip API routes
+  if (url.pathname.startsWith("/api/")) {
+    return NextResponse.next();
+  }
+
+  const token = await getToken({ req: request });
 
   console.log("Request path:", url.pathname);
   console.log("Token:", token);
@@ -32,3 +38,4 @@ export async function middleware(request: NextRequest) {
 
   return NextResponse.next();
 }
+

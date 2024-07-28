@@ -24,24 +24,46 @@ import { ApiResponse } from "@/types/ApiResponse";
 
 export default function ResetPassword() {
   const router = useRouter();
-  const params = useParams<{ email: string }>();
+  const params = useParams<{ email?: string }>(); // Make email optional
   const toast = useToast();
   const form = useForm<z.infer<typeof verifySchema>>({
     resolver: zodResolver(verifySchema),
   });
 
+  // Decode the email parameter, defaulting to an empty string if undefined
+  const email = decodeURIComponent(params.email ?? '');
+
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
+    const token = data.token;
+
+    if (!token) {
+      // Handle the case where token is undefined or empty
+      toast({
+        title: "Invalid Token",
+        description: "Verification token is missing. Please try again.",
+        status: "error",
+        position: "top",
+        duration: 5000,
+        isClosable: true,
+        containerStyle: {
+          maxWidth: "100%",
+          padding: "0 16px",
+        },
+      });
+      return;
+    }
+
     try {
       console.log("Submitting verification:", {
-        email: params.email,
-        token: data.token,
+        email,
+        token,
       });
 
       const response = await axios.post<ApiResponse>(
         `/api/verify-forgot-password-code`,
         {
-          email: params.email,
-          token: data.token, // Ensure correct field name
+          email,
+          token,
         }
       );
 
@@ -82,8 +104,7 @@ export default function ResetPassword() {
       toast({
         title: "Verification Failed",
         description:
-          axiosError.response?.data.message ??
-          "An error occurred. Please try again.",
+          axiosError.response?.data.message ?? "An error occurred. Please try again.",
         status: "error",
         position: "top",
         duration: 5000,

@@ -59,8 +59,15 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&family=Karla:wght@400;700&display=swap"
           rel="stylesheet"
         />
+        <style>
+          {`
+            html, body {
+              overflow-x: hidden;
+            }
+          `}
+        </style>
       </head>
-      <body style={{ overflowX: "hidden"}}>
+      <body style={{ overflowX: "hidden" }}>
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

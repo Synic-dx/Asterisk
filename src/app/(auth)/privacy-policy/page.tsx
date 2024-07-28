@@ -18,7 +18,7 @@ const PrivacyPolicy: NextPage = () => {
           Information We Collect
         </Heading>
         <Text color="#271144">
-          We collect the following information:
+          We collect only the following information to maximize your privacy:
         </Text>
         <List spacing={3} styleType="none" pl={4}>
           <ListItem color="#271144" position="relative" pl={4}>
@@ -32,33 +32,7 @@ const PrivacyPolicy: NextPage = () => {
               bg="#130529"
               borderRadius="50%"
             />
-            Email address: For login purposes and communication.
-          </ListItem>
-          <ListItem color="#271144" position="relative" pl={4}>
-            <Box
-              position="absolute"
-              top="50%"
-              left="0"
-              transform="translateY(-50%)"
-              width="8px"
-              height="8px"
-              bg="#130529"
-              borderRadius="50%"
-            />
-            IP address: To improve our platform and respond to queries.
-          </ListItem>
-          <ListItem color="#271144" position="relative" pl={4}>
-            <Box
-              position="absolute"
-              top="50%"
-              left="0"
-              transform="translateY(-50%)"
-              width="8px"
-              height="8px"
-              bg="#130529"
-              borderRadius="50%"
-            />
-            Browser type and device information: To enhance user experience and address technical issues.
+            Email address: For login purposes, account verification, and communication.
           </ListItem>
         </List>
         
@@ -95,26 +69,13 @@ const PrivacyPolicy: NextPage = () => {
             />
             Communicate with you regarding your account and any issues.
           </ListItem>
-          <ListItem color="#271144" position="relative" pl={4}>
-            <Box
-              position="absolute"
-              top="50%"
-              left="0"
-              transform="translateY(-50%)"
-              width="8px"
-              height="8px"
-              bg="#130529"
-              borderRadius="50%"
-            />
-            Improve our services based on usage patterns and technical performance.
-          </ListItem>
         </List>
 
         <Heading as="h2" fontSize="xl" color="#130529">
           How We Protect Your Information
         </Heading>
         <Text color="#271144">
-          We implement security measures to safeguard your information. User passwords are hashed to protect them from unauthorized access. However, no system can be entirely secure, so we cannot guarantee absolute protection.
+          We implement security measures to safeguard your information. User passwords are hashed to protect them from unauthorized access. It is important to remember your passwords and have access to your email, as we do not store plain text passwords and cannot assist in recovering lost credentials. Without access to your email, password reset processes cannot be completed.
         </Text>
 
         <Heading as="h2" fontSize="xl" color="#130529">
@@ -123,7 +84,7 @@ const PrivacyPolicy: NextPage = () => {
         <Text color="#271144">
           If you have any questions or concerns about this Privacy Policy, please contact us at{' '}
           <Link href="mailto:team.asterisk.2025@gmail.com" color="purple.600">
-            teamasterisk.2025@gmail.com
+            team.asterisk.2025@gmail.com
           </Link>.
         </Text>
 

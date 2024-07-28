@@ -146,11 +146,10 @@ export default function SignUpForm() {
     <Box
       w={{ base: "90vw", md: "80vw", lg: "60vw" }}
       maxW="400px"
-      maxH="90vh"
-      overflow="auto"
+      overflow="fit-content"
       mx="auto"
       mt="6"
-      py="6"
+      py="8"
       px={12}
       rounded="lg"
       shadow="md"

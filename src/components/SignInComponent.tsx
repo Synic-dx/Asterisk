@@ -21,6 +21,7 @@ import {
 import { signIn } from "next-auth/react";
 import * as z from "zod";
 import { signInSchema } from "@/schemas/signInSchema";
+import axios from "axios";
 
 type SignInFormData = z.infer<typeof signInSchema>;
 
@@ -91,28 +92,24 @@ export default function SignInForm() {
 
   const handleForgotPassword = async () => {
     const email = watch("email");
-    // Validate email using zod schema
     try {
+      // Validate email using zod schema
       signInSchema.pick({ email: true }).parse({ email });
       setShowEmailError(false);
       setIsForgotPassword(true);
       try {
-        // Call the API to request a password reset
-        const response = await fetch("/api/forgot-password", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        });
+        // Call the API to request a password reset using Axios
+        const response = await axios.post("/api/forgot-password", { email });
 
-        const result = await response.json();
-
-        if (response.ok) {
+        if (response.status === 200) {
           showToast("success", "Password reset email sent successfully.");
           router.push(`/reset-password/${encodeURIComponent(email)}`);
         } else {
-          showToast("error", result.message || "Failed to send password reset email. Please try again.");
+          showToast(
+            "error",
+            response.data.message ||
+              "Failed to send password reset email. Please try again."
+          );
         }
       } catch (error) {
         showToast(
@@ -123,9 +120,7 @@ export default function SignInForm() {
         setIsForgotPassword(false);
       }
     } catch (error) {
-      setEmailErrorMessage(
-        "Please enter a valid email address for the OTP."
-      );
+      setEmailErrorMessage("Please enter a valid email address for the OTP.");
       setShowEmailError(true);
     }
   };
@@ -134,11 +129,10 @@ export default function SignInForm() {
     <Box
       w={{ base: "90vw", md: "80vw", lg: "60vw" }}
       maxW="400px"
-      maxH="90vh"
-      overflow="auto"
+      overflow="fit-content"
       mx="auto"
       mt="6"
-      py="6"
+      py="8"
       px={12}
       rounded="lg"
       shadow="md"

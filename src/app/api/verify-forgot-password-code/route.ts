@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   await dbConnect();
 
   try {
-    const { email, code } = await request.json();
+    const { email, token } = await request.json();
 
     const decodedEmail = decodeURIComponent(email);
     const user = await UserModel.findOne({ email: decodedEmail });
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const isCodeValid = user.forgotPasswordToken === code;
+    const isCodeValid = user.forgotPasswordToken === token;
     const isCodeNotExpired =
       user.forgotPasswordTokenExpiry &&
       user.forgotPasswordTokenExpiry > new Date();
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
         JSON.stringify({
           success: true,
           message: "Reset token verified, proceed to change password",
-          token: code, // Return the token here
+          token, // Return the token here
         }),
         { status: 200 }
       );

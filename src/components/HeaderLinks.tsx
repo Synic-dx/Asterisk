@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from "react";
 import {
@@ -16,12 +16,13 @@ import {
 } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react"; // Import the Lucide React Menu icon
+import { Menu, LogOut } from "lucide-react";
 
 interface NavLink {
   name: string;
   href?: string;
   action?: () => void;
+  icon?: React.JSX.Element;
 }
 
 interface HeaderLinksProps {
@@ -57,17 +58,17 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
     { name: "Analyse", href: "/analyse" },
     { name: "Personalise", href: "/personalise" },
     { name: "Upgrade", href: "/upgrade" },
-    { name: "Sign Out", action: onSignOut },
+    {
+      name: "Sign Out",
+      action: () => {
+        onSignOut();
+        setClickedLink(null);
+      },
+      icon: <LogOut size={16} style={{ marginRight: '4px' }} />,
+    },
   ];
 
-  // Determine which links to show based on the status
-  const links =
-    status === "loading"
-      ? publicNavLinks
-      : session
-      ? privateNavLinks
-      : publicNavLinks;
-
+  const links = status === "loading" ? publicNavLinks : session ? privateNavLinks : publicNavLinks;
   const linkGap = session ? "4vw" : "7vw";
 
   useEffect(() => {
@@ -95,13 +96,8 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
     <Flex justifyContent="space-between" alignItems="center">
       {isMobile ? (
         <>
-          <Box
-            as="button"
-            aria-label="Open Menu"
-            onClick={onOpen}
-            _hover={{ boxShadow: "xl" }}
-          >
-            <Menu size={24} /> {/* Use the Lucide Menu icon */}
+          <Box as="button" aria-label="Open Menu" onClick={onOpen} _hover={{ boxShadow: "xl" }}>
+            <Menu size={24} />
           </Box>
           <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
             <DrawerOverlay />
@@ -116,7 +112,7 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
                       variant="link"
                       color={link.href === pathname ? "#130529" : "#271144"}
                       width="100%"
-                      fontSize="lg"
+                      fontSize={isMobile && session && privateNavLinks.some(privateLink => privateLink.name === link.name) ? "lg" : "md"} // Increase font size for private links on mobile
                       padding="1rem"
                       backgroundColor="white"
                       borderRadius="md"
@@ -127,14 +123,15 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
                       }}
                       onClick={() => {
                         setClickedLink(link.href ?? null);
-                        setTimeout(() => setClickedLink(null), 300); // Reset color after 300ms
+                        setTimeout(() => setClickedLink(null), 300);
                         onNavigate(link.href, link.action);
-                        onClose(); // Close drawer on navigation
+                        onClose();
                       }}
                       _active={{
                         color: "#130529",
                       }}
                     >
+                      {link.icon && link.icon}
                       {link.name}
                     </Button>
                   ))}
@@ -146,12 +143,16 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
       ) : (
         <Flex gap={linkGap}>
           {links.map((link) => (
-            <Box key={link.name}>
+            <Box
+              key={link.name}
+              mt={session && privateNavLinks.some(privateLink => privateLink.name === link.name) ? 1 : 0} // Apply mt={1} to private links
+              fontSize={{ base: isMobile && session && privateNavLinks.some(privateLink => privateLink.name === link.name) ? "lg" : "md", md: "md" }} // Increase font size for private links on mobile
+            >
               <Button
                 variant="link"
                 color={link.href === pathname || link.href === clickedLink ? "#130529" : "#271144"}
                 fontFamily="Roboto, sans-serif"
-                fontSize="lg"
+                fontSize={session && !publicNavLinks.some(publicLink => publicLink.href === link.href) ? "sm" : "lg"}
                 fontWeight={link.href === pathname ? "bold" : "normal"}
                 _hover={{
                   transform: "translateY(2px)",
@@ -159,10 +160,11 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
                 }}
                 onClick={() => {
                   setClickedLink(link.href ?? null);
-                  setTimeout(() => setClickedLink(null), 300); // Reset color after 300ms
+                  setTimeout(() => setClickedLink(null), 300);
                   onNavigate(link.href, link.action);
                 }}
               >
+                {link.icon && link.icon}
                 {link.name}
               </Button>
             </Box>
