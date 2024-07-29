@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options"; // Adjust the import path based on your setup
 import { openai } from "@ai-sdk/openai";
@@ -10,13 +10,13 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest) {
   try {
     // Get session
-    const session = await getServerSession(req, res, authOptions);
+    const session = await getServerSession({ req, ...authOptions });
 
     if (!session || !session.user) {
-      return res.status(401).json({ error: "Unauthorized" });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const {
@@ -27,7 +27,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
       subjectCode,
       questionType,
       userId,
-    } = req.body;
+    } = await req.json();
 
     // Validate required fields
     if (
@@ -39,30 +39,26 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
       !questionType ||
       !userId
     ) {
-      return res.status(400).json({ error: "Missing required fields" });
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
     // Fetch user
     const user = await UserModel.findById(userId);
 
     if (!user || !user.graderAccess || !user.graderAccess.model) {
-      return res
-        .status(403)
-        .json({ error: "Grader access required or not found" });
+      return NextResponse.json({ error: "Grader access required or not found" }, { status: 403 });
     }
 
     // Check if grader access is still valid
     const now = new Date();
     if (user.graderAccess.accessTill && user.graderAccess.accessTill < now) {
-      return res.status(403).json({ error: "Grader access has expired" });
+      return NextResponse.json({ error: "Grader access has expired" }, { status: 403 });
     }
 
     // Check weekly essay limit
     const weeklyEssayLimit = user.graderAccess.weeklyEssayLimit;
     if (weeklyEssayLimit === undefined) {
-      return res
-        .status(500)
-        .json({ error: "Weekly essay limit is not defined" });
+      return NextResponse.json({ error: "Weekly essay limit is not defined" }, { status: 500 });
     }
 
     const weekStart = new Date(now.setDate(now.getDate() - now.getDay()));
@@ -71,7 +67,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     ).length;
 
     if (essaysGradedThisWeek >= weeklyEssayLimit) {
-      return res.status(403).json({ error: "Weekly essay limit reached" });
+      return NextResponse.json({ error: "Weekly essay limit reached" }, { status: 403 });
     }
 
     // Create grading prompt
@@ -117,11 +113,9 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
 
     await user.save();
 
-    return res.status(200).json({ grade, feedback });
+    return NextResponse.json({ grade, feedback }, { status: 200 });
   } catch (error) {
     console.error("Error grading essay:", error);
-    return res
-      .status(500)
-      .json({ error: "Failed to generate grading and feedback" });
+    return NextResponse.json({ error: "Failed to generate grading and feedback" }, { status: 500 });
   }
 }
