@@ -10,9 +10,10 @@ import {
   Button,
 } from "@react-email/components";
 
-interface VerificationEmailProps {
+interface ForgotPasswordEmailProps {
   resetToken: string;
   userName: string;
+  email: string
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
@@ -20,7 +21,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 export default function VerificationEmail({
   resetToken,
   userName,
-}: VerificationEmailProps) {
+  email
+}: ForgotPasswordEmailProps) {
   return (
     <Html lang="en" dir="ltr">
       <Head>
@@ -60,7 +62,7 @@ export default function VerificationEmail({
         </Row>
         <Row>
           <Button
-            href={`${BASE_URL}/set-new-password?token=${resetToken}`}
+            href={`${BASE_URL}/reset-password/${encodeURIComponent(email)}`}
             style={{
               backgroundColor: "#27114D",
               color: "white",

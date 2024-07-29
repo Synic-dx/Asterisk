@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import {
   Button,
   FormControl,
@@ -13,61 +14,47 @@ import {
   Center,
   PinInput,
   PinInputField,
+  Spinner,
+  Input as ChakraInput,
 } from "@chakra-ui/react";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { verifySchema } from "@/schemas/verifySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ApiResponse } from "@/types/ApiResponse";
+import { unifiedSchema } from "../../../../schemas/unifiedSchema";
 
 export default function ResetPassword() {
   const router = useRouter();
-  const params = useParams<{ email?: string }>(); // Make email optional
+  const params = useParams<{ email?: string }>();
   const toast = useToast();
-  const form = useForm<z.infer<typeof verifySchema>>({
-    resolver: zodResolver(verifySchema),
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const email = decodeURIComponent(params.email ?? "");
+
+  const form = useForm<z.infer<typeof unifiedSchema>>({
+    resolver: zodResolver(unifiedSchema),
+    defaultValues: {
+      token: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
 
-  // Decode the email parameter, defaulting to an empty string if undefined
-  const email = decodeURIComponent(params.email ?? '');
+  const {
+    formState: { errors },
+    handleSubmit,
+    register,
+  } = form;
 
-  const onSubmit = async (data: z.infer<typeof verifySchema>) => {
-    const token = data.token;
-
-    if (!token) {
-      // Handle the case where token is undefined or empty
-      toast({
-        title: "Invalid Token",
-        description: "Verification token is missing. Please try again.",
-        status: "error",
-        position: "top",
-        duration: 5000,
-        isClosable: true,
-        containerStyle: {
-          maxWidth: "100%",
-          padding: "0 16px",
-        },
-      });
-      return;
-    }
+  const onSubmit = async (data: z.infer<typeof unifiedSchema>) => {
+    setIsSubmitting(true);
 
     try {
-      console.log("Submitting verification:", {
+      const response = await axios.post("/api/reset-password", {
         email,
-        token,
+        token: data.token,
+        password: data.password,
       });
-
-      const response = await axios.post<ApiResponse>(
-        `/api/verify-forgot-password-code`,
-        {
-          email,
-          token,
-        }
-      );
-
-      console.log("API Response:", response.data);
 
       if (response.data.success) {
         toast({
@@ -82,12 +69,10 @@ export default function ResetPassword() {
             padding: "0 16px",
           },
         });
-
-        // Redirect with the token in the URL
-        router.replace(`/set-new-password?token=${response.data.token}`);
+        router.push("/sign-in");
       } else {
         toast({
-          title: "Verification Failed",
+          title: "Error",
           description: response.data.message,
           status: "error",
           position: "top",
@@ -100,11 +85,14 @@ export default function ResetPassword() {
         });
       }
     } catch (error) {
-      const axiosError = error as AxiosError<ApiResponse>;
+      let errorMessage = "An error occurred. Please try again.";
+      if (axios.isAxiosError(error)) {
+        errorMessage = error.response?.data.message ?? errorMessage;
+      }
+
       toast({
-        title: "Verification Failed",
-        description:
-          axiosError.response?.data.message ?? "An error occurred. Please try again.",
+        title: "Error",
+        description: errorMessage,
         status: "error",
         position: "top",
         duration: 5000,
@@ -114,11 +102,13 @@ export default function ResetPassword() {
           padding: "0 16px",
         },
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <Center height={{ base: "60vh", md: "100vh" }}>
+    <Center height={{ base: "80vh", md: "80vh" }}>
       <Box
         width="full"
         maxWidth="md"
@@ -127,6 +117,7 @@ export default function ResetPassword() {
         rounded="lg"
         shadow="2xl"
         fontFamily="'Gothic A1', sans-serif"
+        mt={5}
       >
         <VStack spacing={6} align="center">
           <Heading
@@ -141,14 +132,8 @@ export default function ResetPassword() {
           <Text fontFamily="'Karla', sans-serif" color="#130529">
             Enter the verification code sent to your email
           </Text>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            style={{ width: "100%" }}
-          >
-            <FormControl
-              isInvalid={!!form.formState.errors.token}
-              textAlign="center"
-            >
+          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+            <FormControl isInvalid={!!errors.token} textAlign="center">
               <FormLabel
                 htmlFor="verificationCode"
                 color="#130529"
@@ -173,9 +158,38 @@ export default function ResetPassword() {
                 </PinInput>
               </Box>
               <FormErrorMessage color="#130529">
-                {form.formState.errors.token?.message}
+                {errors.token?.message}
               </FormErrorMessage>
             </FormControl>
+
+            <FormControl isInvalid={!!errors.password} mt={4}>
+              <FormLabel color="#130529" fontFamily="'Karla', sans-serif">
+                New Password
+              </FormLabel>
+              <ChakraInput
+                {...register("password")}
+                type="password"
+                placeholder="••••••••"
+              />
+              <FormErrorMessage color="#130529">
+                {errors.password?.message}
+              </FormErrorMessage>
+            </FormControl>
+
+            <FormControl isInvalid={!!errors.confirmPassword} mt={4}>
+              <FormLabel color="#130529" fontFamily="'Karla', sans-serif">
+                Confirm New Password
+              </FormLabel>
+              <ChakraInput
+                {...register("confirmPassword")}
+                type="password"
+                placeholder="••••••••"
+              />
+              <FormErrorMessage color="#130529">
+                {errors.confirmPassword?.message}
+              </FormErrorMessage>
+            </FormControl>
+
             <Button
               mt={4}
               bg="#271144"
@@ -184,8 +198,16 @@ export default function ResetPassword() {
               _active={{ bg: "#2A0557" }}
               type="submit"
               width="full"
+              isDisabled={isSubmitting}
             >
-              Verify
+              {isSubmitting ? (
+                <>
+                  <Spinner mr="2" size="sm" color="white" thickness="2px" />
+                  Verifying...
+                </>
+              ) : (
+                "Verify and Reset Password"
+              )}
             </Button>
           </form>
         </VStack>

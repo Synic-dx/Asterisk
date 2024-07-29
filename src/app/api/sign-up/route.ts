@@ -55,6 +55,7 @@ export async function POST(req: Request) {
         existingUserByEmail.password = await bcrypt.hash(password, 10);
         existingUserByEmail.verificationCode = verificationCode;
         existingUserByEmail.verificationCodeExpiry = new Date(Date.now() + 3600000); // 1 hour expiry
+        existingUserByEmail.isVerified = false; // Ensure the user is marked as not verified
         await existingUserByEmail.save();
         console.log("Updated existing user with new password and verification code");
       }
@@ -71,7 +72,7 @@ export async function POST(req: Request) {
         graderAccess: {
           valid: false,
           accessTill: null,
-          graderAccessModel: null,
+          model: null,  // Changed from graderAccessModel to model to align with schema
           weeklyEssayLimit: null
         },
         questionsSolvedDetails: [],

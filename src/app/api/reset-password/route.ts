@@ -1,12 +1,12 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/user.model";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
 export async function POST(request: Request) {
   await dbConnect();
 
   try {
-    const { email, token } = await request.json();
+    const { email, token, password } = await request.json();
 
     const decodedEmail = decodeURIComponent(email);
     const user = await UserModel.findOne({ email: decodedEmail });
@@ -24,6 +24,7 @@ export async function POST(request: Request) {
       user.forgotPasswordTokenExpiry > new Date();
 
     if (isCodeValid && isCodeNotExpired) {
+      user.password = await bcrypt.hash(password, 10);
       user.forgotPasswordToken = undefined; // Clear the token
       user.forgotPasswordTokenExpiry = undefined; // Clear the token expiry
       await user.save();
@@ -31,8 +32,7 @@ export async function POST(request: Request) {
       return new Response(
         JSON.stringify({
           success: true,
-          message: "Reset token verified, proceed to change password",
-          token, // Return the token here
+          message: "Password reset successfully",
         }),
         { status: 200 }
       );

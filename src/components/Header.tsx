@@ -34,7 +34,7 @@ const Header: React.FC = () => {
       >
         <Box>
           <Image
-            src="/Images/Header.svg"
+            src="https://raw.githubusercontent.com/Synic-dx/Asterisk/5c4b99a0e248d8d1db4815eb62d766c1b75b4868/public/Images/Header.svg"
             alt="Logo"
             draggable="false"
             cursor="pointer"

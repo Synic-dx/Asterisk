@@ -1,23 +1,20 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Flex,
-  Text,
-  Button,
-  Image,
-  useBreakpointValue,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, Button, Image, useBreakpointValue } from "@chakra-ui/react";
 import { FaEnvelope, FaYoutube, FaGithub } from "react-icons/fa";
 import { IconContext } from "react-icons";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const Footer: React.FC = () => {
-  const router = useRouter();
-  const [isHomePage, setIsHomePage] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter(); // Add this line
+  const [isHomePage, setIsHomePage] = useState(pathname === '/');
 
   useEffect(() => {
-    setIsHomePage(window.location.pathname === '/');
-  }, []);
+    // Update the `isHomePage` state whenever the pathname changes
+    setIsHomePage(pathname === '/');
+  }, [pathname]);
 
   const bgColor = isHomePage ? "#271144" : "white";
   const fontColor = isHomePage ? "white" : "gray.500";
@@ -33,12 +30,12 @@ const Footer: React.FC = () => {
   ];
 
   const handleNavigation = (path: string) => {
-    router.push(path);
+    router.push(path); // Use `router` to handle navigation
   };
 
   return (
     <Box bg={bgColor} color={fontColor} py={6} px={{ base: 1, md: 10 }} w={"100vw"} mt={5}>
-      {isHomePage ? (
+      {isHomePage && (
         <Flex
           direction={{ base: "column", md: "row" }}
           justify="space-around"
@@ -60,7 +57,7 @@ const Footer: React.FC = () => {
             />
             <Box w={{ base: "100%", md: "30vw" }}>
               <Text
-                fontFamily={'Karla, sans serif'}
+                fontFamily={fontFamilyHeader}
                 fontSize={headerFontSize}
                 mb={4}
                 textAlign={'left'}
@@ -121,7 +118,7 @@ const Footer: React.FC = () => {
             </Flex>
           </Flex>
         </Flex>
-      ) : null}
+      )}
 
       <Flex
         direction={"row"}

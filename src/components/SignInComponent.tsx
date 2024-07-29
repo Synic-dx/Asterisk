@@ -75,9 +75,16 @@ export default function SignInForm() {
       });
 
       if (result?.error) {
-        showToast("error", result.error);
+        // Check if the error message indicates email verification
+        const errorMessage = result.error;
+        if (errorMessage.includes("Please verify your email by visiting")) {
+          const username = errorMessage.split('/verify-email/')[1];
+          router.push(`/verify-email/${username}`);
+        } else {
+          showToast("error", errorMessage);
+        }
       } else if (result?.url) {
-        showToast("success", "Sign in successful!");
+        showToast("success", "Sign in successful! Redirecting you to dashboard");
         router.replace(`/dashboard`);
       }
     } catch (error) {
@@ -122,7 +129,7 @@ export default function SignInForm() {
         setIsForgotPassword(false); // Hide spinner
       }
     } catch (error) {
-      setEmailErrorMessage("Please enter a valid email address for the OTP.");
+      setEmailErrorMessage("Please enter a valid email address.");
       setShowEmailError(true);
       setIsForgotPassword(false); // Hide spinner in case of error
     }
@@ -212,7 +219,6 @@ export default function SignInForm() {
             <Text fontSize="xs" color="#271144" fontFamily="Roboto" mt={3}>
             {isForgotPassword && (
                 <Spinner
-                  mt={3}
                   mr={4}
                   size="sm"
                   color="#271144"

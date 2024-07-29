@@ -94,8 +94,8 @@ export interface User extends Document {
   userName: string;
   email: string;
   password: string;
-  verificationCode: string;
-  verificationCodeExpiry: Date;
+  verificationCode?: string;
+  verificationCodeExpiry?: Date;
   isVerified: boolean;
   premiumAccess: {
     valid: boolean;
@@ -135,8 +135,8 @@ const UserSchema = new Schema<User>(
     isAdmin: { type: Boolean, default: false },
     questionsSolvedDetails: [QuestionDetailsSchema],
     selectedSubjects: [SelectedSubjectsAndStatsSchema],
-    verificationCode: { type: String, required: true },
-    verificationCodeExpiry: { type: Date, required: true },
+    verificationCode: { type: String },
+    verificationCodeExpiry: { type: Date },
     isVerified: { type: Boolean, default: false },
     forgotPasswordToken: { type: String },
     forgotPasswordTokenExpiry: { type: Date },

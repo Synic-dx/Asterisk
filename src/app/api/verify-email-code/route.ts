@@ -43,13 +43,15 @@ export async function POST(request: Request) {
     }
 
     // Validate verification code and check expiration
-    const isCodeValid = user.verificationCode === token;
-    const isCodeNotExpired = user.verificationCodeExpiry > new Date();
+    const isCodeValid = user.verificationCode !== undefined && user.verificationCode === token;
+    const isCodeNotExpired = user.verificationCodeExpiry !== undefined && user.verificationCodeExpiry > new Date();
 
     console.debug("Verification check:", { isCodeValid, isCodeNotExpired });
 
     if (isCodeValid && isCodeNotExpired) {
       user.isVerified = true;
+      user.verificationCode = undefined; // Clear the verification code
+      user.verificationCodeExpiry = undefined; // Optionally clear the expiry as well
       await user.save();
       return new Response(
         JSON.stringify({

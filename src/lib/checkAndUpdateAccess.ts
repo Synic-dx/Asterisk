@@ -26,7 +26,7 @@ const checkAndUpdateAccess = async () => {
     for (const user of usersWithExpiredGraderAccess) {
       user.graderAccess.valid = false;
       user.graderAccess.accessTill = undefined;
-      user.graderAccess.graderAccessModel = undefined; // Resetting the graderAccessModel
+      user.graderAccess.model = undefined; // Corrected to use the property 'model'
       await user.save();
     }
 

@@ -1,10 +1,11 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/user.model";
 import bcrypt from "bcryptjs";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
 import { FREE_SUBJECT_LIMIT } from "@/constants";
 import mongoose from "mongoose";
+import { authOptions } from "../auth/[...nextauth]/options";
 
 // Define the Subject interface for type-checking, updated to reflect the new structure
 export interface Subtopic {
@@ -28,34 +29,30 @@ export interface Subject {
   topics?: Topic[];  // Updated to include topics
 }
 
-const updateAccountDetails = async (req: NextApiRequest, res: NextApiResponse) => {
+export async function PUT(req: NextRequest) {
   await dbConnect();
 
-  if (req.method !== "PUT") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
-  const session = await getSession({ req });
+  const session = await getServerSession({ req, res: NextResponse, ...authOptions });
   if (!session) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   const userId = session.user._id;
-  const { selectedSubjects, currentPassword, newPassword } = req.body as {
+  const { selectedSubjects, currentPassword, newPassword } = await req.json() as {
     selectedSubjects?: Subject[];
     currentPassword?: string;
     newPassword?: string;
   };
 
   if (!userId || (!selectedSubjects && (!currentPassword || !newPassword))) {
-    return res.status(400).json({ message: "Invalid request body" });
+    return NextResponse.json({ message: "Invalid request body" }, { status: 400 });
   }
 
   try {
     const user = await UserModel.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     if (selectedSubjects) {
@@ -65,9 +62,9 @@ const updateAccountDetails = async (req: NextApiRequest, res: NextApiResponse) =
 
       if (!user.premiumAccess.valid) {
         if (selectedSubjects.length > FREE_SUBJECT_LIMIT) {
-          return res.status(403).json({
+          return NextResponse.json({
             message: `Non-premium users can select up to ${FREE_SUBJECT_LIMIT} subjects only. Upgrade to premium for unlimited access.`,
-          });
+          }, { status: 403 });
         }
 
         const recentSubjects = user.selectedSubjects.filter(
@@ -78,9 +75,9 @@ const updateAccountDetails = async (req: NextApiRequest, res: NextApiResponse) =
           recentSubjects.length < user.selectedSubjects.length &&
           selectedSubjects.length < user.selectedSubjects.length
         ) {
-          return res.status(403).json({
+          return NextResponse.json({
             message: "You cannot remove subjects within 2 months of adding them.",
-          });
+          }, { status: 403 });
         }
       }
 
@@ -100,7 +97,7 @@ const updateAccountDetails = async (req: NextApiRequest, res: NextApiResponse) =
       const isPasswordCorrect = await bcrypt.compare(currentPassword, user.password);
 
       if (!isPasswordCorrect) {
-        return res.status(400).json({ message: "Current password is incorrect" });
+        return NextResponse.json({ message: "Current password is incorrect" }, { status: 400 });
       }
 
       user.password = await bcrypt.hash(newPassword, 10);
@@ -108,11 +105,9 @@ const updateAccountDetails = async (req: NextApiRequest, res: NextApiResponse) =
 
     await user.save();
 
-    return res.status(200).json({ message: "Account details updated successfully" });
+    return NextResponse.json({ message: "Account details updated successfully" }, { status: 200 });
   } catch (error) {
     console.error("Error updating account details:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
   }
-};
-
-export default updateAccountDetails;
+}

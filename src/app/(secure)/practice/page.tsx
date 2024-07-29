@@ -99,7 +99,7 @@ const Practice = () => {
           ) : (
             <Box mt={8} textAlign="center">
               <Text mb={4} fontFamily={textFont} fontSize={textSize} color={textColor}>
-                You haven't selected any subjects yet.
+                You haven&apos;t selected any subjects yet.
               </Text>
               <Button
                 bg="#271144"

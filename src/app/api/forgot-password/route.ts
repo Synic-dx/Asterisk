@@ -4,11 +4,6 @@ import dbConnect from '@/lib/dbConnect';
 import UserModel from '@/models/user.model';
 import { sendForgotPasswordEmail } from '@/helpers/sendForgotPasswordEmail';
 
-// Function to generate a 6-digit OTP
-const generateOTP = (): string => {
-  return (Math.floor(Math.random() * 900000) + 100000).toString();
-};
-
 export async function POST(req: Request) {
   await dbConnect();
 
@@ -30,7 +25,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'No user found with this email' }, { status: 404 });
     }
 
-    const resetToken = generateOTP(); // Use the 6-digit OTP generator
+    const resetToken = (Math.floor(Math.random() * 900000) + 100000).toString();
     const resetTokenExpiry = new Date(Date.now() + 3600000); // 1 hour expiry
 
     user.forgotPasswordToken = resetToken;

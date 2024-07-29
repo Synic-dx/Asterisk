@@ -13,7 +13,7 @@ export async function sendForgotPasswordEmail(
       from: "onboarding@resend.dev", // Replace with your custom email after domain setup
       to: email,
       subject: "Asterisk | Password Reset Code",
-      react: ForgotPasswordEmail({ resetToken, userName }),
+      react: ForgotPasswordEmail({ resetToken, userName, email }),
     });
 
     // Log response for debugging

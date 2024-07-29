@@ -14,10 +14,10 @@ import {
 
 const Home: NextPage = () => {
   const router = useRouter(); // Initialize useRouter
-  const heroPic = "/images/bookStack.png";
-  const algorithmPic = "/images/algorithm.png";
-  const graderPic = "/images/studentsOnScreen.png";
-  const supportPic = "/images/subjects.png";
+  const heroPic = "https://github.com/Synic-dx/Asterisk/blob/next/public/Images/bookStack.png?raw=true";
+  const algorithmPic = "https://raw.githubusercontent.com/Synic-dx/Asterisk/next/public/Images/algorithm.png";
+  const graderPic = "https://github.com/Synic-dx/Asterisk/blob/next/public/Images/studentsOnScreen.png?raw=true";
+  const supportPic = "https://github.com/Synic-dx/Asterisk/blob/next/public/Images/subjects.png?raw=true";
   const cardSize = "150px"; // Define card size here
   const cardHeaderSize = "sm"; // Define card header size
   const cardTextSize = "sm"; // Define card text size

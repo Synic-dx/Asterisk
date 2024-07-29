@@ -7,6 +7,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Header from "@/components/Header";
 import Loading from "@/components/ui/Loading";
 import Footer from "@/components/Footer";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 export default function ClientLayout({
   children,
@@ -18,11 +19,13 @@ export default function ClientLayout({
       <ThemeProvider defaultTheme="light">
         <ChakraProvider>
           <React.Suspense fallback={<Loading />}>
-            <Header />
-            <main>
-            {children}
-            </main>
-            <Footer />
+            <ErrorBoundary>
+              <Header />
+              <main>
+                {children}
+              </main>
+              <Footer />
+            </ErrorBoundary>
           </React.Suspense>
         </ChakraProvider>
       </ThemeProvider>

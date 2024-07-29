@@ -3,20 +3,9 @@ import dbConnect from "@/lib/dbConnect";
 import QuestionModel from "@/models/question.model";
 import UserModel from "@/models/user.model";
 import mongoose from "mongoose";
-import {
-  FREE_DAILY_QUESTION_LIMIT,
-  FREE_SUBJECT_LIMIT,
-} from "@/constants";
+import { FREE_DAILY_QUESTION_LIMIT, FREE_SUBJECT_LIMIT } from "@/constants";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
-
-// Calculate user rating based on attempts and correct answers
-export const calculateUserRating = (
-  attempts: number,
-  correctAnswers: number
-): number => {
-  return attempts === 0 ? 50 : Math.round((correctAnswers / attempts) * 100);
-};
 
 // Function to calculate percentile
 const calculatePercentile = async (
@@ -107,6 +96,10 @@ export async function POST(req: NextRequest) {
       message: "All fields are required",
     }, { status: 400 });
   }
+
+  const calculateUserRating = (attempts: number, correctAnswers: number): number => {
+    return attempts === 0 ? 50 : Math.round((correctAnswers / attempts) * 100);
+  };
 
   try {
     const question = await QuestionModel.findById(questionId);
