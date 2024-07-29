@@ -5,13 +5,36 @@ import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { z } from "zod";
 import dotenv from "dotenv";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]/options";
 
 dotenv.config();
 
 export async function POST(req: NextRequest) {
-  await dbConnect();
+  try {
+    // Connect to the database
+    await dbConnect();
+  } catch (error) {
+    console.error("Database connection error:", error);
+    return NextResponse.json({ error: "Database connection error" }, { status: 500 });
+  }
+
+  let session;
+  try {
+    // Retrieve session
+    session = await getServerSession({ req, ...authOptions });
+  } catch (error) {
+    console.error("Session retrieval error:", error);
+    return NextResponse.json({ error: "Failed to retrieve session" }, { status: 500 });
+  }
+
+  // Validate session
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   try {
+    // Retrieve and validate request data
     const {
       subjectCode,
       subjectName,
@@ -21,7 +44,6 @@ export async function POST(req: NextRequest) {
       difficultyRating,
     } = await req.json();
 
-    // Validate the required fields
     if (
       !subjectCode ||
       !subjectName ||
@@ -30,10 +52,7 @@ export async function POST(req: NextRequest) {
       !subtopic ||
       !difficultyRating
     ) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
     // Generate a new difficulty rating within ±35 range of the previous sum's difficultyRating
@@ -43,7 +62,7 @@ export async function POST(req: NextRequest) {
     );
 
     // Prepare the prompt string
-    const prompt = `Generate a ${level} ${subjectName} MCQ on ${topic} (${subtopic}) with a difficulty of ${newDifficultyRating}/100. Include 4 options (one correct) and a ${difficultyRating * 4}-word explanation. Use Markdown and Unicode math symbols (e.g. + − × ÷ % ½ ⅓ ¼ ¾ x² x³ x₁ x₂ x₃ ₀ α β γ Δ π σ ω θ Θ ∫ ∑ ∏ ∇ ∞ ≈ ≠ ≤ ≥ ＜ ＞ ∠ ° → ↔ ⟶ ⟹ ⟺ ∈ ∉ ∪ ∩ ∀ ∃ ⊆ ⊇ ⊂ ⊃ ⊄ ⊅ ∅ ⌒ ⟋ ⟌ ⟒  ⃗ ⃖ │ └ ┌ ⟉ ⟄ ⟅ ⁿCₖ ⁿPₖ). Avoid quotation marks and use /n for line breaks. Ensure Markdown formatting is JSON-compatible.`;
+    const prompt = `Generate a ${level} ${subjectName} MCQ on ${topic} (${subtopic}) with a difficulty of ${newDifficultyRating}/100. Include 4 options (one correct) and a ${difficultyRating * 4}-word explanation. Use Markdown and Unicode math symbols (e.g. + − × ÷ % ½ ⅓ ¼ ¾ x² x³ x₁ x₂ x₃ ₀ α β γ Δ π σ ω θ Θ ∫ ∑ ∏ ∇ ∞ ≈ ≠ ≤ ≥ ＜ ＞ ∠ ° → ↔ ⟶ ⟹ ⟺ ∈ ∉ ∪ ∩ ∀ ∃ ⊆ ⊇ ⊂ ⊃ ⊄ ⊅ ∅ ⌒ ⟋ ⟌ ⟒  ⃗ ⃖ │ └ ┌ ⟉ ⟄ ⟅ ⁿC₎ ⁿP₎). Avoid quotation marks and use /n for line breaks. Ensure Markdown formatting is JSON-compatible.`;
 
     // Trim the prompt to remove any unwanted spaces or line breaks
     const trimmedPrompt = prompt.trim();
@@ -104,11 +123,19 @@ export async function POST(req: NextRequest) {
     });
 
     // Save the new question document to the database
-    await newQuestion.save();
+    try {
+      await newQuestion.save();
+    } catch (error) {
+      console.error("Error saving question:", error);
+      return NextResponse.json(
+        { error: "Failed to save question" },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(newQuestion, { status: 200 });
   } catch (error) {
-    console.error("Error generating question:", error);
+    console.error("Error processing request:", error);
     return NextResponse.json(
       { error: "Failed to generate question" },
       { status: 500 }

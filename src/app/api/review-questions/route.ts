@@ -17,7 +17,7 @@ interface QuestionDetail {
 }
 
 // Helper function to group questions by subjectCode
-const groupBySubjectCode = (questions: QuestionDetail[]) => {
+function groupBySubjectCode(questions: QuestionDetail[]) {
   return questions.reduce<Record<string, QuestionDetail[]>>((acc, question) => {
     const { subjectCode } = question;
     if (!acc[subjectCode]) {
@@ -26,10 +26,10 @@ const groupBySubjectCode = (questions: QuestionDetail[]) => {
     acc[subjectCode].push(question);
     return acc;
   }, {});
-};
+}
 
 // Helper function to get aggregated stats by date range
-const getStatsByDate = async (userId: mongoose.Types.ObjectId, startDate: Date): Promise<QuestionDetail[]> => {
+async function getStatsByDate(userId: mongoose.Types.ObjectId, startDate: Date): Promise<QuestionDetail[]> {
   const stats = await UserModel.aggregate([
     { $match: { _id: userId } },
     { $unwind: "$questionsSolvedDetails" },
@@ -58,13 +58,13 @@ const getStatsByDate = async (userId: mongoose.Types.ObjectId, startDate: Date):
     },
   ]);
   return stats[0]?.questionsSolved || [];
-};
+}
 
 export async function GET(req: NextRequest) {
   await dbConnect();
 
   // Retrieve session
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession({ req, ...authOptions }); // Use spread operator
 
   // Validate session
   if (!session?.user?.id) {

@@ -153,7 +153,7 @@ export async function GET(req: NextRequest) {
       return date;
     });
 
-    const cumulativeStats = await Promise.all(
+    const cumulativeStats: DailyStats[] = await Promise.all(
       last30Days.map((date) => getCumulativeStatsByDate(date, userId))
     );
 

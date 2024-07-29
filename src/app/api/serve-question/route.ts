@@ -13,21 +13,21 @@ import { authOptions } from '../auth/[...nextauth]/options';
 export async function GET(req: NextRequest) {
   await dbConnect();
 
-  const { searchParams } = new URL(req.url || '', 'http://localhost');
-  const subjectCode = searchParams.get('subjectCode');
-  const onlyASLevel = searchParams.get('onlyASLevel');
-  const topicsParam = searchParams.get('topics');
-  const subtopicsParam = searchParams.get('subtopics');
-
-  if (!subjectCode) {
-    return NextResponse.json({ message: 'Subject code is required' }, { status: 400 });
-  }
-
-  // Convert topics and subtopics parameters from comma-separated strings to arrays
-  const topics = topicsParam ? topicsParam.split(',') : [];
-  const subtopics = subtopicsParam ? subtopicsParam.split(',') : [];
-
   try {
+    const { searchParams } = new URL(req.url || '', 'http://localhost');
+    const subjectCode = searchParams.get('subjectCode');
+    const onlyASLevel = searchParams.get('onlyASLevel');
+    const topicsParam = searchParams.get('topics');
+    const subtopicsParam = searchParams.get('subtopics');
+
+    if (!subjectCode) {
+      return NextResponse.json({ message: 'Subject code is required' }, { status: 400 });
+    }
+
+    // Convert topics and subtopics parameters from comma-separated strings to arrays
+    const topics = topicsParam ? topicsParam.split(',') : [];
+    const subtopics = subtopicsParam ? subtopicsParam.split(',') : [];
+
     // Get user session
     const session = await getServerSession({ req, ...authOptions });
     if (!session || !session.user || !session.user._id) {

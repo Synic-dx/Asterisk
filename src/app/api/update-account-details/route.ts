@@ -32,29 +32,30 @@ export interface Subject {
 export async function PUT(req: NextRequest) {
   await dbConnect();
 
-  const session = await getServerSession({ req, res: NextResponse, ...authOptions });
-  if (!session) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
-
-  const userId = session.user._id;
-  const { selectedSubjects, currentPassword, newPassword } = await req.json() as {
-    selectedSubjects?: Subject[];
-    currentPassword?: string;
-    newPassword?: string;
-  };
-
-  if (!userId || (!selectedSubjects && (!currentPassword || !newPassword))) {
-    return NextResponse.json({ message: "Invalid request body" }, { status: 400 });
-  }
-
   try {
-    const user = await UserModel.findById(userId);
+    // Get user session
+    const session = await getServerSession({ req, res: NextResponse, ...authOptions });
+    if (!session || !session.user || !session.user._id) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
 
+    const userId = session.user._id;
+    const { selectedSubjects, currentPassword, newPassword } = await req.json() as {
+      selectedSubjects?: Subject[];
+      currentPassword?: string;
+      newPassword?: string;
+    };
+
+    if (!userId || (!selectedSubjects && (!currentPassword || !newPassword))) {
+      return NextResponse.json({ message: "Invalid request body" }, { status: 400 });
+    }
+
+    const user = await UserModel.findById(userId);
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
+    // Handle subject updates
     if (selectedSubjects) {
       const currentTime = new Date();
       const twoMonthsAgo = new Date();
@@ -93,6 +94,7 @@ export async function PUT(req: NextRequest) {
       });
     }
 
+    // Handle password update
     if (currentPassword && newPassword) {
       const isPasswordCorrect = await bcrypt.compare(currentPassword, user.password);
 
@@ -106,8 +108,11 @@ export async function PUT(req: NextRequest) {
     await user.save();
 
     return NextResponse.json({ message: "Account details updated successfully" }, { status: 200 });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error updating account details:", error);
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    if (error instanceof Error) {
+      return NextResponse.json({ message: "Internal server error", error: error.message }, { status: 500 });
+    }
+    return NextResponse.json({ message: "An unknown error occurred" }, { status: 500 });
   }
 }
