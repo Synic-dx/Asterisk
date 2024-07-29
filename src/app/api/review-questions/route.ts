@@ -1,8 +1,9 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/models/user.model";
-import mongoose from "mongoose";
-import { getSession } from "next-auth/react";
+import { NextRequest, NextResponse } from 'next/server';
+import dbConnect from '@/lib/dbConnect';
+import UserModel from '@/models/user.model';
+import mongoose from 'mongoose';
+import { getServerSession } from 'next-auth/next'; // Ensure this import is correct
+import { authOptions } from '../auth/[...nextauth]/options'; // Ensure this import is correct
 
 // Define the interface for question details
 interface QuestionDetail {
@@ -59,19 +60,15 @@ const getStatsByDate = async (userId: mongoose.Types.ObjectId, startDate: Date):
   return stats[0]?.questionsSolved || [];
 };
 
-const getReviewData = async (req: NextApiRequest, res: NextApiResponse) => {
+export async function GET(req: NextRequest) {
   await dbConnect();
 
-  if (req.method !== "GET") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
   // Retrieve session
-  const session = await getSession({ req });
+  const session = await getServerSession(authOptions);
 
   // Validate session
   if (!session?.user?.id) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   const userId = new mongoose.Types.ObjectId(session.user.id);
@@ -81,14 +78,14 @@ const getReviewData = async (req: NextApiRequest, res: NextApiResponse) => {
     const user = await UserModel.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     // Check if the user has premium access and if it is still valid
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Start of the day
     if (!user.premiumAccess.valid || (user.premiumAccess.accessTill && user.premiumAccess.accessTill <= today)) {
-      return res.status(403).json({ message: "Premium access required or access expired" });
+      return NextResponse.json({ message: "Premium access required or access expired" }, { status: 403 });
     }
 
     // Define date ranges
@@ -109,7 +106,7 @@ const getReviewData = async (req: NextApiRequest, res: NextApiResponse) => {
     const groupedBySubjectCode = (questions: QuestionDetail[]) => groupBySubjectCode(questions);
 
     // Send the response with all aggregated data
-    res.status(200).json({
+    return NextResponse.json({
       allQuestionsSolved: {
         daily: dailyQuestions,
         weekly: weeklyQuestions,
@@ -125,8 +122,6 @@ const getReviewData = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   } catch (error) {
     console.error("Error retrieving review data:", error);
-    res.status(500).json({ message: "Error retrieving review data", error });
+    return NextResponse.json({ message: "Error retrieving review data", error }, { status: 500 });
   }
-};
-
-export default getReviewData;
+}

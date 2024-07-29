@@ -1,40 +1,48 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/models/user.model";
-import bcrypt from "bcrypt";
+import { NextRequest, NextResponse } from 'next/server';
+import dbConnect from '@/lib/dbConnect';
+import UserModel from '@/models/user.model';
+import bcrypt from 'bcrypt';
+import { z } from 'zod';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+// Define schema for request body validation
+const requestBodySchema = z.object({
+  email: z.string().email({ message: 'Invalid email address' }),
+  password: z.string()
+    .min(6, { message: 'Password must be at least 6 characters long' }),
+  confirmPassword: z.string()
+    .min(6, { message: 'Confirm Password must be at least 6 characters long' })
+}).refine(data => data.password === data.confirmPassword, {
+  message: 'Passwords must match',
+  path: ['confirmPassword'], // Highlight the confirmPassword field if passwords don't match
+});
+
+export async function POST(req: NextRequest) {
   await dbConnect();
 
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
-  const { password, resetToken } = req.body;
-
-  if (!password || !resetToken) {
-    return res.status(400).json({ message: "Missing required fields" });
-  }
-
   try {
-    const user = await UserModel.findOne({
-      forgotPasswordToken: resetToken,
-      forgotPasswordTokenExpiry: { $gt: new Date() }, // Check if token is not expired
-    });
+    const requestBody = await req.json(); // Parse the request body
+    // Validate request body
+    const parsedBody = requestBodySchema.parse(requestBody);
+    const { email, password } = parsedBody;
+
+    // Find user by email
+    const user = await UserModel.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid or expired token" });
+      return NextResponse.json({ message: 'User not found' }, { status: 400 });
     }
 
-    user.password = await bcrypt.hash(password, 10); // Hash new password
-    user.forgotPasswordToken = undefined;
-    user.forgotPasswordTokenExpiry = undefined;
-
+    // Hash new password and update user
+    user.password = await bcrypt.hash(password, 10);
     await user.save();
 
-    res.status(200).json({ message: "Password updated successfully" });
+    return NextResponse.json({ message: 'Password updated successfully' }, { status: 200 });
   } catch (error) {
-    console.error("Error updating password:", error);
-    res.status(500).json({ message: "Internal server error" });
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ message: error.errors[0].message }, { status: 400 });
+    }
+
+    console.error('Error updating password:', error);
+    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }
 }

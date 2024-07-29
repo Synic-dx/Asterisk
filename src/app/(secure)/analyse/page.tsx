@@ -1,12 +1,12 @@
 import { NextPage } from 'next';
 
-const User: NextPage = () => {
+const Analyse: NextPage = () => {
   return (
     <div>
-      <h1>User</h1>
+      <h1>Analyse</h1>
       <p>This is a basic Next.js page.</p>
     </div>
   );
 };
 
-export default User;
+export default Analyse;

@@ -3,10 +3,8 @@
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  useToast,
   Box,
   Heading,
   Text,
@@ -17,35 +15,32 @@ import {
   FormErrorMessage,
   Input as ChakraInput,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
-import { signIn } from "next-auth/react";
 import * as z from "zod";
-import { signInSchema } from "@/schemas/signInSchema";
+import { setNewPasswordSchema } from "../../../schemas/setNewPasswordSchema"; // Update this path as needed
 import axios from "axios";
 
-type SignInFormData = z.infer<typeof signInSchema>;
+type ResetPasswordFormData = z.infer<typeof setNewPasswordSchema>;
 
-export default function SignInForm() {
+export default function ResetPasswordForm() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [isForgotPassword, setIsForgotPassword] = useState<boolean>(false);
-  const [showEmailError, setShowEmailError] = useState<boolean>(false);
-  const [emailErrorMessage, setEmailErrorMessage] = useState<string>("");
   const router = useRouter();
   const toast = useToast();
 
-  const form = useForm<SignInFormData>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<ResetPasswordFormData>({
+    resolver: zodResolver(setNewPasswordSchema),
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
   const {
-    formState: { isValid, errors },
+    formState: { errors },
     handleSubmit,
     register,
-    watch,
   } = form;
 
   const showToast = (
@@ -65,66 +60,21 @@ export default function SignInForm() {
     });
   };
 
-  const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
+  const onSubmit: SubmitHandler<ResetPasswordFormData> = async (data) => {
     setIsSubmitting(true);
     try {
-      const result = await signIn("credentials", {
-        redirect: false,
-        email: data.email,
-        password: data.password,
-      });
+      const response = await axios.post("/api/set-new-password", data); // Adjust the endpoint as needed
 
-      if (result?.error) {
-        showToast("error", result.error);
-      } else if (result?.url) {
-        showToast("success", "Sign in successful!");
-        router.replace(`/dashboard`);
+      if (response.status === 200) {
+        showToast("success", "Password reset successfully!");
+        router.push("/sign-in"); // Redirect to login or another page after success
+      } else {
+        showToast("error", response.data.message || "Failed to reset password. Please try again.");
       }
     } catch (error) {
-      showToast(
-        "error",
-        "There was a problem with your sign-in. Please try again."
-      );
+      showToast("error", "Failed to reset password. Please try again.");
     } finally {
       setIsSubmitting(false);
-    }
-  };
-
-  const handleForgotPassword = async () => {
-    const email = watch("email");
-    setIsForgotPassword(true); // Show spinner
-
-    try {
-      // Validate email using zod schema
-      signInSchema.pick({ email: true }).parse({ email });
-      setShowEmailError(false);
-
-      try {
-        // Call the API to request a password reset using Axios
-        const response = await axios.post("/api/forgot-password", { email });
-
-        if (response.status === 200) {
-          showToast("success", "Password reset email sent successfully.");
-          router.push(`/reset-password/${encodeURIComponent(email)}`);
-        } else {
-          showToast(
-            "error",
-            response.data.message ||
-              "Failed to send password reset email. Please try again."
-          );
-        }
-      } catch (error) {
-        showToast(
-          "error",
-          "Failed to send password reset email. Please try again."
-        );
-      } finally {
-        setIsForgotPassword(false); // Hide spinner
-      }
-    } catch (error) {
-      setEmailErrorMessage("Please enter a valid email address for the OTP.");
-      setShowEmailError(true);
-      setIsForgotPassword(false); // Hide spinner in case of error
     }
   };
 
@@ -151,7 +101,7 @@ export default function SignInForm() {
         fontFamily="Karla, sans-serif"
         color="#271144"
       >
-        Sign In
+        Reset Password
       </Heading>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <VStack spacing="3" align="start">
@@ -191,7 +141,7 @@ export default function SignInForm() {
               color="#271144"
               fontFamily="Karla, sans-serif"
             >
-              PASSWORD
+              New Password
             </FormLabel>
             <ChakraInput
               {...register("password")}
@@ -209,32 +159,34 @@ export default function SignInForm() {
               px="4"
             />
             <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
-            <Text fontSize="xs" color="#271144" fontFamily="Roboto" mt={3}>
-            {isForgotPassword && (
-                <Spinner
-                  mt={3}
-                  mr={4}
-                  size="sm"
-                  color="#271144"
-                  thickness="2px"
-                  speed="0.65s"
-                />
-              )}
-              <Button
-                onClick={handleForgotPassword}
-                variant="link"
-                fontSize="xs"
-                fontFamily="Roboto"
-                color="#271144"
-              >
-                Forgot Password?
-              </Button>
-              {showEmailError && (
-                <Text fontSize="xs" color="red.500" mt={2}>
-                  {emailErrorMessage}
-                </Text>
-              )}
-            </Text>
+          </FormControl>
+
+          <FormControl isInvalid={!!errors.confirmPassword} className="w-full">
+            <FormLabel
+              fontSize="xs"
+              fontWeight="bold"
+              textTransform="uppercase"
+              color="#271144"
+              fontFamily="Karla, sans-serif"
+            >
+              Confirm New Password
+            </FormLabel>
+            <ChakraInput
+              {...register("confirmPassword")}
+              type="password"
+              placeholder="••••••••"
+              size="md"
+              variant="outline"
+              borderColor="gray.300"
+              borderRadius="lg"
+              _focus={{
+                borderColor: "#271144",
+                boxShadow: "0 0 0 1px #271144",
+              }}
+              fontSize="sm"
+              px="4"
+            />
+            <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
           </FormControl>
 
           <Button
@@ -246,32 +198,19 @@ export default function SignInForm() {
             _hover={{ bg: "#3e1d55" }}
             fontFamily="Karla, sans-serif"
             fontSize="sm"
-            loadingText="Signing In..."
+            loadingText="Resetting Password..."
           >
             {isSubmitting ? (
               <>
                 <Spinner mr="2" size="sm" color="white" thickness="2px" />
-                Signing In...
+                Resetting Password...
               </>
             ) : (
-              "Sign In"
+              "Reset Password"
             )}
           </Button>
         </VStack>
       </form>
-      <Text fontSize="xs" textAlign="center" fontFamily="Roboto">
-        Don&apos;t have an account?{" "}
-        <Link href="/sign-up">
-          <Button
-            variant="link"
-            fontSize="xs"
-            fontFamily="Roboto"
-            color="#271144"
-          >
-            Sign up
-          </Button>
-        </Link>
-      </Text>
     </Box>
   );
 }

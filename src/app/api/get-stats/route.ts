@@ -1,11 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/models/user.model";
-import mongoose from "mongoose";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/options";
+import { NextRequest, NextResponse } from 'next/server';
+import dbConnect from '@/lib/dbConnect';
+import UserModel from '@/models/user.model';
+import mongoose from 'mongoose';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]/options';
 
-// Define the interface for the result of aggregated stats
 interface StatsResult {
   _id: null | string;
   totalAttempts: number;
@@ -21,124 +20,185 @@ interface DailyStats {
   questionsAttempted: number;
 }
 
-// Handler for GET requests
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+const calculatePercentile = async (
+  model: mongoose.Model<any>,
+  field: string,
+  value: number
+): Promise<number> => {
+  try {
+    const countLower = await model.countDocuments({
+      [field]: { $lt: value },
+    });
+    const total = await model.countDocuments({});
+    const percentile = total > 0 ? (countLower / total) * 100 : 0;
+    console.log(`Calculated percentile: ${percentile}`);
+    return percentile;
+  } catch (error) {
+    console.error('Error calculating percentile:', error);
+    throw error;
+  }
+};
+
+const getCumulativeStatsByDate = async (
+  date: Date,
+  userId: mongoose.Types.ObjectId
+): Promise<DailyStats> => {
+  console.log(`Getting cumulative stats for date: ${date.toISOString()}`);
+  try {
+    const stats = await UserModel.aggregate([
+      { $match: { _id: userId } },
+      { $unwind: '$questionsSolvedDetails' },
+      {
+        $match: {
+          'questionsSolvedDetails.attemptedOn': { $lte: date },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalAttempts: { $sum: 1 },
+          totalCorrects: {
+            $sum: { $cond: ['$questionsSolvedDetails.isCorrect', 1, 0] },
+          },
+        },
+      },
+    ]);
+
+    console.log(`Stats for ${date.toISOString()}:`, stats);
+
+    const totalAttempts = stats.length > 0 ? stats[0].totalAttempts : 0;
+    const totalCorrects = stats.length > 0 ? stats[0].totalCorrects : 0;
+    const userCumulativeRating =
+      totalAttempts === 0 ? 0 : (totalCorrects / totalAttempts) * 100;
+
+    const userCumulativePercentile = await calculatePercentile(
+      UserModel,
+      'selectedSubjects.userRating',
+      userCumulativeRating
+    );
+
+    const dailyAttempts = await UserModel.aggregate([
+      { $match: { _id: userId } },
+      { $unwind: '$questionsSolvedDetails' },
+      {
+        $match: {
+          'questionsSolvedDetails.attemptedOn': {
+            $gte: new Date(date.getTime() - 24 * 60 * 60 * 1000),
+            $lte: date,
+          },
+        },
+      },
+      { $count: 'dailyAttempts' },
+    ]);
+
+    console.log(`Daily attempts for ${date.toISOString()}:`, dailyAttempts);
+
+    const questionsAttempted =
+      dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
+
+    return {
+      date: date.toISOString().split('T')[0],
+      userCumulativePercentile,
+      userCumulativeRating,
+      userCumulativeAttempts: totalAttempts,
+      userCumulativeCorrects: totalCorrects,
+      questionsAttempted,
+    };
+  } catch (error) {
+    console.error(`Error getting cumulative stats for ${date.toISOString()}:`, error);
+    throw error;
+  }
+};
+
+export async function GET(req: NextRequest) {
+  console.log('GET /api/get-stats called');
+
   await dbConnect();
 
-  if (req.method !== "GET") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
   try {
-    const session = await getServerSession(req, res, authOptions);
+    // Authenticate user
+    const session = await getServerSession({ req, ...authOptions });
     if (!session || !session.user || !session.user._id) {
-      return res.status(401).json({ message: "Unauthorized" });
+      console.error('Unauthorized access');
+      return NextResponse.json({ message: 'Unauthorized access' }, { status: 401 });
     }
 
-    const userId = session.user._id;
+    const userId = session.user._id as mongoose.Types.ObjectId; // Cast user._id
 
-    // Define date ranges for the last 7 days
+    const { searchParams } = new URL(req.url);
+    const userName = searchParams.get('userName');
+
+    if (!userName) {
+      console.error('Invalid or missing userName');
+      return NextResponse.json({ message: 'Invalid userName' }, { status: 400 });
+    }
+
+    console.log(`User Name: ${userName}`);
+
+    // Verify that the user is authorized to view the stats
+    const user = await UserModel.findOne({ userName }).exec();
+    if (!user || !user._id || user._id.toString() !== userId.toString()) {
+      console.error('User not found or does not match session');
+      return NextResponse.json({ message: 'User not found or does not match session' }, { status: 404 });
+    }
+
+    console.log(`User ID: ${userId}`);
+
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Start of the day
+    today.setHours(0, 0, 0, 0);
 
-    const last7Days = Array.from({ length: 7 }, (_, i) => {
+    const last30Days = Array.from({ length: 30 }, (_, i) => {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
       return date;
     });
 
-    // Helper function to get cumulative stats for a specific date
-    const getCumulativeStatsByDate = async (date: Date): Promise<DailyStats> => {
-      const stats = await UserModel.aggregate([
-        { $match: { _id: new mongoose.Types.ObjectId(userId) } },
-        { $unwind: "$questionsSolvedDetails" },
-        {
-          $match: {
-            "questionsSolvedDetails.attemptedOn": { $lte: date },
-          },
-        },
-        {
-          $group: {
-            _id: null,
-            totalAttempts: { $sum: 1 },
-            totalCorrects: {
-              $sum: { $cond: ["$questionsSolvedDetails.isCorrect", 1, 0] },
-            },
-          },
-        },
-      ]);
+    const cumulativeStats = await Promise.all(
+      last30Days.map((date) => getCumulativeStatsByDate(date, userId))
+    );
 
-      const totalAttempts = stats.length > 0 ? stats[0].totalAttempts : 0;
-      const totalCorrects = stats.length > 0 ? stats[0].totalCorrects : 0;
-      const userCumulativeRating = totalAttempts === 0 ? 0 : (totalCorrects / totalAttempts) * 100;
+    console.log('Cumulative stats:', cumulativeStats);
 
-      const userCumulativePercentile = await calculatePercentile(
-        UserModel,
-        "selectedSubjects.userRating",
-        userCumulativeRating
-      );
-
-      // Calculate daily questions attempted
-      const dailyAttempts = await UserModel.aggregate([
-        { $match: { _id: new mongoose.Types.ObjectId(userId) } },
-        { $unwind: "$questionsSolvedDetails" },
-        {
-          $match: {
-            "questionsSolvedDetails.attemptedOn": {
-              $gte: new Date(date.getTime() - 24 * 60 * 60 * 1000),
-              $lte: date,
-            },
-          },
-        },
-        { $count: "dailyAttempts" },
-      ]);
-
-      const questionsAttempted = dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
-
-      return {
-        date: date.toISOString().split("T")[0], // Format as YYYY-MM-DD
-        userCumulativePercentile,
-        userCumulativeRating,
-        userCumulativeAttempts: totalAttempts,
-        userCumulativeCorrects: totalCorrects,
-        questionsAttempted,
-      };
-    };
-
-    // Fetch cumulative stats for the last 7 days
-    const cumulativeStats = await Promise.all(last7Days.map(date => getCumulativeStatsByDate(date)));
-
-    // Helper function to get aggregated stats by date
     const getStatsByDate = async (startDate: Date): Promise<StatsResult[]> => {
-      return UserModel.aggregate([
-        { $match: { _id: new mongoose.Types.ObjectId(userId) } },
-        { $unwind: "$questionsSolvedDetails" },
-        {
-          $match: {
-            "questionsSolvedDetails.attemptedOn": { $gte: startDate },
-          },
-        },
-        {
-          $group: {
-            _id: null,
-            totalAttempts: { $sum: 1 },
-            totalCorrects: {
-              $sum: { $cond: ["$questionsSolvedDetails.isCorrect", 1, 0] },
+      console.log(`Getting stats since date: ${startDate.toISOString()}`);
+
+      try {
+        return UserModel.aggregate([
+          { $match: { _id: userId } },
+          { $unwind: '$questionsSolvedDetails' },
+          {
+            $match: {
+              'questionsSolvedDetails.attemptedOn': { $gte: startDate },
             },
           },
-        },
-      ]);
+          {
+            $group: {
+              _id: null,
+              totalAttempts: { $sum: 1 },
+              totalCorrects: {
+                $sum: { $cond: ['$questionsSolvedDetails.isCorrect', 1, 0] },
+              },
+            },
+          },
+        ]);
+      } catch (error) {
+        console.error(`Error getting stats since ${startDate.toISOString()}:`, error);
+        throw error;
+      }
     };
 
-    // Fetch stats for different periods
     const [dailyStats, weeklyStats, monthlyStats, overallStats] = await Promise.all([
       getStatsByDate(today),
-      getStatsByDate(new Date(today.setDate(today.getDate() - today.getDay()))), // Start of the week
-      getStatsByDate(new Date(today.getFullYear(), today.getMonth(), 1)), // Start of the month
-      getStatsByDate(new Date(0)), // Get all data
+      getStatsByDate(new Date(today.setDate(today.getDate() - today.getDay()))),
+      getStatsByDate(new Date(today.getFullYear(), today.getMonth(), 1)),
+      getStatsByDate(new Date(0)),
     ]);
 
-    // Format the stats to return
+    console.log('Daily stats:', dailyStats);
+    console.log('Weekly stats:', weeklyStats);
+    console.log('Monthly stats:', monthlyStats);
+    console.log('Overall stats:', overallStats);
+
     const formatStats = (stats: StatsResult[]) => ({
       totalAttempts: stats.length > 0 ? stats[0].totalAttempts : 0,
       totalCorrects: stats.length > 0 ? stats[0].totalCorrects : 0,
@@ -149,10 +209,10 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const monthly = formatStats(monthlyStats);
     const overall = formatStats(overallStats);
 
-    // Send the response with aggregated data
-    res.status(200).json({
+    return NextResponse.json({
       cumulativeStats,
       totalDailyAttempts: daily.totalAttempts,
+      userCumulativePercentile: cumulativeStats.length > 0 ? cumulativeStats[cumulativeStats.length - 1].userCumulativePercentile : 0,
       totalDailyCorrects: daily.totalCorrects,
       totalWeeklyAttempts: weekly.totalAttempts,
       totalWeeklyCorrects: weekly.totalCorrects,
@@ -161,21 +221,8 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
       totalAttempts: overall.totalAttempts,
       totalCorrects: overall.totalCorrects,
     });
-  } catch (error) {
-    console.error("Error retrieving stats:", error);
-    res.status(500).json({ message: "Error retrieving stats", error });
+  } catch (error: any) {
+    console.error('Error retrieving stats:', error);
+    return NextResponse.json({ message: 'Error retrieving stats', error: error.message }, { status: 500 });
   }
 }
-
-// Function to calculate percentile
-const calculatePercentile = async (
-  model: mongoose.Model<any>,
-  field: string,
-  value: number
-): Promise<number> => {
-  const countLower = await model.countDocuments({
-    [field]: { $lt: value },
-  });
-  const total = await model.countDocuments({});
-  return total > 0 ? (countLower / total) * 100 : 0;
-};

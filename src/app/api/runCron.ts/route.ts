@@ -1,12 +1,12 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import cron from 'node-cron';
 import checkAndUpdateAccess from '@/lib/checkAndUpdateAccess';
 
 let isScheduled = false; // Flag to ensure the cron job is only scheduled once
 
-const runCron = async (req: NextApiRequest, res: NextApiResponse) => {
+export async function GET(req: NextRequest) {
   if (isScheduled) {
-    return res.status(200).json({ message: 'Cron job is already scheduled' });
+    return NextResponse.json({ message: 'Cron job is already scheduled' });
   }
 
   // Schedule the access check to run daily at midnight (UTC time)
@@ -21,7 +21,5 @@ const runCron = async (req: NextApiRequest, res: NextApiResponse) => {
   });
 
   isScheduled = true; // Set the flag to indicate the cron job has been scheduled
-  res.status(200).json({ message: 'Cron job scheduled' });
-};
-
-export default runCron;
+  return NextResponse.json({ message: 'Cron job scheduled' });
+}

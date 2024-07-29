@@ -10,6 +10,15 @@ export interface QuestionDetails {
   averageTimeTaken?: number;
 }
 
+export interface Subtopic {
+  name: string;
+}
+
+export interface Topic {
+  name: string;
+  subtopics: Subtopic[];
+}
+
 export interface SelectedSubjectsAndStats {
   subjectObjectId: mongoose.Types.ObjectId;
   subjectName: string;
@@ -19,6 +28,7 @@ export interface SelectedSubjectsAndStats {
   userCorrectAnswers: number;
   userPercentile?: number;
   dateAdded: Date;
+  topics?: Topic[];  // Added field to hold topics
 }
 
 export interface EssayGraded {
@@ -44,6 +54,11 @@ const QuestionDetailsSchema = new Schema<QuestionDetails>({
   averageTimeTaken: { type: Number },
 });
 
+const TopicSchema = new Schema<Topic>({
+  name: { type: String, required: true },
+  subtopics: [{ name: { type: String, required: true } }],
+});
+
 const SelectedSubjectsAndStatsSchema = new Schema<SelectedSubjectsAndStats>({
   subjectObjectId: { type: Schema.Types.ObjectId, required: true, ref: 'Subject' },
   subjectName: { type: String, required: true },
@@ -53,6 +68,7 @@ const SelectedSubjectsAndStatsSchema = new Schema<SelectedSubjectsAndStats>({
   userCorrectAnswers: { type: Number, default: 0 },
   userPercentile: { type: Number, default: 50 },
   dateAdded: { type: Date, required: true, default: Date.now },
+  topics: [TopicSchema],  // Added field to hold topics
 });
 
 const PremiumAccessDetailsSchema = new Schema({
@@ -67,12 +83,10 @@ const GraderAccessDetailsSchema = new Schema({
   model: {
     type: String,
     enum: ["GPT-4o", "GPT-4o-mini"],
-    required: false,
   },
   weeklyEssayLimit: {
     type: Number,
     enum: [10, 20],
-    required: false,
   },
 });
 
@@ -100,10 +114,10 @@ export interface User extends Document {
   forgotPasswordTokenExpiry?: Date;
   isAdmin?: boolean;
   essaysGraded: EssayGraded[];
-  userCumulativePercentile?: number; // Optional field
-  userCumulativeRating?: number; // Optional field
-  userCumulativeAttempts?: number; // Optional field
-  userCumulativeCorrects?: number; // Optional field
+  userCumulativePercentile?: number;
+  userCumulativeRating?: number;
+  userCumulativeAttempts?: number;
+  userCumulativeCorrects?: number;
 }
 
 const UserSchema = new Schema<User>(
@@ -140,10 +154,10 @@ const UserSchema = new Schema<User>(
         feedback: { type: String, required: true },
       }
     ],
-    userCumulativePercentile: { type: Number }, // Optional field
-    userCumulativeRating: { type: Number }, // Optional field
-    userCumulativeAttempts: { type: Number }, // Optional field
-    userCumulativeCorrects: { type: Number }, // Optional field
+    userCumulativePercentile: { type: Number },
+    userCumulativeRating: { type: Number },
+    userCumulativeAttempts: { type: Number },
+    userCumulativeCorrects: { type: Number },
   },
   { timestamps: true }
 );

@@ -6,6 +6,16 @@ import { getSession } from "next-auth/react";
 import { FREE_SUBJECT_LIMIT } from "@/constants";
 import mongoose from "mongoose";
 
+// Define the Subject interface for type-checking, updated to reflect the new structure
+export interface Subtopic {
+  name: string;
+}
+
+export interface Topic {
+  name: string;
+  subtopics: Subtopic[];
+}
+
 export interface Subject {
   subjectObjectId: mongoose.Types.ObjectId;
   subjectName: string;
@@ -15,6 +25,7 @@ export interface Subject {
   userCorrectAnswers: number;
   userPercentile?: number;
   dateAdded: Date;
+  topics?: Topic[];  // Updated to include topics
 }
 
 const updateAccountDetails = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -36,7 +47,6 @@ const updateAccountDetails = async (req: NextApiRequest, res: NextApiResponse) =
     newPassword?: string;
   };
 
-  // Check if userId is present and if at least one of selectedSubjects or password fields are provided
   if (!userId || (!selectedSubjects && (!currentPassword || !newPassword))) {
     return res.status(400).json({ message: "Invalid request body" });
   }
@@ -48,13 +58,12 @@ const updateAccountDetails = async (req: NextApiRequest, res: NextApiResponse) =
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Update selected subjects if provided
     if (selectedSubjects) {
       const currentTime = new Date();
       const twoMonthsAgo = new Date();
       twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
 
-      if (!user.premiumAccess) {
+      if (!user.premiumAccess.valid) {
         if (selectedSubjects.length > FREE_SUBJECT_LIMIT) {
           return res.status(403).json({
             message: `Non-premium users can select up to ${FREE_SUBJECT_LIMIT} subjects only. Upgrade to premium for unlimited access.`,
@@ -75,19 +84,18 @@ const updateAccountDetails = async (req: NextApiRequest, res: NextApiResponse) =
         }
       }
 
-      // Update selected subjects
-      user.selectedSubjects = selectedSubjects.map((subject: Subject) => {
+      // Map the updated subjects with topics
+      user.selectedSubjects = selectedSubjects.map((subject) => {
         const existingSubject = user.selectedSubjects.find(
           (s) => s.subjectObjectId.toString() === subject.subjectObjectId.toString()
         );
         return {
           ...subject,
-          dateAdded: existingSubject ? existingSubject.dateAdded : new Date(),
+          dateAdded: existingSubject ? existingSubject.dateAdded : currentTime,
         };
       });
     }
 
-    // Update password if both currentPassword and newPassword are provided
     if (currentPassword && newPassword) {
       const isPasswordCorrect = await bcrypt.compare(currentPassword, user.password);
 

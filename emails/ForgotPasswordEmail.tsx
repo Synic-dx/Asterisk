@@ -40,7 +40,7 @@ export default function VerificationEmail({
       <Section style={{ padding: "20px" }}>
         <Row>
           <Heading as="h1" style={{ color: "#27114D", fontFamily: "Karla, Roboto, Verdana, sans-serif" }}>
-            Welcome to Asterisk Academy, {userName}!
+            Forgot your password, {userName}?
           </Heading>
         </Row>
         <Row>

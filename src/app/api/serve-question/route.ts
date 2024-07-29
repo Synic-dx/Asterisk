@@ -1,41 +1,37 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "@/lib/dbConnect";
-import QuestionModel from "@/models/question.model";
-import UserModel from "@/models/user.model";
+import { NextRequest, NextResponse } from 'next/server';
+import dbConnect from '@/lib/dbConnect';
+import QuestionModel from '@/models/question.model';
+import UserModel from '@/models/user.model';
 import {
   FREE_DAILY_QUESTION_LIMIT,
   QUESTION_DIFFICULTY_RANGE,
-} from "@/constants";
-import mongoose from "mongoose";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/options";
+} from '@/constants';
+import mongoose from 'mongoose';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]/options';
 
-const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
-  // Connect to the database
+export async function GET(req: NextRequest) {
   await dbConnect();
 
-  if (req.method !== "GET") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
+  const { searchParams } = new URL(req.url || '', 'http://localhost');
+  const subjectCode = searchParams.get('subjectCode');
+  const onlyASLevel = searchParams.get('onlyASLevel');
+  const topicsParam = searchParams.get('topics');
+  const subtopicsParam = searchParams.get('subtopics');
 
-  const { subjectCode, onlyASLevel, onlyALevel, topic, subtopic } = req.query;
-
-  // Validate required fields
   if (!subjectCode) {
-    return res.status(400).json({
-      message: "Subject code is required",
-    });
+    return NextResponse.json({ message: 'Subject code is required' }, { status: 400 });
   }
 
-  const subjectCodeString = Array.isArray(subjectCode)
-    ? subjectCode[0]
-    : subjectCode;
+  // Convert topics and subtopics parameters from comma-separated strings to arrays
+  const topics = topicsParam ? topicsParam.split(',') : [];
+  const subtopics = subtopicsParam ? subtopicsParam.split(',') : [];
 
   try {
     // Get user session
-    const session = await getServerSession(req, res, authOptions);
+    const session = await getServerSession({ req, ...authOptions });
     if (!session || !session.user || !session.user._id) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
     const userId = session.user._id;
@@ -43,7 +39,7 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
     // Find the user
     const user = await UserModel.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
     // Check daily attempts
@@ -52,23 +48,22 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const dailyAttemptsResult = await UserModel.aggregate([
       { $match: { _id: new mongoose.Types.ObjectId(userId) } },
-      { $unwind: "$questionsSolvedDetails" },
-      { $match: { "questionsSolvedDetails.attemptedOn": { $gte: today } } },
-      { $count: "dailyAttempts" },
+      { $unwind: '$questionsSolvedDetails' },
+      { $match: { 'questionsSolvedDetails.attemptedOn': { $gte: today } } },
+      { $count: 'dailyAttempts' },
     ]);
 
     const attemptsToday = dailyAttemptsResult.length > 0 ? dailyAttemptsResult[0].dailyAttempts : 0;
 
     if (!user.premiumAccess?.valid && attemptsToday >= FREE_DAILY_QUESTION_LIMIT) {
-      return res.status(403).json({
-        message:
-          "Daily quota of questions reached. Upgrade to premium for unlimited access.",
-      });
+      return NextResponse.json({
+        message: 'Daily quota of questions reached. Upgrade to premium for unlimited access.',
+      }, { status: 403 });
     }
 
     // Determine difficulty range
     const subjectStats = user.selectedSubjects.find(
-      (subject) => subject.subjectObjectId.toString() === subjectCodeString
+      (subject) => subject.subjectObjectId.toString() === subjectCode
     );
 
     const userPercentile = subjectStats?.userPercentile ?? 50;
@@ -81,7 +76,7 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
     );
 
     const matchConditions: any = {
-      "subject.subjectCode": subjectCodeString,
+      'subject.subjectCode': subjectCode,
       _id: { $nin: solvedQuestionIds },
       difficultyRatingPercentile: {
         $gte: minPercentile,
@@ -89,20 +84,16 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     };
 
-    if (onlyASLevel === "true") {
-      matchConditions.level = "AS-Level";
+    if (onlyASLevel === 'true') {
+      matchConditions.level = 'AS-Level';
     }
 
-    if (onlyALevel === "true") {
-      matchConditions.level = "A-Level";
+    if (topics.length > 0) {
+      matchConditions.topic = { $in: topics };
     }
 
-    if (topic) {
-      matchConditions.topic = topic;
-    }
-
-    if (subtopic) {
-      matchConditions.subtopic = subtopic;
+    if (subtopics.length > 0) {
+      matchConditions.subtopic = { $in: subtopics };
     }
 
     // Fetch a random question based on conditions
@@ -112,24 +103,22 @@ const serveQuestion = async (req: NextApiRequest, res: NextApiResponse) => {
     ]);
 
     if (questions.length === 0) {
-      return res.status(404).json({
-        message: "No more questions found for the specified criteria",
-      });
+      return NextResponse.json({
+        message: 'No more questions found for the specified criteria',
+      }, { status: 404 });
     }
 
-    return res.status(200).json(questions[0]);
+    return NextResponse.json(questions[0], { status: 200 });
   } catch (error: unknown) {
-    console.error("Error retrieving questions:", error);
+    console.error('Error retrieving questions:', error);
     if (error instanceof Error) {
-      return res.status(500).json({
-        message: "Error retrieving questions",
+      return NextResponse.json({
+        message: 'Error retrieving questions',
         error: error.message,
-      });
+      }, { status: 500 });
     }
-    return res.status(500).json({
-      message: "An unknown error occurred",
-    });
+    return NextResponse.json({
+      message: 'An unknown error occurred',
+    }, { status: 500 });
   }
-};
-
-export default serveQuestion;
+}

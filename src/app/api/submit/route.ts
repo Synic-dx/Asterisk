@@ -1,9 +1,14 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import QuestionModel from "@/models/question.model";
 import UserModel from "@/models/user.model";
 import mongoose from "mongoose";
-import { FREE_DAILY_QUESTION_LIMIT, FREE_SUBJECT_LIMIT } from "@/constants";
+import {
+  FREE_DAILY_QUESTION_LIMIT,
+  FREE_SUBJECT_LIMIT,
+} from "@/constants";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/options";
 
 // Calculate user rating based on attempts and correct answers
 export const calculateUserRating = (
@@ -19,11 +24,8 @@ const calculatePercentile = async (
   field: string,
   value: number
 ): Promise<number> => {
-  // Count documents where the specified field value is greater than or equal to the given value
   const count = await model.countDocuments({ [field]: { $gte: value } });
-  // Get the total count of documents in the collection
   const totalCount = await model.countDocuments();
-  // Calculate and return the percentile
   return totalCount === 0 ? 0 : (count / totalCount) * 100;
 };
 
@@ -36,11 +38,9 @@ const generateNewQuestion = async (data: {
   subtopic: string;
   difficultyRating: number;
 }) => {
-  // Define the API endpoint to generate new questions
   const generateQuestionApiUrl = `${process.env.BASE_URL}/api/generate-mcq`;
 
   try {
-    // Make a POST request to the API with the question generation data
     const response = await fetch(generateQuestionApiUrl, {
       method: "POST",
       headers: {
@@ -49,28 +49,25 @@ const generateNewQuestion = async (data: {
       body: JSON.stringify(data),
     });
 
-    // Check if the response is not OK
     if (!response.ok) {
       const errorResponse = await response.json();
       throw new Error(errorResponse.error || "Failed to generate new question");
     }
 
-    // Return the generated question data
     return await response.json();
   } catch (error) {
-    // Log and throw error if the request fails
     console.error("Error generating new question:", error);
     throw error;
   }
 };
 
-const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
-  // Connect to the database
+export async function POST(req: NextRequest) {
   await dbConnect();
 
-  // Ensure the request method is POST
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
+  const { method } = req;
+
+  if (method !== "POST") {
+    return NextResponse.json({ message: "Method not allowed" }, { status: 405 });
   }
 
   const {
@@ -78,65 +75,65 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
     userAnswer,
     isCorrect,
     userQuestionTime,
-    userId,
     subjectCode,
     subjectName,
     level,
     topic,
     subtopic,
     difficultyRating,
-  } = req.body;
+  } = await req.json();
 
-  // Validate the input data
+  // Authenticate the user
+  const session = await getServerSession({ req, res: NextResponse, ...authOptions });
+  if (!session || !session.user || !session.user._id) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
+  const userId = session.user._id;
+
   if (
     !questionId ||
     !userAnswer ||
     isCorrect === undefined ||
     !userQuestionTime ||
-    !userId ||
     !subjectCode ||
     !subjectName ||
     !level ||
     !topic ||
     !subtopic ||
-    !difficultyRating
+    difficultyRating === undefined
   ) {
-    return res.status(400).json({
-      message: "All fields (questionId, userAnswer, isCorrect, userQuestionTime, userId, subjectCode, subjectName, level, topic, subtopic, difficultyRating) are required",
-    });
+    return NextResponse.json({
+      message: "All fields are required",
+    }, { status: 400 });
   }
 
   try {
-    // Find the question and user by their IDs
     const question = await QuestionModel.findById(questionId);
     const user = await UserModel.findById(userId);
 
     if (!question || !user) {
-      return res.status(404).json({ message: "Question or User not found" });
+      return NextResponse.json({ message: "Question or User not found" }, { status: 404 });
     }
 
-    // Check daily attempt limit for non-premium users
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time to start of the day
+    today.setHours(0, 0, 0, 0);
 
-    // Aggregate to count daily attempts
-    const dailyAttempts = await UserModel.aggregate([
+    const dailyAttemptsResult = await UserModel.aggregate([
       { $match: { _id: new mongoose.Types.ObjectId(userId) } },
       { $unwind: "$questionsSolvedDetails" },
       { $match: { "questionsSolvedDetails.attemptedOn": { $gte: today } } },
       { $count: "dailyAttempts" },
     ]);
 
-    const attemptsToday = dailyAttempts.length > 0 ? dailyAttempts[0].dailyAttempts : 0;
+    const attemptsToday = dailyAttemptsResult.length > 0 ? dailyAttemptsResult[0].dailyAttempts : 0;
 
-    // Check if non-premium users have reached their daily limit
     if (!user.premiumAccess?.valid && attemptsToday >= FREE_DAILY_QUESTION_LIMIT) {
-      return res.status(403).json({
+      return NextResponse.json({
         message: "Daily quota of questions reached. Upgrade to premium for unlimited access.",
-      });
+      }, { status: 403 });
     }
 
-    // Update question statistics
     question.totalAttempts = (question.totalAttempts || 0) + 1;
     if (isCorrect) {
       question.totalCorrect = (question.totalCorrect || 0) + 1;
@@ -153,17 +150,15 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
 
     await question.save();
 
-    // Update user's question solved details
     user.questionsSolvedDetails.push({
       questionObjectId: question._id as mongoose.Types.ObjectId,
-      subjectCode, // Include subjectCode for tracking
+      subjectCode,
       userAnswer,
       userQuestionTime,
       isCorrect,
       attemptedOn: new Date(),
     });
 
-    // Update or add subject stats
     let subjectStats = user.selectedSubjects.find(
       (subject) => subject.subjectCode === subjectCode
     );
@@ -178,19 +173,15 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
         subjectStats.userCorrectAnswers
       );
     } else {
-      // Check if non-premium users have reached the subject limit
       if (
         !user.premiumAccess?.valid &&
         user.selectedSubjects.length >= FREE_SUBJECT_LIMIT
       ) {
-        return res
-          .status(403)
-          .json({ message: "Upgrade to premium to add more subjects." });
+        return NextResponse.json({ message: "Upgrade to premium to add more subjects." }, { status: 403 });
       }
 
-      // Add new subject stats
       user.selectedSubjects.push({
-        subjectObjectId: new mongoose.Types.ObjectId(subjectCode), // Updated to use subjectCode
+        subjectObjectId: new mongoose.Types.ObjectId(subjectCode),
         subjectName,
         subjectCode,
         userRating: calculateUserRating(1, isCorrect ? 1 : 0),
@@ -202,7 +193,6 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
       subjectStats = user.selectedSubjects[user.selectedSubjects.length - 1];
     }
 
-    // Calculate and update user's rating percentile
     const userRatingPercentile = await calculatePercentile(
       UserModel,
       "selectedSubjects.userRating",
@@ -211,7 +201,6 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
 
     subjectStats.userPercentile = userRatingPercentile;
 
-    // Calculate cumulative data
     user.userCumulativeAttempts = (user.userCumulativeAttempts || 0) + 1;
     if (isCorrect) {
       user.userCumulativeCorrects = (user.userCumulativeCorrects || 0) + 1;
@@ -230,7 +219,6 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
 
     await user.save();
 
-    // Generate a new question
     const newQuestion = await generateNewQuestion({
       subjectCode,
       subjectName,
@@ -240,16 +228,12 @@ const submitAnswer = async (req: NextApiRequest, res: NextApiResponse) => {
       difficultyRating,
     });
 
-    // Respond with success message and new question
-    res.status(200).json({
+    return NextResponse.json({
       message: "Answer submitted successfully",
       newQuestion,
     });
   } catch (error) {
-    // Log and respond with error message if something goes wrong
     console.error("Error submitting answer:", error);
-    res.status(500).json({ message: "Error submitting answer", error: (error as Error).message });
+    return NextResponse.json({ message: "Error submitting answer", error: (error as Error).message }, { status: 500 });
   }
-};
-
-export default submitAnswer;
+}
