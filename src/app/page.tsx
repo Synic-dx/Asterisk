@@ -240,9 +240,10 @@ const Home: NextPage = () => {
                     },
                     { subject: "History", text: "Grader Support" },
                     { subject: "FL English", text: "Grader Support" },
-                    { subject: "Chemistry", text: "Unlimited MCQs" },
                     { subject: "Physics", text: "Unlimited MCQs" },
+                    { subject: "Chemistry", text: "Unlimited MCQs" },
                     { subject: "Biology", text: "Unlimited MCQs" },
+                    { subject: "Additional Maths", text: "Unlimited MCQs" }
                   ].map(({ subject, text }) => (
                     <Box
                       key={subject}
@@ -308,6 +309,18 @@ const Home: NextPage = () => {
                     {
                       subject: "Mathematics",
                       text: "Unlimited MCQs for Mechanics, Statistics, P1 & P2&3",
+                    },
+                    {
+                      subject: "Physics",
+                      text: "Unlimited MCQs",
+                    },
+                    {
+                      subject: "Chemistry",
+                      text: "Unlimited MCQs",
+                    },
+                    {
+                      subject: "Biology",
+                      text: "Unlimited MCQs",
                     },
                     { subject: "Business", text: "Grader Support" },
                     {
