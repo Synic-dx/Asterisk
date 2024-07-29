@@ -13,7 +13,7 @@ import {
   Flex,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import PageWrapper from "./../../../components/FullScreenPage"; // Adjust the import path as needed
+import PageWrapper from "../../../components/FullScreenPage"; // Adjust the import path as needed
 import axios from "axios";
 
 // Define the styles

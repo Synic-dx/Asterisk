@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { NextPage } from "next";
 import {
@@ -14,8 +14,6 @@ import {
   Flex,
   useBreakpointValue,
   HStack,
-  Spinner,
-  Center,
   useToast,
 } from "@chakra-ui/react";
 import { Lightbulb } from "lucide-react";
@@ -28,6 +26,7 @@ import {
   CategoryScale,
   LinearScale,
   Title,
+  TooltipItem,
 } from "chart.js";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -39,11 +38,18 @@ import {
 } from "@/constants";
 import "@fontsource/roboto"; // Import Roboto font
 import "@fontsource/karla"; // Import Karla font
-import { useSession, signIn, SessionProvider } from "next-auth/react";
+import { useSession, SessionProvider } from "next-auth/react";
 import axios from "axios";
 
 // Initialize ChartJS
-ChartJS.register(LineElement, BarElement, PointElement, CategoryScale, LinearScale, Title);
+ChartJS.register(
+  LineElement,
+  BarElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Title
+);
 
 const tipsArray = [
   "The more you solve, the better our algorithm responds to your requirements",
@@ -51,7 +57,7 @@ const tipsArray = [
   "Your percentile is generated using your relative accuracy across all subjects",
   "With premium you can refer to and analyze past mistakes as well as solve unlimited MCQs",
   "Our AI models use Unicode to display mathematical symbols, and Markdown to format text",
-  "Don't be daunted by a low percentile! Our platform is relatively new and things will stabilize"
+  "Don't be daunted by a low percentile! Our platform is relatively new and things will stabilize",
 ];
 
 interface CumulativeStat {
@@ -77,7 +83,7 @@ const Dashboard: NextPage = () => {
         label: "Daily Attempts",
         data: [],
         backgroundColor: "#3182ce",
-        yAxisID: 'y',
+        yAxisID: "y",
       },
     ],
   });
@@ -90,14 +96,14 @@ const Dashboard: NextPage = () => {
         borderColor: "#ff6347",
         backgroundColor: "rgba(255, 99, 71, 0.1)",
         fill: true,
-        yAxisID: 'y',
+        yAxisID: "y",
       },
     ],
   });
   const router = useRouter();
   const isMobile = useBreakpointValue({ base: true, md: false });
   const headingSize = useBreakpointValue({ base: "md", md: "md" });
-  const subTextColor = "271144";
+  const subTextColor = "#271144";
   const toast = useToast();
 
   useEffect(() => {
@@ -108,13 +114,23 @@ const Dashboard: NextPage = () => {
       if (!session?.user?.userName) return;
 
       try {
-        const response = await axios.get(`/api/get-stats?userName=${session.user.userName}`);
+        const response = await axios.get(
+          `/api/get-stats?userName=${session.user.userName}`
+        );
         const data: Stats = response.data;
 
         // Reverse the order of data points
         const dates = data.cumulativeStats.map((stat) => stat.date).reverse();
-        const dailyAttempts = data.cumulativeStats.map((stat) => stat.questionsAttempted).reverse();
-        const percentiles = data.cumulativeStats.map((stat) => stat.userCumulativePercentile).reverse();
+        const dailyAttempts = data.cumulativeStats
+          .map((stat) => stat.questionsAttempted)
+          .reverse();
+        const percentiles = data.cumulativeStats
+          .map((stat) => stat.userCumulativePercentile)
+          .reverse();
+
+        // Calculate dynamic max for y-axis
+        const maxDailyAttempts = Math.max(...dailyAttempts);
+        const dynamicMaxY = Math.max(maxDailyAttempts + 5, 30);
 
         setStats({
           totalDailyAttempts: data.totalDailyAttempts || 0,
@@ -129,8 +145,29 @@ const Dashboard: NextPage = () => {
               label: "Daily Attempts",
               data: dailyAttempts,
               backgroundColor: "#3182ce",
+              yAxisID: "y",
             },
           ],
+          options: {
+            scales: {
+              x: {
+                title: { display: true, text: "Date" },
+              },
+              y: {
+                min: 0,
+                max: dynamicMaxY, // Set max to the larger of max value + 5 or 30
+              },
+            },
+            plugins: {
+              legend: { display: true },
+              tooltip: {
+                callbacks: {
+                  label: (context: TooltipItem<"bar">) =>
+                    `Attempts: ${context.raw}`,
+                },
+              },
+            },
+          },
         });
 
         setPercentileData({
@@ -142,6 +179,7 @@ const Dashboard: NextPage = () => {
               borderColor: "#ff6347",
               backgroundColor: "rgba(255, 99, 71, 0.1)",
               fill: true,
+              yAxisID: "y",
             },
           ],
         });
@@ -167,7 +205,12 @@ const Dashboard: NextPage = () => {
       return "Continue Practicing!";
     } else if (questionsSolved < 20) {
       return "You are doing well! Continue Practicing";
-    } else if (questionsSolved === FREE_DAILY_QUESTION_LIMIT && (!session?.user?.premiumAccess?.valid || new Date(session.user.premiumAccess.premiumAccessValidTill) < new Date())) {
+    } else if (
+      questionsSolved === FREE_DAILY_QUESTION_LIMIT &&
+      (!session?.user?.premiumAccess?.valid ||
+        new Date(session.user.premiumAccess.premiumAccessValidTill) <
+          new Date())
+    ) {
       return "Amazing Effort! Keep pushing forward! Upgrade to premium to solve more";
     } else {
       return "Amazing Effort! Keep pushing forward!";
@@ -191,15 +234,24 @@ const Dashboard: NextPage = () => {
       <PageWrapper>
         <Box padding="4" w="95vw" fontFamily="Karla, sans-serif">
           <HStack>
-            <Heading as={'h1'} mb={10} ml={5} mt={5} color={'#130529'}>Welcome {session?.user?.userName}!</Heading>
+            <Heading as={"h1"} mb={10} ml={5} mt={5} color={"#130529"}>
+              Welcome {session?.user?.userName}!
+            </Heading>
           </HStack>
-          <Grid templateColumns={{ base: "1fr", md: "repeat(12, 1fr)" }} gap={4}>
+          <Grid
+            templateColumns={{ base: "1fr", md: "repeat(12, 1fr)" }}
+            gap={4}
+          >
             <GridItem colSpan={12}>
               <Card shadow="md">
                 <CardBody>
                   <Flex alignItems="center" justifyContent="center" gap={2}>
                     <Lightbulb />
-                    <Text marginLeft="2" color="#130529" fontFamily="Roboto, sans-serif">
+                    <Text
+                      marginLeft="2"
+                      color="#130529"
+                      fontFamily="Roboto, sans-serif"
+                    >
                       {tip}
                     </Text>
                   </Flex>
@@ -217,7 +269,7 @@ const Dashboard: NextPage = () => {
                   <Text color={subTextColor} mb={5}>
                     You solved{" "}
                     <Text as="span" fontWeight={"extrabold"} fontSize={"xl"}>
-                      {stats?.totalDailyAttempts || 0}
+                      {stats?.totalDailyAttempts}
                     </Text>{" "}
                     sums today.{" "}
                     {getQuestionsSolvedFeedback(stats?.totalDailyAttempts || 0)}
@@ -229,7 +281,9 @@ const Dashboard: NextPage = () => {
                       _hover={{ opacity: 0.6 }}
                       onClick={() => router.push("/practice")}
                       mr={4}
-                      disabled={stats?.totalDailyAttempts === FREE_DAILY_QUESTION_LIMIT}
+                      disabled={
+                        stats?.totalDailyAttempts === FREE_DAILY_QUESTION_LIMIT
+                      }
                     >
                       Practice
                     </Button>
@@ -256,10 +310,12 @@ const Dashboard: NextPage = () => {
                   <Text color={subTextColor} mb={5}>
                     You are solving with greater accuracy than{" "}
                     <Text as="span" fontWeight={"extrabold"} fontSize={"xl"}>
-                      {stats?.userCumulativePercentile || 0}%
+                      {stats?.userCumulativePercentile}%
                     </Text>{" "}
                     of our users.{" "}
-                    {getPercentileFeedback(stats?.userCumulativePercentile || 0)}
+                    {getPercentileFeedback(
+                      stats?.userCumulativePercentile || 0
+                    )}
                   </Text>
                   <Flex>
                     <Button
@@ -299,7 +355,12 @@ const Dashboard: NextPage = () => {
                 </CardBody>
               </Card>
             </GridItem>
-            <GridItem colSpan={{ base: 12, md: session?.user?.premiumAccess?.valid ? 6 : 3 }}>
+            <GridItem
+              colSpan={{
+                base: 12,
+                md: session?.user?.premiumAccess?.valid ? 6 : 3,
+              }}
+            >
               <Card height="100%" minH="200px" shadow="md">
                 <CardHeader>
                   <Heading size={headingSize} color="#130529">
@@ -324,7 +385,7 @@ const Dashboard: NextPage = () => {
               </Card>
             </GridItem>
           </Grid>
-          <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4} mt={4}>
+          <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4} mt={4} h={'auto'} w={'auto'}>
             <GridItem>
               <Card height="100%" shadow="md">
                 <CardHeader>
@@ -333,7 +394,29 @@ const Dashboard: NextPage = () => {
                   </Heading>
                 </CardHeader>
                 <CardBody>
-                  <Bar data={dailyAttemptsData} options={{ scales: { y: { min: 0, max: 50 } } }} />
+                  <Bar
+                    data={dailyAttemptsData}
+                    options={{
+                      scales: {
+                        x: {
+                          title: { display: true, text: "Date" },
+                        },
+                        y: {
+                          min: 0,
+                          max: dailyAttemptsData.options?.scales?.y?.max ?? 30,
+                        },
+                      },
+                      plugins: {
+                        legend: { display: true },
+                        tooltip: {
+                          callbacks: {
+                            label: (context: TooltipItem<"bar">) =>
+                              `Attempts: ${context.raw}`,
+                          },
+                        },
+                      },
+                    }}
+                  />
                 </CardBody>
               </Card>
             </GridItem>
@@ -345,7 +428,29 @@ const Dashboard: NextPage = () => {
                   </Heading>
                 </CardHeader>
                 <CardBody>
-                  <Line data={percentileData} options={{ scales: { y: { min: 0, max: 100 } } }} />
+                  <Line
+                    data={percentileData}
+                    options={{
+                      scales: {
+                        x: {
+                          title: { display: true, text: "Date" },
+                        },
+                        y: {
+                          min: 0,
+                          max: 100,
+                        },
+                      },
+                      plugins: {
+                        legend: { display: true },
+                        tooltip: {
+                          callbacks: {
+                            label: (context: TooltipItem<"line">) =>
+                              `Percentile: ${context.raw}%`,
+                          },
+                        },
+                      },
+                    }}
+                  />
                 </CardBody>
               </Card>
             </GridItem>

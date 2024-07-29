@@ -7,6 +7,7 @@ import { z } from "zod";
 import dotenv from "dotenv";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/options";
+import { QUESTION_DIFFICULTY_RANGE } from "@/constants";
 
 dotenv.config();
 
@@ -58,7 +59,7 @@ export async function POST(req: NextRequest) {
     // Generate a new difficulty rating within ±35 range of the previous sum's difficultyRating
     const newDifficultyRating = Math.max(
       0,
-      Math.min(100, difficultyRating + Math.floor(Math.random() * 71) - 35)
+      Math.min(100, difficultyRating + Math.floor(Math.random() * ((2 * QUESTION_DIFFICULTY_RANGE) + 1)) - QUESTION_DIFFICULTY_RANGE)
     );
 
     // Prepare the prompt string

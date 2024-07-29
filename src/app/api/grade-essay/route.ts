@@ -1,116 +1,127 @@
-import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/dbConnect';
-import UserModel from '@/models/user.model';
-import bcrypt from 'bcryptjs';
-import { getServerSession } from 'next-auth';
-import { FREE_SUBJECT_LIMIT } from '@/constants';
-import mongoose from 'mongoose';
-import { authOptions } from '../auth/[...nextauth]/options';
+import { NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options"; // Adjust the import path based on your setup
+import { openai } from "@ai-sdk/openai";
+import { generateObject } from "ai";
+import { z } from "zod";
+import UserModel from "@/models/user.model";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-// Define the Subject interface
-export interface Subtopic {
-  name: string;
-}
+dotenv.config();
 
-export interface Topic {
-  name: string;
-  subtopics: Subtopic[];
-}
-
-export interface Subject {
-  subjectObjectId: mongoose.Types.ObjectId;
-  subjectName: string;
-  subjectCode: string;
-  userRating: number;
-  userAttempts: number;
-  userCorrectAnswers: number;
-  userPercentile?: number;
-  dateAdded: Date;
-  topics?: Topic[];
-}
-
-export async function PUT(req: NextRequest) {
-  await dbConnect();
-
-  let session;
+export async function POST(req: NextApiRequest, res: NextApiResponse) {
   try {
     // Get session
-    session = await getServerSession({ req, ...authOptions });
+    const session = await getServerSession(req, res, authOptions);
 
     if (!session || !session.user) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const userId = session.user._id;
-    const { selectedSubjects, currentPassword, newPassword } = await req.json() as {
-      selectedSubjects?: Subject[];
-      currentPassword?: string;
-      newPassword?: string;
-    };
+    const {
+      question,
+      totalMarks,
+      userEssay,
+      subjectName,
+      subjectCode,
+      questionType,
+      userId,
+    } = req.body;
 
-    if (!userId || (!selectedSubjects && (!currentPassword || !newPassword))) {
-      return NextResponse.json({ message: "Invalid request body" }, { status: 400 });
+    // Validate required fields
+    if (
+      !question ||
+      totalMarks === undefined ||
+      !userEssay ||
+      !subjectName ||
+      !subjectCode ||
+      !questionType ||
+      !userId
+    ) {
+      return res.status(400).json({ error: "Missing required fields" });
     }
 
+    // Fetch user
     const user = await UserModel.findById(userId);
 
-    if (!user) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    if (!user || !user.graderAccess || !user.graderAccess.model) {
+      return res
+        .status(403)
+        .json({ error: "Grader access required or not found" });
     }
 
-    if (selectedSubjects) {
-      const currentTime = new Date();
-      const twoMonthsAgo = new Date();
-      twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
-
-      if (!user.premiumAccess.valid) {
-        if (selectedSubjects.length > FREE_SUBJECT_LIMIT) {
-          return NextResponse.json({
-            message: `Non-premium users can select up to ${FREE_SUBJECT_LIMIT} subjects only. Upgrade to premium for unlimited access.`,
-          }, { status: 403 });
-        }
-
-        const recentSubjects = user.selectedSubjects.filter(
-          (subject) => subject.dateAdded > twoMonthsAgo
-        );
-
-        if (
-          recentSubjects.length < user.selectedSubjects.length &&
-          selectedSubjects.length < user.selectedSubjects.length
-        ) {
-          return NextResponse.json({
-            message: "You cannot remove subjects within 2 months of adding them.",
-          }, { status: 403 });
-        }
-      }
-
-      // Map the updated subjects with topics
-      user.selectedSubjects = selectedSubjects.map((subject) => {
-        const existingSubject = user.selectedSubjects.find(
-          (s) => s.subjectObjectId.toString() === subject.subjectObjectId.toString()
-        );
-        return {
-          ...subject,
-          dateAdded: existingSubject ? existingSubject.dateAdded : currentTime,
-        };
-      });
+    // Check if grader access is still valid
+    const now = new Date();
+    if (user.graderAccess.accessTill && user.graderAccess.accessTill < now) {
+      return res.status(403).json({ error: "Grader access has expired" });
     }
 
-    if (currentPassword && newPassword) {
-      const isPasswordCorrect = await bcrypt.compare(currentPassword, user.password);
-
-      if (!isPasswordCorrect) {
-        return NextResponse.json({ message: "Current password is incorrect" }, { status: 400 });
-      }
-
-      user.password = await bcrypt.hash(newPassword, 10);
+    // Check weekly essay limit
+    const weeklyEssayLimit = user.graderAccess.weeklyEssayLimit;
+    if (weeklyEssayLimit === undefined) {
+      return res
+        .status(500)
+        .json({ error: "Weekly essay limit is not defined" });
     }
+
+    const weekStart = new Date(now.setDate(now.getDate() - now.getDay()));
+    const essaysGradedThisWeek = user.essaysGraded.filter(
+      (essay) => new Date(essay.date) >= weekStart
+    ).length;
+
+    if (essaysGradedThisWeek >= weeklyEssayLimit) {
+      return res.status(403).json({ error: "Weekly essay limit reached" });
+    }
+
+    // Create grading prompt
+    const prompt =
+      `Evaluate the following descriptive writing based on the provided grading criteria: Subject: ${subjectName}
+      Essay Type: ${questionType}
+      User's Essay: ${userEssay}
+      Total Marks: ${totalMarks}
+      Provide:
+      1. A grade out of ${totalMarks} for the user's descriptive writing, strictly based on the grading criteria of this type of writing.
+      2. Detailed feedback on the writing and reasoning behind each grade component, the criteria of the grading scheme it succeeded and/or failed to achieve, using properly formatted Markdown for JSON. Do not use quotation marks (use italics if suitable instead) and use /n instead of linebreaks.`.trim();
+
+    // Define response schema
+    const schema = z.object({
+      grade: z.string().min(1, "Grade is required"),
+      feedback: z.string().min(1, "Feedback is required"),
+    });
+
+    // Generate grading response
+    const { object: generatedResponse } = await generateObject({
+      model: openai(user.graderAccess.model),
+      schema,
+      prompt,
+    });
+
+    const { grade, feedback } = schema.parse(generatedResponse);
+
+    // Generate a unique essay ID and save grading information
+    const essayId = new mongoose.Types.ObjectId();
+
+    user.essaysGraded.push({
+      essayId,
+      date: new Date(),
+      question,
+      subjectName,
+      subjectCode,
+      questionType,
+      userEssay,
+      totalMarks,
+      grade,
+      feedback,
+    });
 
     await user.save();
 
-    return NextResponse.json({ message: "Account details updated successfully" }, { status: 200 });
+    return res.status(200).json({ grade, feedback });
   } catch (error) {
-    console.error("Error updating account details:", error);
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    console.error("Error grading essay:", error);
+    return res
+      .status(500)
+      .json({ error: "Failed to generate grading and feedback" });
   }
 }
