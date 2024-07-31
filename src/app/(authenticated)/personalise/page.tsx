@@ -20,6 +20,7 @@ import { useSession } from "next-auth/react";
 import { FREE_SUBJECT_LIMIT } from "@/constants";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from 'next/navigation'
 
 // Define the Zod schema for password validation
 const passwordSchema = z
@@ -86,6 +87,7 @@ const PersonalisePage = () => {
     resolver: zodResolver(passwordSchema),
   });
   const toast = useToast();
+  const router = useRouter()
 
   const now = new Date();
   const twoMonthsAgo = new Date();
@@ -277,6 +279,7 @@ const PersonalisePage = () => {
       });
     } finally {
       setIsSubmitting(false);
+      router.refresh();
     }
   };
 
@@ -517,7 +520,7 @@ const PersonalisePage = () => {
             </Box>
           )}
           {!hasPremiumAccess && (
-            <Text color="gray.500" fontFamily={'Karla, sans-serif'}>
+            <Text color="gray.500" fontFamily={"Karla, sans-serif"}>
               Note: You Can Change Subjects Only Every 2 Months
             </Text>
           )}
