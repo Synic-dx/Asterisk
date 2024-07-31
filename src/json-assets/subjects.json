@@ -1,0 +1,1239 @@
+[
+  {
+    "subjectCode": "0455",
+    "subjectName": "IGCSE Economics",
+    "levels": [
+      {
+        "levelName": "IGCSE",
+        "topics": [
+          {
+            "topicName": "The Basic Economics Problem",
+            "subtopics": [
+              "The nature of the economic problem",
+              "The factors of production",
+              "Opportunity cost",
+              "PPC Diagrams"
+            ]
+          },
+          {
+            "topicName": "The Allocation of Resources",
+            "subtopics": [
+              "Microeconomics and Macroeconomics",
+              "The roles of markets in allocating resources",
+              "Demand",
+              "Supply",
+              "Price determination",
+              "Price changes",
+              "Price Elasticity of Demand",
+              "Price Elasticity of Supply",
+              "Economic systems",
+              "Market failure"
+            ]
+          },
+          {
+            "topicName": "Microeconomics decision makers",
+            "subtopics": [
+              "Money and banking",
+              "Economic agents",
+              "Firms' production, costs, revenue and objectives",
+              "Firms",
+              "Types of Integrations",
+              "Economies and dieconomies of scale",
+              "Market Structures"
+            ]
+          },
+          {
+            "topicName": "Government and the Macroeconomy",
+            "subtopics": [
+              "Role of Government",
+              "Government's Macroeconomic Aims",
+              "Fiscal, Monetary, and/or Supply-side policy",
+              "Economic growth",
+              "Employment and unemployment",
+              "Inflation and deflation"
+            ]
+          },
+          {
+            "topicName": "Economic Development",
+            "subtopics": ["Living standards", "Poverty", "Population"]
+          },
+          {
+            "topicName": "International Trade and Globalization",
+            "subtopics": [
+              "International specialization",
+              "Globalization, free trade, and protection",
+              "Foreign exchange rates",
+              "Current account of balance of payments"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "subjectCode": "0980",
+    "subjectName": "IGCSE Maths",
+    "levels": [
+      {
+        "levelName": "IGCSE",
+        "topics": [
+          {
+            "topicName": "Number",
+            "subtopics": [
+              "Types of number",
+              "Sets",
+              "Powers and roots",
+              "Fractions, decimals and percentages",
+              "Ordering",
+              "The four operations",
+              "Standard form",
+              "Estimation",
+              "Limits of accuracy",
+              "Ratio and proportion",
+              "Rates",
+              "Percentages",
+              "Time",
+              "Money",
+              "Exponential growth and decay",
+              "Surds"
+            ]
+          },
+          {
+            "topicName": "Algebra and Graphs",
+            "subtopics": [
+              "Introduction to Algebra",
+              "Algebraic manipulation",
+              "Indices",
+              "Equations",
+              "Proportions",
+              "Inequalities",
+              "Sequences",
+              "Graphs",
+              "Differentiation",
+              "Functions"
+            ]
+          },
+          {
+            "topicName": "Coordinate Geometry",
+            "subtopics": [
+              "Coordinates",
+              "Linear Graphs",
+              "Gradient of linear graphs",
+              "Equations of linear graphs",
+              "Length and midpoint",
+              "Parallel lines",
+              "Perpendicular lines"
+            ]
+          },
+          {
+            "topicName": "Geometry",
+            "subtopics": [
+              "Geometrical terms",
+              "Geometrical constructions",
+              "Scale drawings and bearings",
+              "Similarity",
+              "Symmetry",
+              "Angles",
+              "Circle theorems"
+            ]
+          },
+          {
+            "topicName": "Mensuration",
+            "subtopics": [
+              "Units of measure",
+              "Area and perimeter",
+              "Circles, arcs, and sectors",
+              "Surface area and volume",
+              "Compound shapes and parts of shapes"
+            ]
+          },
+          {
+            "topicName": "Trigonometry",
+            "subtopics": [
+              "Pythagoras' theorem",
+              "Right-angled triangles",
+              "Exact trigonometric values",
+              "Trigonometric functions",
+              "Non-right-angled triangles"
+            ]
+          },
+          {
+            "topicName": "Transformations and Vectors",
+            "subtopics": [
+              "Transformations",
+              "Vectors in two dimensions",
+              "Magnitude of a vector",
+              "Vector geometry"
+            ]
+          },
+          {
+            "topicName": "Probability",
+            "subtopics": [
+              "Introduction to Probability",
+              "Relative and expected frequencies",
+              "Probability of combined events",
+              "Conditional probability"
+            ]
+          },
+          {
+            "topicName": "Statistics",
+            "subtopics": [
+              "Classifying statistical data",
+              "Interpreting statistical data",
+              "Averages and measures of spread",
+              "Histograms",
+              "Cumulative Frequency Diagrams",
+              "Interpreting statistical data",
+              "Averages and range",
+              "Statistical charts and diagrams",
+              "Scatter diagrams"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "subjectCode": "0606",
+    "subjectName": "IGCSE Additional Maths",
+    "levels": [
+      {
+        "levelName": "IGCSE",
+        "topics": [
+          {
+            "topicName": "Functions",
+            "subtopics": ["Functions"]
+          },
+          {
+            "topicName": "Quadratic functions",
+            "subtopics": ["Quadratic functions"]
+          },
+          {
+            "topicName": "Factors of polynomials",
+            "subtopics": ["Factors"]
+          },
+          {
+            "topicName": "Equations, inequalities and graphs",
+            "subtopics": ["Equations, inequalities and graphs"]
+          },
+          {
+            "topicName": "Simultaneous equations",
+            "subtopics": ["Simultaneous equations"]
+          },
+          {
+            "topicName": "Logarithmic and exponential functions",
+            "subtopics": ["Logarithmic and exponential functions"]
+          },
+          {
+            "topicName": "Straight-line graphs",
+            "subtopics": ["Straight-line graphs"]
+          },
+          {
+            "topicName": "Coordinate geometry of the circle",
+            "subtopics": ["Coordinate geometry of the circle"]
+          },
+          {
+            "topicName": "Circular measure",
+            "subtopics": ["Circular measure"]
+          },
+          {
+            "topicName": "Trigonometry",
+            "subtopics": ["Trigonometry"]
+          },
+          {
+            "topicName": "Permutations and combinations",
+            "subtopics": ["Permutations and combinations"]
+          },
+          {
+            "topicName": "Series",
+            "subtopics": ["Series"]
+          },
+          {
+            "topicName": "Vectors in two dimensions",
+            "subtopics": ["Vectors in two dimensions"]
+          },
+          {
+            "topicName": "Calculus",
+            "subtopics": ["Differentiation", "Integration", "Kinematics"]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "subjectCode": "0620",
+    "subjectName": "IGCSE Chemistry",
+    "levels": [
+      {
+        "levelName": "IGCSE",
+        "topics": [
+          {
+            "topicName": "States of Matter",
+            "subtopics": ["Solids, liquids and gases", "Diffusion"]
+          },
+          {
+            "topicName": "Atoms, Elements and Compounds",
+            "subtopics": [
+              "Elements, compounds, and mixtures",
+              "Atomic structure and the Periodic Table",
+              "Isotopes",
+              "Ions and ionic bonds",
+              "Simple molecules and covalent bonds",
+              "Giant covalent structures",
+              "Metallic bonding"
+            ]
+          },
+          {
+            "topicName": "Stoichiometry",
+            "subtopics": [
+              "Formulae",
+              "Relative masses of atoms and molecules",
+              "The mole and the avogadro constant"
+            ]
+          },
+          {
+            "topicName": "Electrochemistry",
+            "subtopics": ["Electrolysis", "Hydrogen-oxygen fuel cells"]
+          },
+          {
+            "topicName": "Chemical Energetics",
+            "subtopics": ["Exothermic and endothermic reactions"]
+          },
+          {
+            "topicName": "Chemical Reactions",
+            "subtopics": [
+              "Physical and chemical changes",
+              "Rate of reaction",
+              "Reversible reactions and equilibrium",
+              "Redox"
+            ]
+          },
+          {
+            "topicName": "Acids, Bases, and Salts",
+            "subtopics": [
+              "The characteristic properties of acids and bases",
+              "Oxides",
+              "Preparation of salts"
+            ]
+          },
+          {
+            "topicName": "The Periodic Table",
+            "subtopics": [
+              "Arrangement of elements",
+              "Group I Properties",
+              "Group VII Properties",
+              "Transition Elements",
+              "Noble Gases"
+            ]
+          },
+          {
+            "topicName": "Metals",
+            "subtopics": [
+              "Properties of Metals",
+              "Uses of Metals",
+              "Alloys and their properties",
+              "Reactivity Series",
+              "Corrosion of Metals",
+              "Extraction of Metals"
+            ]
+          },
+          {
+            "topicName": "Chemistry of the Environment",
+            "subtopics": ["Water", "Fertilisers", "Air quality and climate"]
+          },
+          {
+            "topicName": "Organic Chemistry",
+            "subtopics": [
+              "Formulae, functional groups and terminology",
+              "Naming organic compounds",
+              "Fuels",
+              "Alkanes",
+              "Alkenes",
+              "Alcohols",
+              "Carboxylic acids",
+              "Polymers"
+            ]
+          },
+          {
+            "topicName": "Experimental Techniques and Chemical Analysis",
+            "subtopics": [
+              "Experimental design",
+              "Acid-base titrations",
+              "Chromatography",
+              "Separation and purification",
+              "Identification of ions and gases"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "subjectCode": "0625",
+    "subjectName": "IGCSE Physics",
+    "levels": [
+      {
+        "levelName": "IGCSE",
+        "topics": [
+          {
+            "topicName": "Motion, Forces and Energy",
+            "subtopics": [
+              "Physical quantities and measurement techniques",
+              "Motion",
+              "Mass and weight",
+              "Density",
+              "Forces",
+              "Momentum",
+              "Energy, work and power",
+              "Pressure"
+            ]
+          },
+          {
+            "topicName": "Thermal Physics",
+            "subtopics": [
+              "Kinetic particle model of matter",
+              "Thermal properties and temperature",
+              "Transfer of thermal energy"
+            ]
+          },
+          {
+            "topicName": "Waves",
+            "subtopics": [
+              "General properties of waves",
+              "Light",
+              "Electromagnetic Spectrum",
+              "Sound"
+            ]
+          },
+          {
+            "topicName": "Electricity and Magnetism",
+            "subtopics": [
+              "Simple phenomena of magnetism",
+              "Electrical quantities",
+              "Electrical circuits",
+              "Electrical safety",
+              "Electromagnetic effects"
+            ]
+          },
+          {
+            "topicName": "Nuclear Physics",
+            "subtopics": ["The nuclear model of the atom", "Radioactivity"]
+          },
+          {
+            "topicName": "Space Physics",
+            "subtopics": [
+              "The Earth and the Solar System",
+              "Stars and the Universe"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "subjectCode": "0610",
+    "subjectName": "IGCSE Biology",
+    "levels": [
+      {
+        "levelName": "IGCSE",
+        "topics": [
+          {
+            "topicName": "Characteristics and classification of living organisms",
+            "subtopics": [
+              "Characteristics of living organisms",
+              "Concept and uses of classification systems",
+              "Features of organisms"
+            ]
+          },
+          {
+            "topicName": "Organisation of the organism",
+            "subtopics": ["Cell structure", "Size of specimen"]
+          },
+          {
+            "topicName": "Movement into and out of cells",
+            "subtopics": ["Diffusion", "Osmosis", "Active transport"]
+          },
+          {
+            "topicName": "Biological molecules",
+            "subtopics": ["Biological molecules"]
+          },
+          {
+            "topicName": "Enzymes",
+            "subtopics": ["Enzymes"]
+          },
+          {
+            "topicName": "Plant nutrition",
+            "subtopics": ["Photosynthesis", "Leaf structure"]
+          },
+          {
+            "topicName": "Human nutrition",
+            "subtopics": [
+              "Diet",
+              "Digestive",
+              "Physical digestion",
+              "Chemical digestion",
+              "Absorption"
+            ]
+          },
+          {
+            "topicName": "Transport in plants",
+            "subtopics": [
+              "Xylem and phloem",
+              "Water uptake",
+              "Transpiration",
+              "Translocation"
+            ]
+          },
+          {
+            "topicName": "Transport in animals",
+            "subtopics": [
+              "Circulatory systems",
+              "Heart",
+              "Blood vessels",
+              "Blood"
+            ]
+          },
+          {
+            "topicName": "Diseases and immunity",
+            "subtopics": ["Diseases and immunity"]
+          },
+          {
+            "topicName": "Gas exchange in humans",
+            "subtopics": ["Gas exchange in humans"]
+          },
+          {
+            "topicName": "Respiration",
+            "subtopics": [
+              "Respiration",
+              "Aerobic respiration",
+              "Anaerobic respiration"
+            ]
+          },
+          {
+            "topicName": "Excretion in humans",
+            "subtopics": ["Excretion in humans"]
+          },
+          {
+            "topicName": "Coordination and response",
+            "subtopics": [
+              "Coordination and response",
+              "Sense organs",
+              "Hormones",
+              "Homeostasis",
+              "Tropic responses"
+            ]
+          },
+          {
+            "topicName": "Drugs",
+            "subtopics": ["Drugs"]
+          },
+          {
+            "topicName": "Reproduction",
+            "subtopics": [
+              "Asexual reproduction",
+              "Sexual reproduction",
+              "Sexual reproduction in plants",
+              "Sexual reproduction in humans",
+              "Sexually transmitted infections"
+            ]
+          },
+          {
+            "topicName": "Inheritance",
+            "subtopics": [
+              "Chromosomes, genes and proteins",
+              "Mitosis and Meiosis",
+              "Monohybrid inheritance"
+            ]
+          },
+          {
+            "topicName": "Variation",
+            "subtopics": ["Variation", "Adaptive features", "Selection"]
+          },
+          {
+            "topicName": "Organisms and their environment",
+            "subtopics": [
+              "Energy flow",
+              "Food chains and food webs",
+              "Nutrient cycles",
+              "Populations"
+            ]
+          },
+          {
+            "topicName": "Biotechnology and genetic modification",
+            "subtopics": [
+              "Biotechnology and genetic modification",
+              "Biotechnology",
+              "Genetic modification"
+            ]
+          },
+          {
+            "topicName": "Human influences on ecosystems",
+            "subtopics": [
+              "Food supply",
+              "Habitat destruction",
+              "Pollution",
+              "Conservation"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "subjectCode": "9708",
+    "subjectName": "AS/A Level Economics",
+    "levels": [
+      {
+        "levelName": "AS Level",
+        "topics": [
+          {
+            "topicName": "Basic Economic Ideas and Resource Allocations",
+            "subtopics": [
+              "Scarcity, choice and opportunity cost",
+              "Economic methodology",
+              "Factors of production",
+              "Resource allocation in different economic systems",
+              "Production possibility curves",
+              "Classification of goods and services"
+            ]
+          },
+          {
+            "topicName": "The Price System and the Microeconomy",
+            "subtopics": [
+              "Demand and supply curves",
+              "Price elasticity, income elasticity and cross elasticity of demand",
+              "Price elasticity of supply",
+              "The interaction of demand and supply",
+              "Consumer and producer surplus"
+            ]
+          },
+          {
+            "topicName": "Government Microeconomic Intervention",
+            "subtopics": [
+              "Reasons for government intervention",
+              "Methods of government intervention",
+              "Effects of government intervention"
+            ]
+          },
+          {
+            "topicName": "The Macroeconomy",
+            "subtopics": [
+              "National income statistics",
+              "The circular flow of income",
+              "Aggregate demand and aggregate supply analysis",
+              "Economic growth",
+              "Unemployment",
+              "Price stability"
+            ]
+          },
+          {
+            "topicName": "Government Macroeconomic Intervention",
+            "subtopics": [
+              "Fiscal policy",
+              "Monetary policy",
+              "Supply-side policy",
+              "Effectiveness of policy measures"
+            ]
+          },
+          {
+            "topicName": "International Economic Issues",
+            "subtopics": [
+              "The balance of payments",
+              "Exchange rates",
+              "Economic development",
+              "Globalisation"
+            ]
+          }
+        ]
+      },
+      {
+        "levelName": "A Level",
+        "topics": [
+          {
+            "topicName": "The Price System and the Microeconomy",
+            "subtopics": [
+              "Utility",
+              "Indifference curves and budget lines",
+              "Efficiency and market failure",
+              "Private costs and benefits",
+              "Externalities and social costs and benefits",
+              "Types of cost, revenue and profit",
+              "Short-run and long-run production",
+              "Growth and survival of firms",
+              "Different objectives and policies of firms"
+            ]
+          },
+          {
+            "topicName": "Government Microeconomic Intervention",
+            "subtopics": [
+              "Government policies to achieve efficient resource allocation",
+              "Correcting market failure",
+              "Equity and redistribution of income and wealth",
+              "Labour market forces and government intervention"
+            ]
+          },
+          {
+            "topicName": "The Macroeconomy",
+            "subtopics": [
+              "National income statistics",
+              "The circular flow of income",
+              "Aggregate demand and aggregate supply analysis",
+              "Economic growth",
+              "Unemployment",
+              "Price stability",
+              "Money and banking"
+            ]
+          },
+          {
+            "topicName": "Government Macroeconomic Intervention",
+            "subtopics": [
+              "Fiscal policy",
+              "Monetary policy",
+              "Supply-side policy",
+              "Effectiveness of policy measures"
+            ]
+          },
+          {
+            "topicName": "International Economic Issues",
+            "subtopics": [
+              "The reasons for international trade",
+              "Policies to correct disequilibrium in the balance of payments",
+              "Protectionism",
+              "Current account of the balance of payments",
+              "Exchange rates",
+              "Economic development",
+              "Characteristics of countries at different levels of development",
+              "Relationship between countries at different levels of development",
+              "Globalisation"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "subjectCode": "9709",
+    "subjectName": "AS/A Level Maths",
+    "levels": [
+      {
+        "levelName": "AS Level",
+        "topics": [
+          {
+            "topicName": "Pure Mathematics",
+            "subtopics": [
+              "Quadratics",
+              "Functions",
+              "Coordinate geometry",
+              "Circular measure",
+              "Trigonometry",
+              "Series",
+              "Differentiation",
+              "Integration"
+            ]
+          },
+          {
+            "topicName": "Mechanics 1",
+            "subtopics": [
+              "Forces and equilibrium",
+              "Kinematics of motion in a straight line",
+              "Newton's laws of motion",
+              "Energy, work and power"
+            ]
+          },
+          {
+            "topicName": "Statistics 1",
+            "subtopics": [
+              "Representation of data",
+              "Permutations and combinations",
+              "Probability",
+              "Discrete random variables",
+              "The normal distribution"
+            ]
+          }
+        ]
+      },
+      {
+        "levelName": "A Level",
+        "topics": [
+          {
+            "topicName": "Pure Mathematics 2 and 3",
+            "subtopics": [
+              "Algebra",
+              "Logarithmic and exponential functions",
+              "Trigonometry",
+              "Differentiation",
+              "Integration",
+              "Numerical solution of equations",
+              "Vectors",
+              "Differential equations",
+              "Complex numbers"
+            ]
+          },
+          {
+            "topicName": "Mechanics 2",
+            "subtopics": [
+              "Motion in a circle",
+              "Gravitational fields",
+              "Equilibrium of rigid bodies",
+              "Momentum",
+              "Work, energy and power",
+              "Elasticity",
+              "Simple harmonic motion",
+              "Circular motion"
+            ]
+          },
+          {
+            "topicName": "Statistics 2",
+            "subtopics": [
+              "The Poisson distribution",
+              "Linear combinations of random variables",
+              "Continuous random variables",
+              "Sampling and estimation",
+              "Hypothesis tests"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "subjectCode": "9701",
+    "subjectName": "AS/A Level Chemistry",
+    "levels": [
+      {
+        "levelName": "AS Level",
+        "topics": [
+          {
+            "topicName": "Physical chemistry",
+            "subtopics": [
+              "Atomic structure",
+              "Atoms, molecules and stoichiometry",
+              "Chemical bonding",
+              "States of matter",
+              "Chemical energetics",
+              "Electrochemistry",
+              "Equilibria",
+              "Reaction kinetics"
+            ]
+          },
+          {
+            "topicName": "Inorganic chemistry",
+            "subtopics": [
+              "The Periodic Table: chemical periodicity",
+              "Group 2",
+              "Group 17",
+              "Nitrogen and sulfur"
+            ]
+          },
+          {
+            "topicName": "Organic chemistry",
+            "subtopics": [
+              "An introduction to AS Level organic chemistry",
+              "Hydrocarbons",
+              "Halogen compounds",
+              "Hydroxy compounds",
+              "Carbonyl compounds",
+              "Carboxylic acids and derivatives",
+              "Nitrogen compounds",
+              "Polymerisation",
+              "Organic synthesis"
+            ]
+          },
+          {
+            "topicName": "Analysis",
+            "subtopics": ["Analytical techniques"]
+          }
+        ]
+      },
+      {
+        "levelName": "A Level",
+        "topics": [
+          {
+            "topicName": "Physical chemistry",
+            "subtopics": [
+              "Chemical energetics",
+              "Electrochemistry",
+              "Equilibria",
+              "Reaction kinetics"
+            ]
+          },
+          {
+            "topicName": "Inorganic chemistry",
+            "subtopics": ["Group 2", "Chemistry of transition elements"]
+          },
+          {
+            "topicName": "Organic chemistry",
+            "subtopics": [
+              "An introduction to A Level organic chemistry",
+              "Hydrocarbons",
+              "Halogen compounds",
+              "Hydroxy compounds",
+              "Carboxylic acids and derivatives",
+              "Nitrogen compounds",
+              "Polymerisation",
+              "Organic synthesis"
+            ]
+          },
+          {
+            "topicName": "Analysis",
+            "subtopics": ["Analytical techniques"]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "subjectCode": "9702",
+    "subjectName": "AS/A Level Physics",
+    "levels": [
+      {
+        "levelName": "AS Level",
+        "topics": [
+          {
+            "topicName": "Physical quantities and units",
+            "subtopics": [
+              "Physical quantities",
+              "SI units",
+              "Errors and uncertainties",
+              "Scalars and vectors"
+            ]
+          },
+          {
+            "topicName": "Kinematics",
+            "subtopics": ["Equations of motion"]
+          },
+          {
+            "topicName": "Dynamics",
+            "subtopics": [
+              "Momentum and Newton's laws of motion",
+              "Non-uniform motion",
+              "Linear momentum and its conservation"
+            ]
+          },
+          {
+            "topicName": "Forces, density and pressure",
+            "subtopics": [
+              "Turning effects of forces",
+              "Equilibrium of forces",
+              "Density and pressure"
+            ]
+          },
+          {
+            "topicName": "Work, energy and power",
+            "subtopics": [
+              "Energy conservation",
+              "Gravitational potential energy and kinetic energy"
+            ]
+          },
+          {
+            "topicName": "Deformation of solids",
+            "subtopics": ["Stress and strain", "Elastic and plastic behaviour"]
+          },
+          {
+            "topicName": "Waves",
+            "subtopics": [
+              "Progressive waves",
+              "Transverse and longitudinal waves",
+              "Doppler effect for sound waves",
+              "Electromagnetic spectrum",
+              "Polarization"
+            ]
+          },
+          {
+            "topicName": "Superposition",
+            "subtopics": [
+              "Stationary waves",
+              "Diffraction",
+              "Interference",
+              "The diffraction grating"
+            ]
+          },
+          {
+            "topicName": "Electricity",
+            "subtopics": [
+              "Electric current",
+              "Potential difference and power",
+              "Resistance and resistivity"
+            ]
+          },
+          {
+            "topicName": "D.C circuits",
+            "subtopics": [
+              "Practical circuits",
+              "Kirchhoff's laws",
+              "Potential Dividers"
+            ]
+          },
+          {
+            "topicName": "Particle physics",
+            "subtopics": [
+              "Atoms, nuclei and radiation",
+              "Fundamental principles"
+            ]
+          }
+        ]
+      },
+      {
+        "levelName": "A Level",
+        "topics": [
+          {
+            "topicName": "Motion in a circle",
+            "subtopics": [
+              "Kinematics of uniform circular motion",
+              "Centripetal acceleration"
+            ]
+          },
+          {
+            "topicName": "Gravitational fields",
+            "subtopics": [
+              "Gravitational field",
+              "Gravitational force between point masses",
+              "Gravitational field of a point mass",
+              "Gravitational potential"
+            ]
+          },
+          {
+            "topicName": "Ideal gases",
+            "subtopics": [
+              "Moles",
+              "Equation of state",
+              "Kinetic theory of gases"
+            ]
+          },
+          {
+            "topicName": "Temperature",
+            "subtopics": [
+              "Thermal equilibrium",
+              "Temperature scales",
+              "Specific heat capacity and specific latent heat"
+            ]
+          },
+          {
+            "topicName": "Thermodynamics",
+            "subtopics": ["Internal energy", "The first law of thermodynamics"]
+          },
+          {
+            "topicName": "Oscillations",
+            "subtopics": [
+              "Simple harmonic oscillations",
+              "Energy in simple harmonic motion",
+              "Damped and forced oscillations, resonance"
+            ]
+          },
+          {
+            "topicName": "Electric fields",
+            "subtopics": [
+              "Electric fields and field lines",
+              "Uniform electric fields",
+              "Electric force between point charges",
+              "Electric field of a point charge",
+              "Electric potential"
+            ]
+          },
+          {
+            "topicName": "Capacitance",
+            "subtopics": [
+              "Capacitors and capacitance",
+              "Energy stored in a capacitor",
+              "Discharging a capacitor"
+            ]
+          },
+          {
+            "topicName": "Magnetic fields",
+            "subtopics": [
+              "Concept of a magnetic field",
+              "Force on a current-carrying conductor",
+              "Force on a moving charge",
+              "Magnetic fields due to currents"
+            ]
+          },
+          {
+            "topicName": "Electromagnetic induction",
+            "subtopics": []
+          },
+          {
+            "topicName": "Alternating currents",
+            "subtopics": [
+              "Characteristics of alternating currents",
+              "Rectification and smoothing"
+            ]
+          },
+          {
+            "topicName": "Quantum physics",
+            "subtopics": [
+              "Energy and momentum of a photon",
+              "Photoelectric effect",
+              "Wave-particle duality",
+              "Energy levels in atoms and line spectra"
+            ]
+          },
+          {
+            "topicName": "Nuclear physics",
+            "subtopics": [
+              "Mass defect and nuclear binding energy",
+              "Radioactive decay"
+            ]
+          },
+          {
+            "topicName": "Medical imaging",
+            "subtopics": [
+              "Production and use of ultrasound",
+              "Production and use of X-Rays",
+              "PET scanning"
+            ]
+          },
+          {
+            "topicName": "Astronomy and cosmology",
+            "subtopics": [
+              "Standard candles",
+              "Stellar radii",
+              "Hubble's law and Big Bang theory"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "subjectCode": "9700",
+    "subjectName": "AS/A Level Biology",
+    "levels": [
+      {
+        "levelName": "AS Level",
+        "topics": [
+          {
+            "topicName": "Cell structure",
+            "subtopics": [
+              "The microscope in cell studies",
+              "Cells as the basic units of living organisms"
+            ]
+          },
+          {
+            "topicName": "Biological molecules",
+            "subtopics": [
+              "Testing for biological molecules",
+              "Carbohydrates and lipids",
+              "Proteins",
+              "Water"
+            ]
+          },
+          {
+            "topicName": "Enzymes",
+            "subtopics": [
+              "Mode of action of enzymes",
+              "Factors that affect enzyme action"
+            ]
+          },
+          {
+            "topicName": "Cell membranes and transport",
+            "subtopics": [
+              "Fluid mosaic membranes",
+              "Movement into and out of cells"
+            ]
+          },
+          {
+            "topicName": "The mitotic cell cycle",
+            "subtopics": [
+              "Replication and division of nuclei and cells",
+              "Chromosome behaviour in mitosis"
+            ]
+          },
+          {
+            "topicName": "Nucleic acids and protein synthesis",
+            "subtopics": [
+              "Structure of nucleic acids and replica of DNA",
+              "Protein synthesis"
+            ]
+          },
+          {
+            "topicName": "Transport in plants",
+            "subtopics": [
+              "Structure of transport tissues",
+              "Transport mechanisms"
+            ]
+          },
+          {
+            "topicName": "Transport in mammals",
+            "subtopics": [
+              "The circulatory system",
+              "Transport of oxygen and carbon dioxide",
+              "The Heart"
+            ]
+          },
+          {
+            "topicName": "Gas exchange",
+            "subtopics": ["The gas exchange system"]
+          },
+          {
+            "topicName": "Infectious diseases",
+            "subtopics": ["Infectious diseases", "Antibiotics"]
+          },
+          {
+            "topicName": "Immunity",
+            "subtopics": ["The immune system", "Antibodies and vaccination"]
+          }
+        ]
+      },
+      {
+        "levelName": "A Level",
+        "topics": [
+          {
+            "topicName": "Energy and respiration",
+            "subtopics": ["Energy", "Respiration"]
+          },
+          {
+            "topicName": "Photosynthesis",
+            "subtopics": [
+              "Photosynthesis as an energy transfer process",
+              "Investigation of limiting factors"
+            ]
+          },
+          {
+            "topicName": "Homeostasis",
+            "subtopics": ["Homeostasis in mammals", "Homeostasis in plants"]
+          },
+          {
+            "topicName": "Control and coordination",
+            "subtopics": [
+              "Control and coordination in mammals",
+              "Control and coordination in plants"
+            ]
+          },
+          {
+            "topicName": "Inheritance",
+            "subtopics": [
+              "Passage of information from parents to offspring",
+              "The roles of genes in determining phenotype",
+              "Gene control"
+            ]
+          },
+          {
+            "topicName": "Selection and evolution",
+            "subtopics": [
+              "Variation",
+              "Natural and artificial selections",
+              "Evolution"
+            ]
+          },
+          {
+            "topicName": "Classification, biodiversity and conservation",
+            "subtopics": ["Classification", "Biodiversity", "Conservation"]
+          },
+          {
+            "topicName": "Genetic technology",
+            "subtopics": [
+              "Principles of genetic technology",
+              "Genetically modified organisms in agriculture"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

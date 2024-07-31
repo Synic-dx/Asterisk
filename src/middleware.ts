@@ -28,9 +28,10 @@ export async function middleware(request: NextRequest) {
   if (
     !token &&
     (url.pathname.startsWith("/dashboard") ||
-      url.pathname.startsWith("/user") ||
       url.pathname.startsWith("/practice") ||
       url.pathname.startsWith("/analyse") ||
+      url.pathname.startsWith("/grader") ||
+      url.pathname.startsWith("/personalise") ||
       url.pathname.startsWith("/upgrade"))
   ) {
     return NextResponse.redirect(new URL("/", request.url));

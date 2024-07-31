@@ -5,9 +5,10 @@ interface PageWrapperProps {
   children: React.ReactNode;
   minHeight?: string | ResponsiveValue<string>;
   mb?: string | ResponsiveValue<string>;
+  px?: string | ResponsiveValue<string>;
 }
 
-const PageWrapper: React.FC<PageWrapperProps> = ({ children, minHeight, mb }) => {
+const PageWrapper: React.FC<PageWrapperProps> = ({ children, minHeight, mb, px }) => {
   return (
     <Container
       minW="100vw"
@@ -18,9 +19,9 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ children, minHeight, mb }) =>
       bg="var(--background)"
       color="var(--foreground)"
       py={4}
-      px={0}
       minHeight={minHeight} 
       mb={mb}
+      px={px}
     >
       {children}
     </Container>

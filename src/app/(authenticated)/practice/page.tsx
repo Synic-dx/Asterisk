@@ -12,6 +12,7 @@ import {
   Text,
   Flex,
   useBreakpointValue,
+  Spinner
 } from "@chakra-ui/react";
 import PageWrapper from "../../../components/FullScreenPage"; // Adjust the import path as needed
 import axios from "axios";
@@ -25,7 +26,7 @@ const headingColor = "#130529";
 const textColor = "#271144";
 
 const Practice = () => {
-  const { data: session } = useSession();
+  const { status } = useSession(); // Keep session status but not the data
   const router = useRouter();
   const [selectedSubject, setSelectedSubject] = useState<any>(null);
   const [onlyASLevel, setOnlyASLevel] = useState(false);
@@ -33,14 +34,30 @@ const Practice = () => {
   const [selectedSubtopics, setSelectedSubtopics] = useState<string[]>([]);
   const [topics, setTopics] = useState<{ name: string; subtopics: string[] }[]>([]);
   const [subtopics, setSubtopics] = useState<string[]>([]);
+  const [selectedSubjects, setSelectedSubjects] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true); // Add a loading state
 
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   useEffect(() => {
-    if (session?.user?.selectedSubjects) {
-      setSelectedSubject(session.user.selectedSubjects[0]);
+    if (status === "loading") {
+      return; // If session is loading, don't proceed
     }
-  }, [session]);
+    if (status === "authenticated") {
+      // Fetch selected subjects from the API
+      axios.get("/api/get-selected-subjects")
+        .then((response) => {
+          setSelectedSubjects(response.data.selectedSubjects);
+          setLoading(false); // Set loading to false once data is fetched
+        })
+        .catch((error) => {
+          console.error("Error fetching selected subjects:", error);
+          setLoading(false); // Set loading to false in case of an error
+        });
+    } else if (status === "unauthenticated") {
+      router.push('/login'); // Redirect to login if not authenticated
+    }
+  }, [status, router]);
 
   useEffect(() => {
     if (selectedSubject?.topics) {
@@ -75,6 +92,14 @@ const Practice = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <Box minHeight="80vh" display="flex" alignItems="center" justifyContent="center">
+        <Spinner size="xl" />
+      </Box>
+    );
+  }
+
   return (
     <PageWrapper minHeight="80vh">
       <Heading size={headingSize} fontFamily={headingFont} color={headingColor} mb={4}>
@@ -82,9 +107,9 @@ const Practice = () => {
       </Heading>
       <Flex direction={isDesktop ? "row" : "column"} gap={8}>
         <Box flex={1}>
-          {session?.user?.selectedSubjects && session.user.selectedSubjects.length > 0 ? (
+          {selectedSubjects && selectedSubjects.length > 0 ? (
             <VStack spacing={4} align="stretch">
-              {session.user.selectedSubjects.map((subject: any) => (
+              {selectedSubjects.map((subject: any) => (
                 <Button
                   key={subject.subjectCode}
                   onClick={() => setSelectedSubject(subject)}

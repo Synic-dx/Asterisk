@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
+// Define interfaces
 export interface QuestionDetails {
   questionObjectId: mongoose.Types.ObjectId;
   subjectCode: string;
@@ -10,25 +11,13 @@ export interface QuestionDetails {
   averageTimeTaken?: number;
 }
 
-export interface Subtopic {
-  name: string;
-}
-
-export interface Topic {
-  name: string;
-  subtopics: Subtopic[];
-}
-
 export interface SelectedSubjectsAndStats {
   subjectObjectId: mongoose.Types.ObjectId;
-  subjectName: string;
-  subjectCode: string;
   userRating: number;
   userAttempts: number;
   userCorrectAnswers: number;
   userPercentile?: number;
   dateAdded: Date;
-  topics?: Topic[];  // Added field to hold topics
 }
 
 export interface EssayGraded {
@@ -44,6 +33,7 @@ export interface EssayGraded {
   feedback: string;
 }
 
+// Define schemas
 const QuestionDetailsSchema = new Schema<QuestionDetails>({
   questionObjectId: { type: Schema.Types.ObjectId, required: true, ref: 'Question' },
   subjectCode: { type: String, required: true },
@@ -54,21 +44,26 @@ const QuestionDetailsSchema = new Schema<QuestionDetails>({
   averageTimeTaken: { type: Number },
 });
 
-const TopicSchema = new Schema<Topic>({
-  name: { type: String, required: true },
-  subtopics: [{ name: { type: String, required: true } }],
-});
-
 const SelectedSubjectsAndStatsSchema = new Schema<SelectedSubjectsAndStats>({
   subjectObjectId: { type: Schema.Types.ObjectId, required: true, ref: 'Subject' },
-  subjectName: { type: String, required: true },
-  subjectCode: { type: String, required: true },
   userRating: { type: Number, default: 50 },
   userAttempts: { type: Number, default: 0 },
   userCorrectAnswers: { type: Number, default: 0 },
   userPercentile: { type: Number, default: 50 },
   dateAdded: { type: Date, required: true, default: Date.now },
-  topics: [TopicSchema],  // Added field to hold topics
+});
+
+const EssayGradedSchema = new Schema<EssayGraded>({
+  essayId: { type: Schema.Types.ObjectId, required: true, default: new mongoose.Types.ObjectId },
+  date: { type: Date, required: true },
+  question: { type: String, required: true },
+  subjectName: { type: String, required: true },
+  subjectCode: { type: String, required: true },
+  questionType: { type: String, required: true },
+  userEssay: { type: String, required: true },
+  totalMarks: { type: Number, required: true },
+  grade: { type: String, required: true },
+  feedback: { type: String, required: true },
 });
 
 const PremiumAccessDetailsSchema = new Schema({
@@ -120,50 +115,32 @@ export interface User extends Document {
   userCumulativeCorrects?: number;
 }
 
-const UserSchema = new Schema<User>(
-  {
-    userName: { type: String, required: true },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      match: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
-    },
-    password: { type: String, required: true },
-    premiumAccess: { type: PremiumAccessDetailsSchema, required: true },
-    graderAccess: { type: GraderAccessDetailsSchema, required: true },
-    isAdmin: { type: Boolean, default: false },
-    questionsSolvedDetails: [QuestionDetailsSchema],
-    selectedSubjects: [SelectedSubjectsAndStatsSchema],
-    verificationCode: { type: String },
-    verificationCodeExpiry: { type: Date },
-    isVerified: { type: Boolean, default: false },
-    forgotPasswordToken: { type: String },
-    forgotPasswordTokenExpiry: { type: Date },
-    essaysGraded: [
-      {
-        essayId: { type: Schema.Types.ObjectId, required: true, default: new mongoose.Types.ObjectId },
-        date: { type: Date, required: true },
-        question: { type: String, required: true },
-        subjectName: { type: String, required: true },
-        subjectCode: { type: String, required: true },
-        questionType: { type: String, required: true },
-        userEssay: { type: String, required: true },
-        totalMarks: { type: Number, required: true },
-        grade: { type: String, required: true },
-        feedback: { type: String, required: true },
-      }
-    ],
-    userCumulativePercentile: { type: Number },
-    userCumulativeRating: { type: Number },
-    userCumulativeAttempts: { type: Number },
-    userCumulativeCorrects: { type: Number },
+const UserSchema = new Schema<User>({
+  userName: { type: String, required: true },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    match: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
   },
-  { timestamps: true }
-);
+  password: { type: String, required: true },
+  premiumAccess: { type: PremiumAccessDetailsSchema, required: true },
+  graderAccess: { type: GraderAccessDetailsSchema, required: true },
+  isAdmin: { type: Boolean, default: false },
+  questionsSolvedDetails: [QuestionDetailsSchema],
+  selectedSubjects: [SelectedSubjectsAndStatsSchema],
+  forgotPasswordToken: { type: String },
+  forgotPasswordTokenExpiry: { type: Date },
+  essaysGraded: [EssayGradedSchema],
+  isVerified: { type: Boolean, default: false },
+  verificationCode: { type: String },
+  verificationCodeExpiry: { type: Date },
+  userCumulativePercentile: { type: Number, default: 50 },
+  userCumulativeRating: { type: Number, default: 50 },
+  userCumulativeAttempts: { type: Number, default: 0 },
+  userCumulativeCorrects: { type: Number, default: 0 },
+});
 
-const UserModel =
-  (mongoose.models.User as mongoose.Model<User>) ||
-  mongoose.model<User>("User", UserSchema);
+const UserModel = mongoose.models.User || mongoose.model<User>("User", UserSchema);
 
 export default UserModel;
