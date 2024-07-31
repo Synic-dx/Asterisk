@@ -8,12 +8,14 @@ import mongoose from "mongoose";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { FREE_SUBJECT_LIMIT } from "@/constants";
 
+// Define SubjectPayload interface
 export interface SubjectPayload {
   subjectCode: string;
   subjectName: string;
   dateAdded: Date;
 }
 
+// Define SelectedSubjectsAndStats interface
 export interface SelectedSubjectsAndStats {
   subjectObjectId: mongoose.Types.ObjectId;
   userRating: number;
@@ -21,6 +23,14 @@ export interface SelectedSubjectsAndStats {
   userCorrectAnswers: number;
   userPercentile: number;
   dateAdded: Date;
+}
+
+// Define ResponseMessage interface
+interface ResponseMessage {
+  message: string;
+  deletedSubjects: string[];
+  deniedDeletions?: string[];
+  info?: string;
 }
 
 export async function PUT(req: NextRequest) {
@@ -43,7 +53,7 @@ export async function PUT(req: NextRequest) {
     const { subjectsToUpdate, subjectsToDelete, currentPassword, newPassword } =
       (await req.json()) as {
         subjectsToUpdate?: SubjectPayload[];
-        subjectsToDelete?: string[];
+        subjectsToDelete?: SubjectPayload[];
         currentPassword?: string;
         newPassword?: string;
       };
@@ -70,8 +80,8 @@ export async function PUT(req: NextRequest) {
 
     // Handle subject updates
     if (subjectsToUpdate && subjectsToUpdate.length > 0) {
-      // Get existing subject codes
-      const existingSubjectCodes = user.selectedSubjects.map(
+      // Get existing subject object ids
+      const existingSubjectObjectIds = user.selectedSubjects.map(
         (subject: SelectedSubjectsAndStats) =>
           subject.subjectObjectId.toString()
       );
@@ -79,7 +89,7 @@ export async function PUT(req: NextRequest) {
       // Filter out subjects that are already in the user's selected subjects
       const newSubjects = subjectsToUpdate.filter(
         (subject: SubjectPayload) =>
-          !existingSubjectCodes.includes(subject.subjectCode)
+          !existingSubjectObjectIds.includes(subject.subjectCode)
       );
 
       // Calculate the total number of subjects after the update
@@ -151,81 +161,97 @@ export async function PUT(req: NextRequest) {
     }
 
     // Handle subject deletions
-if (subjectsToDelete && subjectsToDelete.length > 0) {
-  try {
-    // Fetch the subjects to delete from the database
-    const subjectsToDeleteData = await SubjectModel.find({
-      subjectCode: { $in: subjectsToDelete },
-    }).exec();
+    if (subjectsToDelete && subjectsToDelete.length > 0) {
+      try {
+        // Fetch the subjects to delete from the database
+        const subjectsToDeleteData = await SubjectModel.find({
+          subjectCode: { $in: subjectsToDelete.map(subject => subject.subjectCode) },
+        }).exec();
 
-    // Create a mapping of subjectObjectId to subjectCode
-    const subjectObjectIdToCodeMap = subjectsToDeleteData.reduce(
-      (acc, subject) => {
-        acc[subject._id.toString()] = subject.subjectCode;
-        return acc;
-      },
-      {} as Record<string, string>
-    );
+        // Create a mapping of subjectObjectId to subjectCode
+        const subjectObjectIdToCodeMap = subjectsToDeleteData.reduce(
+          (acc, subject) => {
+            acc[subject._id.toString()] = subject.subjectCode;
+            return acc;
+          },
+          {} as Record<string, string>
+        );
 
-    // Get current date for comparison
-    const currentDate = new Date();
+        // Get current date for comparison
+        const currentDate = new Date();
 
-    // Filter subjects to delete based on the date added and user's premium access
-    const filteredSubjectsToDelete = user.selectedSubjects.filter(
-      (subject: SelectedSubjectsAndStats) => {
-        const dateAdded = new Date(subject.dateAdded);
-        const isLessThan2Months = new Date(dateAdded.setMonth(dateAdded.getMonth() + 2)) > currentDate;
+        // Filter subjects to delete based on the date added and user's premium access
+        const filteredSubjectsToDelete = user.selectedSubjects.filter(
+          (subject: SelectedSubjectsAndStats) => {
+            const dateAdded = new Date(subject.dateAdded);
+            const isLessThan2Months = new Date(dateAdded.setMonth(dateAdded.getMonth() + 2)) > currentDate;
 
-        // Check if the subject should not be deleted unless the user has premium access
-        return !(isLessThan2Months && !hasValidPremiumAccess);
+            // Check if the subject should not be deleted unless the user has premium access
+            return !(isLessThan2Months && !hasValidPremiumAccess);
+          }
+        );
+
+        // Determine denied deletions
+        const deniedDeletions = user.selectedSubjects.filter(
+          (subject: SelectedSubjectsAndStats) => {
+            const dateAdded = new Date(subject.dateAdded);
+            const isLessThan2Months = new Date(dateAdded.setMonth(dateAdded.getMonth() + 2)) > currentDate;
+            return isLessThan2Months && !hasValidPremiumAccess;
+          }
+        );
+
+        // Check if any subjects were actually removed
+        const subjectsRemoved = user.selectedSubjects.filter(
+          (subject: SelectedSubjectsAndStats) =>
+            !filteredSubjectsToDelete.some(
+              (filteredSubject: SelectedSubjectsAndStats) =>
+                filteredSubject.subjectObjectId.toString() === subject.subjectObjectId.toString()
+            )
+        );
+
+        // Remove subjects from user's selectedSubjects by subjectObjectId
+        user.selectedSubjects = filteredSubjectsToDelete.filter(
+          (subject: SelectedSubjectsAndStats) =>
+            !subjectObjectIdToCodeMap[subject.subjectObjectId.toString()]
+        );
+
+        // Save user to the database after deleting subjects
+        try {
+          await user.save();
+          console.log("User updated with deleted subjects:", user);
+
+          // Prepare response message
+          const responseMessage: ResponseMessage = {
+            message: "Subjects deleted successfully",
+            deletedSubjects: subjectsRemoved.map((subject: SelectedSubjectsAndStats) => subject.subjectObjectId.toString()),
+          };
+
+          if (deniedDeletions.length > 0) {
+            responseMessage.deniedDeletions = deniedDeletions.map(
+              (subject: SelectedSubjectsAndStats) => subject.subjectObjectId.toString()
+            );
+            responseMessage.info = "You can only delete a subject 2 months after adding it.";
+          }
+
+          return NextResponse.json(responseMessage, { status: 200 });
+        } catch (saveError) {
+          console.error(
+            "Error saving user after deleting subjects:",
+            saveError
+          );
+          return NextResponse.json(
+            { message: "Error saving user" },
+            { status: 500 }
+          );
+        }
+      } catch (deleteError) {
+        console.error("Error deleting subjects:", deleteError);
+        return NextResponse.json(
+          { message: "Error deleting subjects" },
+          { status: 500 }
+        );
       }
-    );
-
-    // Check if any subjects were actually removed
-    const subjectsRemoved = user.selectedSubjects.filter(
-      (subject: SelectedSubjectsAndStats) =>
-        !filteredSubjectsToDelete.some(
-          (filteredSubject: SelectedSubjectsAndStats) =>
-            filteredSubject.subjectObjectId.toString() === subject.subjectObjectId.toString()
-        )
-    );
-
-    // Remove subjects from user's selectedSubjects by subjectObjectId
-    user.selectedSubjects = filteredSubjectsToDelete.filter(
-      (subject: SelectedSubjectsAndStats) =>
-        !subjectObjectIdToCodeMap[subject.subjectObjectId.toString()]
-    );
-
-    // Save user to the database after deleting subjects
-    try {
-      await user.save();
-      console.log("User updated with deleted subjects:", user);
-      return NextResponse.json(
-        {
-          message: "Subjects deleted successfully",
-          deletedSubjects: subjectsRemoved.map((subject: SelectedSubjectsAndStats) => subject.subjectObjectId.toString()),
-        },
-        { status: 200 }
-      );
-    } catch (saveError) {
-      console.error(
-        "Error saving user after deleting subjects:",
-        saveError
-      );
-      return NextResponse.json(
-        { message: "Error saving user" },
-        { status: 500 }
-      );
     }
-  } catch (deleteError) {
-    console.error("Error deleting subjects:", deleteError);
-    return NextResponse.json(
-      { message: "Error deleting subjects" },
-      { status: 500 }
-    );
-  }
-}
-
 
     // Handle password update
     if (currentPassword && newPassword) {
@@ -260,53 +286,25 @@ if (subjectsToDelete && subjectsToDelete.length > 0) {
           { status: 500 }
         );
       }
-
-      // Save user after password update
-      try {
-        await user.save();
-        console.log("User password updated and saved.");
-      } catch (saveError) {
-        console.error("Error saving user after updating password:", saveError);
-        return NextResponse.json(
-          { message: "Error saving user" },
-          { status: 500 }
-        );
-      }
     }
 
-    // Update session to reflect new user data
+    // Save any changes to the user
     try {
-      const updatedSession = await getServerSession({
-        req,
-        res: NextResponse,
-        ...authOptions,
-      });
-
+      await user.save();
+      console.log("User updated successfully.");
       return NextResponse.json(
-        {
-          message: "Account details updated successfully",
-          user: updatedSession?.user, // Include the updated session user data
-        },
+        { message: "User updated successfully" },
         { status: 200 }
       );
-    } catch (sessionError) {
-      console.error("Error updating session:", sessionError);
+    } catch (saveError) {
+      console.error("Error saving user:", saveError);
       return NextResponse.json(
-        { message: "Error updating session" },
+        { message: "Error saving user" },
         { status: 500 }
       );
     }
-  } catch (error: unknown) {
-    console.error("Unexpected error updating account details:", error);
-    if (error instanceof Error) {
-      return NextResponse.json(
-        { message: "Internal server error", error: error.message },
-        { status: 500 }
-      );
-    }
-    return NextResponse.json(
-      { message: "An unknown error occurred" },
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    return NextResponse.json({ message: "Unexpected error" }, { status: 500 });
   }
 }

@@ -53,6 +53,7 @@ ChartJS.register(
 
 const tipsArray = [
   "The more you solve, the better our algorithm responds to your requirements",
+  `We hoped to be able to keep this platform 100% free but there are high costs, hence we have to limit free users to ${FREE_DAILY_QUESTION_LIMIT} MCQs/day`,
   "Premium and Grader Access Members can choose all subjects",
   "Your percentile is generated using your relative accuracy across all subjects",
   "With premium you can refer to and analyze past mistakes as well as solve unlimited MCQs",

@@ -54,7 +54,13 @@ type FormData = {
   confirmPassword?: string;
 };
 
-type Subject = {
+export interface Subject {
+  subjectCode: string;
+  subjectName: string;
+  dateAdded: Date;
+}
+
+type SubjectPayload = {
   subjectCode: string;
   subjectName: string;
   dateAdded: Date;
@@ -64,19 +70,31 @@ const PersonalisePage = () => {
   const { data: session, status } = useSession();
   const [enablePasswordChange, setEnablePasswordChange] = useState(false);
   const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [newSelectedSubjects, setNewSelectedSubjects] = useState<Subject[]>([]);
+  const [previouslySelectedSubjects, setPreviouslySelectedSubjects] = useState<
+    Subject[]
+  >([]);
+  const [toBeDeletedSubjects, setToBeDeletedSubjects] = useState<Subject[]>([]);
   const [selectedSubjects, setSelectedSubjects] = useState<Subject[]>([]);
-  const [toastShown, setToastShown] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
   } = useForm<FormData>({
     resolver: zodResolver(passwordSchema),
   });
   const toast = useToast();
+
+  const now = new Date();
+  const twoMonthsAgo = new Date();
+  twoMonthsAgo.setMonth(now.getMonth() - 2);
+  // Check if the user has premium access
+  const hasPremiumAccess =
+    session &&
+    session.user.premiumAccess.valid &&
+    session.user.premiumAccess.accessTill > now;
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -94,118 +112,131 @@ const PersonalisePage = () => {
   }, []);
 
   useEffect(() => {
-    const fetchSelectedSubjects = async () => {
+    const fetchPreviouslySelectedSubjects = async () => {
       try {
-        const response = await axios.get<{ selectedSubjects: Subject[] }>(
-          "/api/get-selected-subjects"
+        const response = await axios.get<{
+          previouslySelectedSubjects: Subject[];
+        }>("/api/get-selected-subjects");
+
+        // Update the previouslySelectedSubjects state
+        setPreviouslySelectedSubjects(response.data.previouslySelectedSubjects);
+
+        // Update selectedSubjects state by merging existing selectedSubjects with fetched previouslySelectedSubjects
+        setSelectedSubjects((prevSelectedSubjects) => [
+          ...prevSelectedSubjects,
+          ...response.data.previouslySelectedSubjects.filter(
+            (subject) =>
+              !prevSelectedSubjects.some(
+                (s) => s.subjectCode === subject.subjectCode
+              )
+          ),
+        ]);
+
+        console.log(
+          "Selected subjects:",
+          response.data.previouslySelectedSubjects
         );
-        setSelectedSubjects(response.data.selectedSubjects);
-        console.log("Selected subjects:", response.data.selectedSubjects);
       } catch (error) {
         console.error("Error fetching selected subjects:", error);
       }
     };
-
     if (session) {
-      fetchSelectedSubjects();
+      fetchPreviouslySelectedSubjects();
     }
   }, [session]);
 
   const toggleHandler = (subject: Subject) => {
-    const now = new Date();
-    const twoMonthsAgo = new Date(now.setMonth(now.getMonth() - 2));
+    // Check if the subject is newly selected
+    const isNewlySelected = newSelectedSubjects.some(
+      (s) => s.subjectCode === subject.subjectCode
+    );
+    // Check if the subject is a previously selected subject
+    const isPreviouslySelected = previouslySelectedSubjects.some(
+      (s) => s.subjectCode === subject.subjectCode
+    );
 
-    // Check if the subject is not already selected and if the limit is reached
-    if (
+    if (isNewlySelected && !isPreviouslySelected) {
+      // Remove the subject from both newSelectedSubjects and selectedSubjects
+      setNewSelectedSubjects((prev) =>
+        prev.filter((s) => s.subjectCode !== subject.subjectCode)
+      );
+
+      setSelectedSubjects((prev) =>
+        prev.filter((s) => s.subjectCode !== subject.subjectCode)
+      );
+
+      return;
+    } else if (
       !selectedSubjects.some((s) => s.subjectCode === subject.subjectCode) &&
       selectedSubjects.length >= FREE_SUBJECT_LIMIT
     ) {
-      if (!toastShown) {
-        toast({
-          title: "Limit Reached",
-          description:
-            "You have reached the maximum number of subjects you can select. Upgrade to premium to select more.",
-          status: "warning",
-          duration: 3000,
-          isClosable: true,
-        });
-        setToastShown(true);
-      }
-      return;
-    }
-
-    // Check if the subject has been selected within the last 2 months
-    if (
-      selectedSubjects.some(
-        (s) =>
-          s.subjectCode === subject.subjectCode &&
-          new Date(s.dateAdded) > twoMonthsAgo
-      )
-    ) {
       toast({
-        title: "Cannot Unselect",
+        title: "Limit Reached",
         description:
-          "You can unselect a subject only 2 months after selecting it.",
+          "You have reached the maximum number of subjects you can select. Upgrade to premium to select more.",
         status: "warning",
         duration: 3000,
         isClosable: true,
       });
       return;
-    }
+    } else if (isPreviouslySelected && !isNewlySelected) {
+      // Check if the subject can be unselected
+      const canUnselect = hasPremiumAccess || subject.dateAdded <= twoMonthsAgo;
 
-    // Update the list of selected subjects
-    setSelectedSubjects((prevSelected) => {
-      const isSelected = prevSelected.some(
-        (s) => s.subjectCode === subject.subjectCode
+      if (!canUnselect) {
+        toast({
+          title: "Cannot Unselect",
+          description:
+            "You can unselect a subject only 2 months after selecting it, or if you have premium access.",
+          status: "warning",
+          duration: 3000,
+          isClosable: true,
+        });
+        return;
+      }
+
+      // Remove the subject from previouslySelectedSubjects
+      setPreviouslySelectedSubjects((prev) =>
+        prev.filter((s) => s.subjectCode !== subject.subjectCode)
       );
 
-      if (isSelected) {
-        // Remove the subject from the selected list
-        return prevSelected.filter(
-          (s) => s.subjectCode !== subject.subjectCode
-        );
-      } else {
-        // Add the subject to the selected list
-        return [...prevSelected, subject];
-      }
-    });
+      // Remove the subject from selectedSubjects
+      setSelectedSubjects((prev) =>
+        prev.filter((s) => s.subjectCode !== subject.subjectCode)
+      );
+
+      // Add the subject to toBeDeletedSubjects
+      setToBeDeletedSubjects((prev) => [...prev, subject]);
+    } else {
+      // Add the new subject to newSelectedSubjects and update selectedSubjects
+      setNewSelectedSubjects((prev) => [...prev, subject]);
+
+      // Update selectedSubjects by combining newSelectedSubjects and previouslySelectedSubjects
+      setSelectedSubjects((prev) => [...prev, subject]);
+    }
   };
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setIsSubmitting(true);
 
-    const previousSelectedSubjects = selectedSubjects.map((s) => s.subjectCode);
-
-    const subjectsToUpdate = selectedSubjects.map((subject) => ({
-      subjectName: subject.subjectName,
+    const subjectsToUpdate = newSelectedSubjects.map((subject) => ({
       subjectCode: subject.subjectCode,
+      subjectName: subject.subjectName,
       dateAdded: subject.dateAdded,
     }));
 
-    const subjectsToDelete = previousSelectedSubjects.filter(
-      (code) =>
-        !selectedSubjects.some((s) => s.subjectCode === code) &&
-        new Date(
-          selectedSubjects.find((s) => s.subjectCode === code)?.dateAdded || 0
-        ) <= new Date(new Date().setMonth(new Date().getMonth() - 2))
-    );
+    const subjectsToDelete = toBeDeletedSubjects.map((subject) => ({
+      subjectCode: subject.subjectCode,
+      subjectName: subject.subjectName,
+      dateAdded: subject.dateAdded,
+    }));
 
-    const payload: {
-      subjectsToUpdate?: Subject[];
-      subjectsToDelete?: string[];
-      currentPassword?: string;
-      newPassword?: string;
-    } = {
+    const payload = {
       subjectsToUpdate,
       subjectsToDelete,
+      currentPassword: enablePasswordChange ? data.currentPassword : undefined,
+      newPassword: enablePasswordChange ? data.newPassword : undefined,
     };
-
-    if (enablePasswordChange) {
-      payload.currentPassword = data.currentPassword;
-      payload.newPassword = data.newPassword;
-    }
-
-    let success = true;
 
     try {
       const response = await axios.put("/api/update-account-details", payload);
@@ -219,7 +250,6 @@ const PersonalisePage = () => {
           isClosable: true,
         });
       } else {
-        success = false;
         throw new Error("Failed to update details");
       }
     } catch (error) {
@@ -311,7 +341,7 @@ const PersonalisePage = () => {
             <Tooltip
               key={subject.subjectCode}
               label={
-                selectedSubjects.some(
+                previouslySelectedSubjects.some(
                   (s) =>
                     s.subjectCode === subject.subjectCode &&
                     new Date(s.dateAdded) >
@@ -321,7 +351,7 @@ const PersonalisePage = () => {
                   : ""
               }
               isDisabled={
-                !selectedSubjects.some(
+                !previouslySelectedSubjects.some(
                   (s) =>
                     s.subjectCode === subject.subjectCode &&
                     new Date(s.dateAdded) >
@@ -486,6 +516,11 @@ const PersonalisePage = () => {
               </Box>
             </Box>
           )}
+          {!hasPremiumAccess && (
+            <Text color="gray.500" fontFamily={'Karla, sans-serif'}>
+              Note: You Can Change Subjects Only Every 2 Months
+            </Text>
+          )}
           <Button
             bg="#271144"
             color="white"
@@ -510,5 +545,4 @@ const PersonalisePage = () => {
     </Flex>
   );
 };
-
 export default PersonalisePage;

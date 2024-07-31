@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import QuestionModel from '@/models/question.model';
-import UserModel from '@/models/user.model';
+import UserModel, { QuestionDetails, SelectedSubjectsAndStats } from '@/models/user.model';
 import {
   FREE_DAILY_QUESTION_LIMIT,
   QUESTION_DIFFICULTY_RANGE,
@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
 
     // Determine difficulty range
     const subjectStats = user.selectedSubjects.find(
-      (subject) => subject.subjectObjectId.toString() === subjectCode
+      (subject: SelectedSubjectsAndStats) => subject.subjectObjectId.toString() === subjectCode
     );
 
     const userPercentile = subjectStats?.userPercentile ?? 50;
@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
 
     // Prepare query conditions
     const solvedQuestionIds = user.questionsSolvedDetails.map(
-      (detail) => detail.questionObjectId
+      (detail: QuestionDetails) => detail.questionObjectId
     );
 
     const matchConditions: any = {

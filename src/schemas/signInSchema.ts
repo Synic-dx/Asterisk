@@ -4,5 +4,5 @@ import { z } from "zod";
 // This particular code is for validating login inputs
 export const signInSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6),
+  password: z.string().min(6, 'Enter Valid Password'),
 });

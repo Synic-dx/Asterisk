@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       {
         message: 'Selected subjects retrieved successfully',
-        selectedSubjects: user[0].fullSelectedSubjects,
+        previouslySelectedSubjects: user[0].fullSelectedSubjects,
       },
       { status: 200 }
     );

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Text, Button, Image, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, Image, useBreakpointValue, Link } from "@chakra-ui/react";
 import { FaEnvelope, FaYoutube, FaGithub } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { usePathname, useRouter } from "next/navigation";
@@ -149,6 +149,14 @@ const Footer: React.FC = () => {
         >
           Terms & Conditions
         </Button>
+        <Link
+          fontSize={"10px"}
+          href="mailto:teamasterisk.2025@gmail.com"
+          color={fontColor}
+          _hover={{ textDecoration: "underline" }}
+        >
+          Contact Us
+        </Link>
       </Flex>
     </Box>
   );

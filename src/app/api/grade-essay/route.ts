@@ -7,6 +7,7 @@ import { z } from "zod";
 import UserModel from "@/models/user.model";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import { EssayGraded } from "@/models/user.model";
 
 dotenv.config();
 
@@ -63,7 +64,7 @@ export async function POST(req: NextRequest) {
 
     const weekStart = new Date(now.setDate(now.getDate() - now.getDay()));
     const essaysGradedThisWeek = user.essaysGraded.filter(
-      (essay) => new Date(essay.date) >= weekStart
+      (essay: EssayGraded) => new Date(essay.date) >= weekStart
     ).length;
 
     if (essaysGradedThisWeek >= weeklyEssayLimit) {
