@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
     );
 
     // Prepare the prompt string
-    const prompt = `Generate a ${level} ${subjectName} MCQ on ${topic} (${subtopic}) with a difficulty of ${newDifficultyRating}/100. Include 4 options (one correct) and a ${difficultyRating * 4}-word explanation. Use Markdown and Unicode math symbols (e.g. + − × ÷ % ½ ⅓ ¼ ¾ x² x³ x₁ x₂ x₃ ₀ α β γ Δ π σ ω θ Θ ∫ ∑ ∏ ∇ ∞ ≈ ≠ ≤ ≥ ＜ ＞ ∠ ° → ↔ ⟶ ⟹ ⟺ ∈ ∉ ∪ ∩ ∀ ∃ ⊆ ⊇ ⊂ ⊃ ⊄ ⊅ ∅ ⌒ ⟋ ⟌ ⟒  ⃗ ⃖ │ └ ┌ ⟉ ⟄ ⟅ ⁿC₎ ⁿP₎). Avoid quotation marks and use \n for line breaks and DO NOT USE LATEX. Ensure Markdown formatting is JSON-compatible.`;
+    const prompt = `Generate a ${level} ${subjectName} MCQ on ${topic} (${subtopic}) with a difficulty of ${newDifficultyRating}/100. Include 4 options (one correct) and a ${difficultyRating * 3}-word explanation. Use Markdown and Unicode math symbols (e.g. + − × ÷ % ½ ⅓ x² x³ x₁ x₂ ₀ α β γ Δ π σ ω θ Θ ∫ ∑ ∏ ∇ ∞ ≈ ≠ ≤ ≥ ＜ ＞ ∠ ° → ↔ ⟶ ⟹ ⟺ ∈ ∉ ∪ ∩ ∀ ∃ ⊆ ⊇ ⊂ ⊃ ⊄ ⊅ ∅ ⌒ ⟋ ⟌ ⟒  ⃗ ⃖ │ └ ┌ ⟉ ⟄ ⟅ ⁿCᵣ ⁿPᵣ). Avoid quotation marks and use \n for line breaks and DO NOT USE LATEX also produce diagrams/curves using Markdown without linking external images. Ensure Markdown formatting is JSON-compatible.`;
 
     // Trim the prompt to remove any unwanted spaces or line breaks
     const trimmedPrompt = prompt.trim();

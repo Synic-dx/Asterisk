@@ -165,7 +165,9 @@ export async function PUT(req: NextRequest) {
       try {
         // Fetch the subjects to delete from the database
         const subjectsToDeleteData = await SubjectModel.find({
-          subjectCode: { $in: subjectsToDelete.map(subject => subject.subjectCode) },
+          subjectCode: {
+            $in: subjectsToDelete.map((subject) => subject.subjectCode),
+          },
         }).exec();
 
         // Create a mapping of subjectObjectId to subjectCode
@@ -184,7 +186,9 @@ export async function PUT(req: NextRequest) {
         const filteredSubjectsToDelete = user.selectedSubjects.filter(
           (subject: SelectedSubjectsAndStats) => {
             const dateAdded = new Date(subject.dateAdded);
-            const isLessThan2Months = new Date(dateAdded.setMonth(dateAdded.getMonth() + 2)) > currentDate;
+            const isLessThan2Months =
+              new Date(dateAdded.setMonth(dateAdded.getMonth() + 2)) >
+              currentDate;
 
             // Check if the subject should not be deleted unless the user has premium access
             return !(isLessThan2Months && !hasValidPremiumAccess);
@@ -195,7 +199,9 @@ export async function PUT(req: NextRequest) {
         const deniedDeletions = user.selectedSubjects.filter(
           (subject: SelectedSubjectsAndStats) => {
             const dateAdded = new Date(subject.dateAdded);
-            const isLessThan2Months = new Date(dateAdded.setMonth(dateAdded.getMonth() + 2)) > currentDate;
+            const isLessThan2Months =
+              new Date(dateAdded.setMonth(dateAdded.getMonth() + 2)) >
+              currentDate;
             return isLessThan2Months && !hasValidPremiumAccess;
           }
         );
@@ -205,7 +211,8 @@ export async function PUT(req: NextRequest) {
           (subject: SelectedSubjectsAndStats) =>
             !filteredSubjectsToDelete.some(
               (filteredSubject: SelectedSubjectsAndStats) =>
-                filteredSubject.subjectObjectId.toString() === subject.subjectObjectId.toString()
+                filteredSubject.subjectObjectId.toString() ===
+                subject.subjectObjectId.toString()
             )
         );
 
@@ -223,14 +230,19 @@ export async function PUT(req: NextRequest) {
           // Prepare response message
           const responseMessage: ResponseMessage = {
             message: "Subjects deleted successfully",
-            deletedSubjects: subjectsRemoved.map((subject: SelectedSubjectsAndStats) => subject.subjectObjectId.toString()),
+            deletedSubjects: subjectsRemoved.map(
+              (subject: SelectedSubjectsAndStats) =>
+                subject.subjectObjectId.toString()
+            ),
           };
 
           if (deniedDeletions.length > 0) {
             responseMessage.deniedDeletions = deniedDeletions.map(
-              (subject: SelectedSubjectsAndStats) => subject.subjectObjectId.toString()
+              (subject: SelectedSubjectsAndStats) =>
+                subject.subjectObjectId.toString()
             );
-            responseMessage.info = "You can only delete a subject 2 months after adding it.";
+            responseMessage.info =
+              "You can only delete a subject 2 months after adding it.";
           }
 
           return NextResponse.json(responseMessage, { status: 200 });

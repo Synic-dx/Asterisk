@@ -16,7 +16,10 @@ export async function POST(req: Request) {
     if (!email || !password || !userName) {
       console.warn("Missing required fields");
       return new Response(
-        JSON.stringify({ success: false, message: "Email, password, and username are required" }),
+        JSON.stringify({
+          success: false,
+          message: "Email, password, and username are required",
+        }),
         { status: 400 }
       );
     }
@@ -30,14 +33,19 @@ export async function POST(req: Request) {
     if (existingUserVerifiedByUserName) {
       console.warn("Username is already taken");
       return new Response(
-        JSON.stringify({ success: false, message: "Username is already taken" }),
+        JSON.stringify({
+          success: false,
+          message: "Username is already taken",
+        }),
         { status: 400 }
       );
     }
 
     // Check if email is already registered
     const existingUserByEmail = await UserModel.findOne({ email });
-    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const verificationCode = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
 
     if (existingUserByEmail) {
       console.log("Existing user found by email:", existingUserByEmail);
@@ -47,17 +55,22 @@ export async function POST(req: Request) {
         return new Response(
           JSON.stringify({
             success: false,
-            message: "Email is already registered and verified. Please log in instead.",
+            message:
+              "Email is already registered and verified. Please log in instead.",
           }),
           { status: 400 }
         );
       } else {
         existingUserByEmail.password = await bcrypt.hash(password, 10);
         existingUserByEmail.verificationCode = verificationCode;
-        existingUserByEmail.verificationCodeExpiry = new Date(Date.now() + 3600000); // 1 hour expiry
+        existingUserByEmail.verificationCodeExpiry = new Date(
+          Date.now() + 3600000
+        ); // 1 hour expiry
         existingUserByEmail.isVerified = false; // Ensure the user is marked as not verified
         await existingUserByEmail.save();
-        console.log("Updated existing user with new password and verification code");
+        console.log(
+          "Updated existing user with new password and verification code"
+        );
       }
     } else {
       const newUser = new UserModel({
@@ -67,13 +80,13 @@ export async function POST(req: Request) {
         premiumAccess: {
           valid: false,
           accessTill: null,
-          accessModel: null
+          accessModel: null,
         },
         graderAccess: {
           valid: false,
           accessTill: null,
-          model: null,  // Changed from graderAccessModel to model to align with schema
-          weeklyEssayLimit: null
+          model: null, // Changed from graderAccessModel to model to align with schema
+          weeklyEssayLimit: null,
         },
         questionsSolvedDetails: [],
         selectedSubjects: [],
@@ -87,13 +100,20 @@ export async function POST(req: Request) {
     }
 
     // Send verification email
-    const emailResponse = await sendVerificationEmail(email, userName, verificationCode);
+    const emailResponse = await sendVerificationEmail(
+      email,
+      userName,
+      verificationCode
+    );
     console.log("Verification email response:", emailResponse);
 
     if (!emailResponse.success) {
       console.error("Failed to send verification email");
       return new Response(
-        JSON.stringify({ success: false, message: "Failed to send verification email" }),
+        JSON.stringify({
+          success: false,
+          message: "Failed to send verification email",
+        }),
         { status: 500 }
       );
     }

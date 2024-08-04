@@ -1,8 +1,8 @@
 "use client";
 
-import React, { Component, ErrorInfo } from 'react';
-import { Box, Heading, Text, Button } from '@chakra-ui/react';
-import { useRouter } from 'next/navigation';
+import React, { Component, ErrorInfo } from "react";
+import { Box, Heading, Text, Button } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 
 interface Props {
   children: React.ReactNode;
@@ -33,7 +33,9 @@ class ErrorBoundary extends Component<Props, State> {
           <Heading as="h2" size="xl" mb={4}>
             Something went wrong.
           </Heading>
-          <Text mb={4}>We're sorry, but something went wrong. Please try again later.</Text>
+          <Text mb={4}>
+            We're sorry, but something went wrong. Please try again later.
+          </Text>
           <Button onClick={() => window.location.reload()}>Reload Page</Button>
         </Box>
       );

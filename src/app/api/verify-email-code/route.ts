@@ -9,13 +9,15 @@ export async function POST(request: Request) {
     const { userName, token } = await request.json();
 
     // Log incoming request data for debugging
-    console.debug("Received request data:", { userName, token });
 
     // Check if token is present
     if (!token) {
       console.warn("No token provided in the request");
       return new Response(
-        JSON.stringify({ success: false, message: "Verification token is required" }),
+        JSON.stringify({
+          success: false,
+          message: "Verification token is required",
+        }),
         { status: 400 }
       );
     }
@@ -43,10 +45,11 @@ export async function POST(request: Request) {
     }
 
     // Validate verification code and check expiration
-    const isCodeValid = user.verificationCode !== undefined && user.verificationCode === token;
-    const isCodeNotExpired = user.verificationCodeExpiry !== undefined && user.verificationCodeExpiry > new Date();
-
-    console.debug("Verification check:", { isCodeValid, isCodeNotExpired });
+    const isCodeValid =
+      user.verificationCode !== undefined && user.verificationCode === token;
+    const isCodeNotExpired =
+      user.verificationCodeExpiry !== undefined &&
+      user.verificationCodeExpiry > new Date();
 
     if (isCodeValid && isCodeNotExpired) {
       user.isVerified = true;
@@ -71,7 +74,10 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     } else {
-      console.warn("Invalid verification code provided for user:", decodedUserName);
+      console.warn(
+        "Invalid verification code provided for user:",
+        decodedUserName
+      );
       return new Response(
         JSON.stringify({
           success: false,

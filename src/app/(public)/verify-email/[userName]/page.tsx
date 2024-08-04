@@ -38,16 +38,12 @@ export default function VerifyAccount() {
     setIsVerifying(true);
 
     // Debug logging to verify data
-    console.debug("Form Data:", data);
-    console.debug("Params:", params);
 
     try {
       const response = await axios.post<ApiResponse>(`/api/verify-email-code`, {
         userName: params.userName,
         token: data.token,
       });
-
-      console.debug("API Response:", response.data);
 
       toast({
         title: "Success",
@@ -142,11 +138,7 @@ export default function VerifyAccount() {
                     <PinInputField />
                   </PinInput>
                 </Box>
-                <FormErrorMessage
-                  color="red.500"
-                  textAlign="center"
-                  mb={-3}
-                >
+                <FormErrorMessage color="red.500" textAlign="center" mb={-3}>
                   {form.formState.errors.token?.message}
                 </FormErrorMessage>
               </FormControl>

@@ -343,9 +343,7 @@ export default function SignUpForm() {
             >
               <Text fontSize="xs" color="#271144">
                 I agree to the{" "}
-                <Link
-                  href="/terms-and-conditions"
-                >
+                <Link href="/terms-and-conditions">
                   <Button
                     variant="link"
                     _hover={{ textDecoration: "underline" }}

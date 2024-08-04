@@ -78,13 +78,16 @@ export default function SignInForm() {
         // Check if the error message indicates email verification
         const errorMessage = result.error;
         if (errorMessage.includes("Please verify your email by visiting")) {
-          const username = errorMessage.split('/verify-email/')[1];
+          const username = errorMessage.split("/verify-email/")[1];
           router.push(`/verify-email/${username}`);
         } else {
           showToast("error", errorMessage);
         }
       } else if (result?.url) {
-        showToast("success", "Sign in successful! Redirecting you to dashboard");
+        showToast(
+          "success",
+          "Sign in successful! Redirecting you to dashboard"
+        );
         router.replace(`/dashboard`);
       }
     } catch (error) {
@@ -217,7 +220,7 @@ export default function SignInForm() {
             />
             <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             <Text fontSize="xs" color="#271144" fontFamily="Roboto" mt={3}>
-            {isForgotPassword && (
+              {isForgotPassword && (
                 <Spinner
                   mr={4}
                   size="sm"

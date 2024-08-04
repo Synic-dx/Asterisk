@@ -5,17 +5,21 @@ import { useRouter } from "next/navigation";
 import {
   Box,
   Button,
-  Checkbox,
   Select,
   VStack,
   Heading,
   Text,
   Flex,
-  useBreakpointValue,
   Spinner,
+  Skeleton,
+  RadioGroup,
+  Radio,
+  Stack,
+  useBreakpointValue,
+  useToast,
 } from "@chakra-ui/react";
-import PageWrapper from "../../../components/FullScreenPage"; // Adjust the import path as needed
 import axios from "axios";
+import { Level, Topics, Topic } from "../../../models/subject.model";
 
 // Define the styles
 const headingSize = "lg";
@@ -28,16 +32,19 @@ const textColor = "#271144";
 const Practice = () => {
   const { data: session, status } = useSession(); // Destructure data from useSession
   const router = useRouter();
+  const toast = useToast();
   const [selectedSubject, setSelectedSubject] = useState<any>(null);
-  const [onlyASLevel, setOnlyASLevel] = useState(false);
+  const [selectedLevel, setSelectedLevel] = useState("bothLevels");
+  const [asLevel, setAsLevel] = useState(false);
+  const [bothLevels, setBothLevels] = useState(true);
+  const [aLevel, setALevel] = useState(false);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedSubtopics, setSelectedSubtopics] = useState<string[]>([]);
-  const [topics, setTopics] = useState<{ name: string; subtopics: string[] }[]>(
-    []
-  );
+  const [topics, setTopics] = useState<Topic[]>([]);
   const [subtopics, setSubtopics] = useState<string[]>([]);
   const [selectedSubjects, setSelectedSubjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true); // Add a loading state
+  const [isSubmitting, setIsSubmitting] = useState(false); // Add a submitting state
 
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
@@ -51,200 +58,374 @@ const Practice = () => {
         .get("/api/get-selected-subjects")
         .then((response) => {
           setSelectedSubjects(response.data.previouslySelectedSubjects);
-          setLoading(false); // Set loading to false once data is fetched
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching selected subjects:", error);
           setLoading(false); // Set loading to false in case of an error
         });
     } else if (status === "unauthenticated") {
-      router.push("/login"); // Redirect to login if not authenticated
+      router.push("/sign-in"); // Redirect to login if not authenticated
     }
   }, [status, router]);
 
   useEffect(() => {
-    if (selectedSubject?.topics) {
-      setTopics(selectedSubject.topics);
+    if (selectedSubject?.levels) {
+      let levels: Level[] = selectedSubject.levels;
+
+      // Filter levels based on selection
+      if (asLevel) {
+        levels = levels.filter((level) => level.levelName === "AS Level");
+      } else if (aLevel) {
+        levels = levels.filter((level) => level.levelName === "A Level");
+      }
+
+      // Flatten the topics into a single array of topics
+      const newTopics: Topics = levels.flatMap((level) => level.topics);
+      // Remove duplicates by creating a Map and converting back to array
+      const uniqueTopics = Array.from(
+        new Map(newTopics.map((topic) => [topic.topicName, topic])).values()
+      );
+      setTopics(uniqueTopics);
+      setSubtopics([]); // Clear subtopics when changing subjects
+
+      // Clear selected topics and subtopics when subject changes
+      setSelectedTopics([]);
+      setSelectedSubtopics([]);
+    }
+  }, [selectedSubject, asLevel, aLevel]);
+
+  useEffect(() => {
+    if (selectedSubject?.levels) {
+      // Reset radio group to bothLevels
+      setAsLevel(false);
+      setBothLevels(true);
+      setALevel(false);
+      setSelectedLevel("bothLevels");
     }
   }, [selectedSubject]);
 
+  // Effect to update subtopics based on selected topics
   useEffect(() => {
-    // Collect subtopics for the selected topics
     const allSubtopics = selectedTopics.flatMap((topicName) => {
-      const foundTopic = topics.find((t) => t.name === topicName);
+      const foundTopic = topics.find((t) => t.topicName === topicName);
       return foundTopic ? foundTopic.subtopics : [];
     });
-    setSubtopics(allSubtopics);
+    // Remove duplicates by creating a Set and converting back to array
+    const uniqueSubtopics = Array.from(new Set(allSubtopics));
+    setSubtopics(uniqueSubtopics);
   }, [selectedTopics, topics]);
 
   const handleSolve = async () => {
     if (!selectedSubject) return;
 
+    setIsSubmitting(true); // Set submitting state to true
+
     try {
+      console.log(
+        selectedSubject.subjectCode,
+        asLevel,
+        aLevel,
+        selectedTopics,
+        selectedSubtopics
+      );
       const response = await axios.get("/api/serve-question", {
         params: {
           subjectCode: selectedSubject.subjectCode,
-          onlyASLevel,
+          onlyASLevel: asLevel,
+          onlyALevel: aLevel,
           topics: selectedTopics, // Pass the selected topics
           subtopics: selectedSubtopics, // Pass the selected subtopics
         },
       });
-      console.log("Question data:", response.data);
-    } catch (error) {
+
+      if (response.status === 200) {
+        console.log("Question data:", response.data);
+      }
+    } catch (error: any) {
       console.error("Error fetching question:", error);
+
+      // Show toast notification for error
+      toast({
+        title: "Error",
+        description:
+          error.response?.data?.message || "An unexpected error occurred.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setIsSubmitting(false); // Set submitting state to false after operation
     }
   };
 
-  if (loading) {
+  const handleLevelChange = (value: string) => {
+    setSelectedLevel(value);
+    setAsLevel(value === "asLevel");
+    setBothLevels(value === "bothLevels");
+    setALevel(value === "aLevel");
+  };
+
+  const isIGCSE = selectedSubject?.subjectName.startsWith("IGCSE");
+  if (status === "loading") {
     return (
-      <Box
-        minHeight="80vh"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
+      <Flex
+        direction="column"
+        align="center"
+        justify="center"
+        h="100vh"
+        w="100vw"
+        bg="white"
       >
-        <Spinner size="xl" />
-      </Box>
+        <Spinner size="xl" color="#271144" />
+      </Flex>
+    );
+  }
+
+  if (!session) {
+    return (
+      <Flex
+        direction="column"
+        align="center"
+        justify="center"
+        h="100vh"
+        w="100vw"
+        bg="white"
+      >
+        <Text color="#271144" fontFamily="Karla, sans-serif">
+          You must be logged in to view this page.
+        </Text>
+      </Flex>
     );
   }
 
   return (
-    <PageWrapper minHeight="80vh">
-      <Flex direction={isDesktop ? "row" : "column"} gap={8}>
+    <Flex
+      direction={["column", "column", "row"]}
+      p={5}
+      gap={5}
+      w={"100%"}
+      position="relative"
+      minHeight={"80vh"}
+    >
+      <Box
+        flex="2"
+        p={8}
+        boxShadow="lg"
+        borderRadius="md"
+        w={["100%", "100%", "60%"]}
+        maxH="83vh"
+        overflowY="auto"
+      >
+        <Heading fontSize="xl" mb={5} color="#130529">
+          Your Subjects
+        </Heading>
+        {loading ? (
+          Array.from({ length: 6 }, (_, index) => (
+            <Skeleton key={index} height="50px" mb={2} borderRadius={6} />
+          ))
+        ) : selectedSubjects && selectedSubjects.length > 0 ? (
+          <VStack spacing={1} align="stretch">
+            {selectedSubjects.map((subject: any) => (
+              <Box
+                key={subject.subjectCode}
+                p={4}
+                mb={2}
+                bg={
+                  selectedSubject?.subjectCode === subject.subjectCode
+                    ? "#271144"
+                    : "white"
+                }
+                color={
+                  selectedSubject?.subjectCode === subject.subjectCode
+                    ? "white"
+                    : "#271144"
+                }
+                borderWidth="1px"
+                borderRadius="md"
+                onClick={() => setSelectedSubject(subject)}
+                fontFamily="Karla, sans-serif"
+                _hover={{
+                  bg:
+                    selectedSubject?.subjectCode === subject.subjectCode
+                      ? "rgba(39, 17, 67, 0.9)"
+                      : "#f7fafc",
+                }}
+                cursor="pointer"
+              >
+                <Text fontSize="lg" fontWeight="bold">
+                  {subject.subjectName}
+                </Text>
+                <Text
+                  fontSize="sm"
+                  color={
+                    selectedSubject?.subjectCode === subject.subjectCode
+                      ? "white"
+                      : "gray.600"
+                  }
+                >
+                  {subject.subjectCode}
+                </Text>
+              </Box>
+            ))}
+          </VStack>
+        ) : (
+          <Box mt={8} textAlign="center">
+            <Text
+              mb={4}
+              fontFamily={textFont}
+              fontSize={textSize}
+              color={textColor}
+            >
+              You haven&apos;t selected any subjects yet.
+            </Text>
+            <Button
+              bg="#271144"
+              color="white"
+              _hover={{ bg: "white", color: "#271144", opacity: 0.6 }}
+              onClick={() => router.push("/personalise")}
+            >
+              Go to Personalise
+            </Button>
+          </Box>
+        )}
+      </Box>
+      {selectedSubjects.length > 0 && selectedSubject ? (
         <Box
-          flex="2"
+          flex="1"
           p={8}
           boxShadow="lg"
           borderRadius="md"
-          w={["100%", "100%", "60%"]}
-          maxH="83vh"
-          overflowY="scroll"
+          w={["100%", "100%", "40%"]}
+          maxH="fit-content"
         >
-          <Heading
-            size={headingSize}
-            fontFamily={headingFont}
-            color={headingColor}
-            mb={4}
-          >
-            Your Subjects
-          </Heading>
-          {selectedSubjects && selectedSubjects.length > 0 ? (
-            <VStack spacing={4} align="stretch">
-              {selectedSubjects.map((subject: any) => (
-                <Button
-                  key={subject.subjectCode}
-                  onClick={() => setSelectedSubject(subject)}
-                  variant={
-                    selectedSubject?.subjectCode === subject.subjectCode
-                      ? "solid"
-                      : "outline"
-                  }
-                >
-                  <Text
-                    fontFamily={textFont}
-                    fontSize={textSize}
-                    color={textColor}
-                  >
-                    {subject.subjectName}
-                  </Text>
-                </Button>
-              ))}
-            </VStack>
-          ) : (
-            <Box mt={8} textAlign="center">
-              <Text
-                mb={4}
-                fontFamily={textFont}
-                fontSize={textSize}
-                color={textColor}
-              >
-                You haven&apos;t selected any subjects yet.
-              </Text>
-              <Button
-                bg="#271144"
-                color="white"
-                _hover={{ bg: "white", color: "#271144", opacity: 0.6 }}
-                onClick={() => router.push("/personalise")}
-              >
-                Go to Personalise
-              </Button>
-            </Box>
-          )}
-        </Box>
-        {selectedSubject && (
-          <Box
-            flex="1"
-            mt={isDesktop ? 0 : 8}
-            p={8}
-            boxShadow="lg"
-            borderRadius="md"
-            w={["100%", "100%", "40%"]}
-            maxH="fit-content"
-          >
+          <VStack spacing={6} align="stretch">
             <Heading
               size="lg"
               fontFamily={headingFont}
               color={headingColor}
-              mb={2}
+              mb={4}
             >
-              {selectedSubject.subjectName}
+              {selectedSubject
+                ? selectedSubject.subjectName
+                : "Select a Subject"}
             </Heading>
-            <Checkbox
-              isChecked={onlyASLevel}
-              onChange={(e) => setOnlyASLevel(e.target.checked)}
-              colorScheme="purple"
-            >
-              <Text fontFamily={textFont} fontSize={textSize} color={textColor}>
-                Serve only AS Level?
-              </Text>
-            </Checkbox>
-            <Select
-              placeholder="Select Topics"
-              mt={4}
-              value={selectedTopics}
-              onChange={(e) =>
-                setSelectedTopics(
-                  Array.from(e.target.selectedOptions, (option) => option.value)
-                )
-              }
-              multiple
-            >
-              {topics.map((t) => (
-                <option key={t.name} value={t.name}>
-                  {t.name}
-                </option>
-              ))}
-            </Select>
-            <Select
-              placeholder="Select Subtopics"
-              mt={4}
-              value={selectedSubtopics}
-              onChange={(e) =>
-                setSelectedSubtopics(
-                  Array.from(e.target.selectedOptions, (option) => option.value)
-                )
-              }
-              multiple
-            >
-              {subtopics.map((st) => (
-                <option key={st} value={st}>
-                  {st}
-                </option>
-              ))}
-            </Select>
+            {!isIGCSE && (
+              <>
+                <Text
+                  fontSize={textSize}
+                  color={textColor}
+                  fontFamily={textFont}
+                >
+                  Select Levels
+                </Text>
+                <RadioGroup value={selectedLevel} onChange={handleLevelChange}>
+                  <Stack spacing={4} direction="row">
+                    <Radio value="bothLevels">Both Levels</Radio>
+                    <Radio value="asLevel">AS Level</Radio>
+                    <Radio value="aLevel">A Level</Radio>
+                  </Stack>
+                </RadioGroup>
+              </>
+            )}
+            {topics.length > 0 && (
+              <>
+                <Text
+                  fontSize={textSize}
+                  color={textColor}
+                  fontFamily={textFont}
+                >
+                  Select Topics
+                </Text>
+                <Select
+                  placeholder="All Topics"
+                  value={selectedTopics}
+                  onChange={(e) =>
+                    setSelectedTopics(
+                      Array.from(
+                        e.target.selectedOptions,
+                        (option) => option.value
+                      )
+                    )
+                  }
+                  size="md"
+                  fontFamily={textFont}
+                  color={textColor}
+                >
+                  {topics.map((topic) => (
+                    <option key={topic.topicName} value={topic.topicName}>
+                      {topic.topicName}
+                    </option>
+                  ))}
+                </Select>
+              </>
+            )}
+            {subtopics.length > 0 && (
+              <>
+                <Text
+                  fontSize={textSize}
+                  color={textColor}
+                  fontFamily={textFont}
+                >
+                  Select Subtopics
+                </Text>
+                <Select
+                  placeholder="All Subtopics"
+                  value={selectedSubtopics}
+                  onChange={(e) =>
+                    setSelectedSubtopics(
+                      Array.from(
+                        e.target.selectedOptions,
+                        (option) => option.value
+                      )
+                    )
+                  }
+                  size="md"
+                  fontFamily={textFont}
+                  color={textColor}
+                >
+                  {subtopics.map((subtopic) => (
+                    <option key={subtopic} value={subtopic}>
+                      {subtopic}
+                    </option>
+                  ))}
+                </Select>
+              </>
+            )}
             <Button
-              mt={4}
               bg="#271144"
               color="white"
-              _hover={{ bg: "white", color: "#271144", opacity: 0.6 }}
+              _hover={{ bg: "#271144", color: "white", opacity: 0.6 }}
               onClick={handleSolve}
             >
-              Solve
+              {isSubmitting ? (
+                <>
+                  <Spinner size="sm" mr={3} />
+                  Generating...
+                </>
+              ) : (
+                "Begin Solving"
+              )}
             </Button>
-          </Box>
-        )}
-      </Flex>
-    </PageWrapper>
+          </VStack>
+        </Box>
+      ) : (
+        <Flex
+          direction="column"
+          align="center"
+          justify="center"
+          flex="1"
+          bg="white"
+          p={5}
+          boxShadow="lg"
+          borderRadius="md"
+        >
+          <Text fontSize="xl" mb={4} fontFamily={textFont} color={textColor}>
+            Select a subject to customise
+          </Text>
+        </Flex>
+      )}
+    </Flex>
   );
 };
 

@@ -40,22 +40,43 @@ export default function VerificationEmail({
       <Preview>Here's your verification code: {verificationCode}</Preview>
       <Section style={{ backgroundColor: "white", padding: "20px" }}>
         <Row>
-          <Heading as="h1" style={{ color: "#27114D", fontFamily: "Karla, Roboto, Verdana, sans-serif" }}>
+          <Heading
+            as="h1"
+            style={{
+              color: "#27114D",
+              fontFamily: "Karla, Roboto, Verdana, sans-serif",
+            }}
+          >
             Hello {userName},
           </Heading>
         </Row>
         <Row>
-          <Text style={{ color: "#130529", fontFamily: "Karla, sans-serif", fontSize: "22px" }}>
-            Thank you for registering. Please use the following verification code to complete your registration:
+          <Text
+            style={{
+              color: "#130529",
+              fontFamily: "Karla, sans-serif",
+              fontSize: "22px",
+            }}
+          >
+            Thank you for registering. Please use the following verification
+            code to complete your registration:
           </Text>
         </Row>
         <Row>
-          <Text style={{ color: "#130529", fontSize: "20px", fontWeight: "bold" }}>
+          <Text
+            style={{ color: "#130529", fontSize: "20px", fontWeight: "bold" }}
+          >
             {verificationCode}
           </Text>
         </Row>
         <Row>
-          <Text style={{ color: "#130529", fontFamily: "Karla, sans-serif", fontSize: "22px" }}>
+          <Text
+            style={{
+              color: "#130529",
+              fontFamily: "Karla, sans-serif",
+              fontSize: "22px",
+            }}
+          >
             If you did not request this code, please ignore this email.
           </Text>
         </Row>

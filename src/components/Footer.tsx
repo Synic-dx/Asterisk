@@ -1,7 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Text, Button, Image, useBreakpointValue, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Button,
+  Image,
+  useBreakpointValue,
+  Link,
+} from "@chakra-ui/react";
 import { FaEnvelope, FaYoutube, FaGithub } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { usePathname, useRouter } from "next/navigation";
@@ -9,11 +17,11 @@ import { usePathname, useRouter } from "next/navigation";
 const Footer: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter(); // Add this line
-  const [isHomePage, setIsHomePage] = useState(pathname === '/');
+  const [isHomePage, setIsHomePage] = useState(pathname === "/");
 
   useEffect(() => {
     // Update the `isHomePage` state whenever the pathname changes
-    setIsHomePage(pathname === '/');
+    setIsHomePage(pathname === "/");
   }, [pathname]);
 
   const bgColor = isHomePage ? "#271144" : "white";
@@ -34,7 +42,14 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <Box bg={bgColor} color={fontColor} py={6} px={{ base: 1, md: 10 }} w={"100vw"} mt={5}>
+    <Box
+      bg={bgColor}
+      color={fontColor}
+      py={6}
+      px={{ base: 1, md: 10 }}
+      w={"100vw"}
+      mt={5}
+    >
       {isHomePage && (
         <Flex
           direction={{ base: "column", md: "row" }}
@@ -43,7 +58,7 @@ const Footer: React.FC = () => {
           px={{ base: 4, md: 8 }}
         >
           <Flex
-            direction={'row'}
+            direction={"row"}
             align="center"
             gap={10}
             mb={{ base: 6, md: 0 }}
@@ -60,7 +75,7 @@ const Footer: React.FC = () => {
                 fontFamily={fontFamilyHeader}
                 fontSize={headerFontSize}
                 mb={4}
-                textAlign={'left'}
+                textAlign={"left"}
                 fontWeight={"500"}
               >
                 &copy; Asterisk Academy
@@ -128,9 +143,7 @@ const Footer: React.FC = () => {
         gap={4}
         fontSize={"10px"}
       >
-        <Text textAlign="center">
-          &copy; 2024. All rights reserved.
-        </Text>
+        <Text textAlign="center">&copy; 2024. All rights reserved.</Text>
         <Button
           variant="link"
           fontSize={"10px"}

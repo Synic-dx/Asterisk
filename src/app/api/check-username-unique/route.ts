@@ -19,12 +19,15 @@ export async function GET(req: Request) {
     console.log("Extracted userName:", userNameParam);
 
     // Validate query parameters using zod
-    const validationResult = UserNameQuerySchema.safeParse({ userName: userNameParam });
+    const validationResult = UserNameQuerySchema.safeParse({
+      userName: userNameParam,
+    });
 
     console.log("Validation result:", validationResult);
 
     if (!validationResult.success) {
-      const userNameErrors = validationResult.error.format().userName?._errors || [];
+      const userNameErrors =
+        validationResult.error.format().userName?._errors || [];
       console.warn("Validation errors:", userNameErrors);
       return new Response(
         JSON.stringify({

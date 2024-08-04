@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useEffect, useState } from "react";
 import {
@@ -64,11 +64,16 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
         onSignOut();
         setClickedLink(null);
       },
-      icon: <LogOut size={16} style={{ marginRight: '4px' }} />,
+      icon: <LogOut size={16} style={{ marginRight: "4px" }} />,
     },
   ];
 
-  const links = status === "loading" ? publicNavLinks : session ? privateNavLinks : publicNavLinks;
+  const links =
+    status === "loading"
+      ? publicNavLinks
+      : session
+      ? privateNavLinks
+      : publicNavLinks;
   const linkGap = session ? "4vw" : "7vw";
 
   useEffect(() => {
@@ -96,7 +101,12 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
     <Flex justifyContent="space-between" alignItems="center">
       {isMobile ? (
         <>
-          <Box as="button" aria-label="Open Menu" onClick={onOpen} _hover={{ boxShadow: "xl" }}>
+          <Box
+            as="button"
+            aria-label="Open Menu"
+            onClick={onOpen}
+            _hover={{ boxShadow: "xl" }}
+          >
             <Menu size={24} />
           </Box>
           <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
@@ -112,7 +122,15 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
                       variant="link"
                       color={link.href === pathname ? "#130529" : "#271144"}
                       width="100%"
-                      fontSize={isMobile && session && privateNavLinks.some(privateLink => privateLink.name === link.name) ? "lg" : "md"} // Increase font size for private links on mobile
+                      fontSize={
+                        isMobile &&
+                        session &&
+                        privateNavLinks.some(
+                          (privateLink) => privateLink.name === link.name
+                        )
+                          ? "lg"
+                          : "md"
+                      } // Increase font size for private links on mobile
                       padding="1rem"
                       backgroundColor="white"
                       borderRadius="md"
@@ -145,14 +163,42 @@ const HeaderLinks: React.FC<HeaderLinksProps> = ({
           {links.map((link) => (
             <Box
               key={link.name}
-              mt={session && privateNavLinks.some(privateLink => privateLink.name === link.name) ? 1 : 0} // Apply mt={1} to private links
-              fontSize={{ base: isMobile && session && privateNavLinks.some(privateLink => privateLink.name === link.name) ? "lg" : "md", md: "md" }} // Increase font size for private links on mobile
+              mt={
+                session &&
+                privateNavLinks.some(
+                  (privateLink) => privateLink.name === link.name
+                )
+                  ? 1
+                  : 0
+              } // Apply mt={1} to private links
+              fontSize={{
+                base:
+                  isMobile &&
+                  session &&
+                  privateNavLinks.some(
+                    (privateLink) => privateLink.name === link.name
+                  )
+                    ? "lg"
+                    : "md",
+                md: "md",
+              }} // Increase font size for private links on mobile
             >
               <Button
                 variant="link"
-                color={link.href === pathname || link.href === clickedLink ? "#130529" : "#271144"}
+                color={
+                  link.href === pathname || link.href === clickedLink
+                    ? "#130529"
+                    : "#271144"
+                }
                 fontFamily="Roboto, sans-serif"
-                fontSize={session && !publicNavLinks.some(publicLink => publicLink.href === link.href) ? "sm" : "lg"}
+                fontSize={
+                  session &&
+                  !publicNavLinks.some(
+                    (publicLink) => publicLink.href === link.href
+                  )
+                    ? "sm"
+                    : "lg"
+                }
                 fontWeight={link.href === pathname ? "bold" : "normal"}
                 _hover={{
                   transform: "translateY(2px)",

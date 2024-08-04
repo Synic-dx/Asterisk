@@ -1,5 +1,3 @@
-"use client";
-
 import { NextPage } from "next";
 import { Box, Heading, Text, VStack, Link } from "@chakra-ui/react";
 
@@ -21,7 +19,11 @@ const TermsConditionsPage: NextPage = () => {
         <Text color="#271144">
           Welcome to Asterisk Academy. These Terms and Conditions outline the
           rules and guidelines for using our platform. By accessing or using our
-          services, you agree to comply with these terms.
+          services, you agree to comply with these terms. <br />
+          <br />
+          <b>Note:</b> Throughout these Terms and Conditions, as well as on the
+          platform, the terms "we" and "us" refer exclusively to Asterisk
+          Academy, and not to any individual or group.
         </Text>
 
         <Heading as="h2" fontSize="xl" color="#130529">
@@ -38,27 +40,31 @@ const TermsConditionsPage: NextPage = () => {
           Platform Integrity and Security
         </Heading>
         <Text color="#271144">
-          We are committed to maintaining the security and integrity of our
-          platform. To this end, any attempts to interfere with or compromise
+          We are dedicated to preserving the security and integrity of our
+          platform. Accordingly, any attempts to interfere with or compromise
           our system, including unauthorized access or manipulation of data, may
-          result in the suspension or termination of your account. Additionally,
-          we may take appropriate action to protect our platform&apos;s security
-          and functionality. We appreciate your understanding and cooperation in
-          helping us maintain a secure environment.
+          lead to the termination of your account without a refund for any
+          outstanding subscriptions. Additionally, we may take necessary
+          measures to safeguard the security and functionality of our platform.
+          We appreciate your understanding and cooperation in helping us
+          maintain a secure environment.
         </Text>
 
         <Heading as="h2" fontSize="xl" color="#130529">
           User Responsibility for Credentials
         </Heading>
         <Text color="#271144">
-          It is the responsibility of users to remember their login credentials,
-          including email addresses and passwords. Asterisk Academy provides
+          It is the responsibility of users to retain their login credentials,
+          including email addresses and passwords. Asterisk Academy offers
           password reset options; however, users must have access to the email
-          address used during signup to complete the reset process. We cannot
-          assist with account recovery if users are unable to provide these
-          details, and we do not take responsibility for any inconvenience or
-          issues arising from forgotten credentials or inaccessible email
-          accounts.
+          address provided during registration to complete the reset process. We
+          cannot assist with account recovery if users are unable to provide
+          these details and do not assume responsibility for any inconvenience
+          or issues arising from forgotten credentials or inaccessible email
+          accounts. Furthermore, please be aware that we do not provide options
+          for resetting usernames or email addresses to maintain stable database
+          indexes. Therefore, we advise selecting an email address that you will
+          not lose access to in the foreseeable future.
         </Text>
 
         <Heading as="h2" fontSize="xl" color="#130529">

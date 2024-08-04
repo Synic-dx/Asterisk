@@ -1,6 +1,6 @@
-import React from 'react';
-import ClientLayout from './client-layout'; // Adjust path as needed
-import { Metadata } from 'next';
+import React from "react";
+import ClientLayout from "./client-layout"; // Adjust path as needed
+import { Metadata } from "next";
 
 const BASE_URL = process.env.BASE_URL || "https://asterisk.academy";
 
@@ -44,7 +44,11 @@ export const metadata: Metadata = {
 
 export const viewport = "width=device-width, initial-scale=1";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <head>
@@ -57,7 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-          <ClientLayout>{children}</ClientLayout>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

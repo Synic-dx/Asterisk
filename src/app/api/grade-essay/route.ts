@@ -40,26 +40,38 @@ export async function POST(req: NextRequest) {
       !questionType ||
       !userId
     ) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
     // Fetch user
     const user = await UserModel.findById(userId);
 
     if (!user || !user.graderAccess || !user.graderAccess.model) {
-      return NextResponse.json({ error: "Grader access required or not found" }, { status: 403 });
+      return NextResponse.json(
+        { error: "Grader access required or not found" },
+        { status: 403 }
+      );
     }
 
     // Check if grader access is still valid
     const now = new Date();
     if (user.graderAccess.accessTill && user.graderAccess.accessTill < now) {
-      return NextResponse.json({ error: "Grader access has expired" }, { status: 403 });
+      return NextResponse.json(
+        { error: "Grader access has expired" },
+        { status: 403 }
+      );
     }
 
     // Check weekly essay limit
     const weeklyEssayLimit = user.graderAccess.weeklyEssayLimit;
     if (weeklyEssayLimit === undefined) {
-      return NextResponse.json({ error: "Weekly essay limit is not defined" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Weekly essay limit is not defined" },
+        { status: 500 }
+      );
     }
 
     const weekStart = new Date(now.setDate(now.getDate() - now.getDay()));
@@ -68,7 +80,10 @@ export async function POST(req: NextRequest) {
     ).length;
 
     if (essaysGradedThisWeek >= weeklyEssayLimit) {
-      return NextResponse.json({ error: "Weekly essay limit reached" }, { status: 403 });
+      return NextResponse.json(
+        { error: "Weekly essay limit reached" },
+        { status: 403 }
+      );
     }
 
     // Create grading prompt
@@ -117,6 +132,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ grade, feedback }, { status: 200 });
   } catch (error) {
     console.error("Error grading essay:", error);
-    return NextResponse.json({ error: "Failed to generate grading and feedback" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to generate grading and feedback" },
+      { status: 500 }
+    );
   }
 }

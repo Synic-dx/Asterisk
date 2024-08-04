@@ -10,19 +10,21 @@ export const userNameValidation = z
     message: "Username can only contain letters, numbers, and underscores",
   });
 
-export const signUpSchema = z.object({
-  userName: userNameValidation,
-  email: z.string().email({ message: "Invalid email address" }),
-  terms: z.boolean().refine((val) => val === true, {
-    message: "You must accept the terms and conditions",
-  }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters long" }),
-  confirmPassword: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters long" }),
-}).refine(data => data.password === data.confirmPassword, {
-  message: "Passwords must match",
-  path: ["confirmPassword"],
-});
+export const signUpSchema = z
+  .object({
+    userName: userNameValidation,
+    email: z.string().email({ message: "Invalid email address" }),
+    terms: z.boolean().refine((val) => val === true, {
+      message: "You must accept the terms and conditions",
+    }),
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters long" }),
+    confirmPassword: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters long" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords must match",
+    path: ["confirmPassword"],
+  });

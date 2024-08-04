@@ -1,42 +1,46 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from "mongoose";
 
-type Subtopics = string[];
-type Topics = {
-  topicName: string;
-  subtopics: Subtopics;
-}[];
+// Define the TypeScript types
+export type Subtopics = string[]; // An array of subtopic names
+export type Topic = {
+  topicName: string; // Name of the topic
+  subtopics: Subtopics; // Array of subtopics
+};
+export type Topics = Topic[]; // Array of Topic objects
 
-interface Level {
-  levelName: string;
-  topics: Topics;
+export interface Level {
+  levelName: string; // Name of the level (e.g., AS Level, A Level)
+  topics: Topics; // Array of Topic objects
 }
 
-interface Subject extends Document {
-  subjectCode: string;
-  subjectName: string;
-  levels: Level[];
+export interface Subject extends Document {
+  subjectCode: string; // Unique code for the subject
+  subjectName: string; // Name of the subject
+  levels: Level[]; // Array of Level objects
 }
 
+// Define the Mongoose schemas
 const SubtopicsSchema: Schema = new Schema({
-  subtopics: { type: [String], required: true }
+  subtopics: { type: [String], required: true }, // Array of subtopic names
 });
 
 const TopicsSchema: Schema = new Schema({
-  topicName: { type: String, required: true },
-  subtopics: { type: [String], required: true }
+  topicName: { type: String, required: true }, // Name of the topic
+  subtopics: { type: [String], required: true }, // Array of subtopic names
 });
 
 const LevelsSchema: Schema = new Schema({
-  levelName: { type: String, required: true },
-  topics: { type: [TopicsSchema], required: true }
+  levelName: { type: String, required: true }, // Name of the level
+  topics: { type: [TopicsSchema], required: true }, // Array of Topic objects
 });
 
 const SubjectSchema: Schema = new Schema({
-  subjectCode: { type: String, required: true, unique: true },
-  subjectName: { type: String, required: true, unique: true },
-  levels: { type: [LevelsSchema], required: true }
+  subjectCode: { type: String, required: true, unique: true }, // Unique code for the subject
+  subjectName: { type: String, required: true, unique: true }, // Name of the subject
+  levels: { type: [LevelsSchema], required: true }, // Array of Level objects
 });
 
+// Create and export the model
 const SubjectModel = mongoose.models.Subject || mongoose.model<Subject>("Subject", SubjectSchema);
 
 export default SubjectModel;

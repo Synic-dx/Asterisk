@@ -38,6 +38,13 @@ export async function GET(req: NextRequest) {
                     $in: ['$_id', '$$selectedSubjects.subjectObjectId'] // Match subjectObjectId with _id
                   }
                 }
+              },
+              {
+                $project: {
+                  subjectCode: 1,
+                  subjectName: 1,
+                  levels: 1
+                }
               }
             ],
             as: 'fullSelectedSubjects', // Resulting field
