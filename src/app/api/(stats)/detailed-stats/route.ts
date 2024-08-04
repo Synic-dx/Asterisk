@@ -3,7 +3,7 @@ import dbConnect from '@/lib/dbConnect';
 import UserModel from '@/models/user.model';
 import mongoose from 'mongoose';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/options';
+import { authOptions } from '../../(authentication)/auth/[...nextauth]/options';
 
 interface SubjectStats {
   totalAttempts: number;

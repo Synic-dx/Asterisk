@@ -3,7 +3,7 @@ import dbConnect from '@/lib/dbConnect';
 import UserModel from '@/models/user.model';
 import mongoose from 'mongoose';
 import { getServerSession } from 'next-auth/next'; // Ensure this import is correct
-import { authOptions } from '../auth/[...nextauth]/options'; // Ensure this import is correct
+import { authOptions } from '../../(authentication)/auth/[...nextauth]/options'; // Ensure this import is correct
 
 // Define the interface for question details
 interface QuestionDetail {

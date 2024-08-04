@@ -3,7 +3,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import { getServerSession } from 'next-auth/next'; // Use getServerSession for server-side session
-import { authOptions } from '../auth/[...nextauth]/options'; // Adjust the path if necessary to your authOptions
+import { authOptions } from '../../(authentication)/auth/[...nextauth]/options'; // Adjust the path if necessary to your authOptions
 import SubjectModel from '@/models/subject.model'; // Adjust the path if needed
 
 export async function GET() {

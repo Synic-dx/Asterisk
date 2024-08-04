@@ -9,7 +9,7 @@ import SubjectModel from "@/models/subject.model";
 import { generateQuestion } from "@/lib/generateQuestion"; // Import from the utility file
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/options";
+import { authOptions } from "../../(authentication)/auth/[...nextauth]/options";
 import { FREE_DAILY_QUESTION_LIMIT, QUESTION_DIFFICULTY_RANGE } from "@/constants";
 
 interface MatchConditions {

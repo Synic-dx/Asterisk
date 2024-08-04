@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/options"; // Adjust the import path based on your setup
+import { authOptions } from "@/app/api/(authentication)/auth/[...nextauth]/options"; // Adjust the import path based on your setup
 import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { z } from "zod";

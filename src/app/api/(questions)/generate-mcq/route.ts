@@ -6,7 +6,7 @@ import { generateObject } from "ai";
 import { z } from "zod";
 import dotenv from "dotenv";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]/options";
+import { authOptions } from "../../(authentication)/auth/[...nextauth]/options";
 import { QUESTION_DIFFICULTY_RANGE } from "@/constants";
 
 dotenv.config();

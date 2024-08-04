@@ -8,7 +8,7 @@ import {
 } from '@/constants';
 import mongoose from 'mongoose';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/options';
+import { authOptions } from '../../(authentication)/auth/[...nextauth]/options';
 
 export async function GET(req: NextRequest) {
   await dbConnect();
