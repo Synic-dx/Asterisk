@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
       dailyAttemptsResult.length > 0 ? dailyAttemptsResult[0].dailyAttempts : 0;
 
     if (
-      !user.premiumAccess?.valid &&
+      !user.premiumAccess?.valid && user.premiumAccess.accessTill < new Date() &&
       attemptsToday >= FREE_DAILY_QUESTION_LIMIT
     ) {
       return NextResponse.json(
