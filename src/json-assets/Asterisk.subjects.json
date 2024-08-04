@@ -682,7 +682,7 @@
       "levelName": "AS Level",
       "topics": [
         {
-          "topicName": "Basic Economic Ideas and Resource Allocations",
+          "topicName": "(AS) Basic Economic Ideas and Resource Allocations",
           "subtopics": [
             "Scarcity, choice and opportunity cost",
             "Economic methodology",
@@ -693,7 +693,7 @@
           ]
         },
         {
-          "topicName": "The Price System and the Microeconomy",
+          "topicName": "(AS) The Price System and the Microeconomy",
           "subtopics": [
             "Demand and supply curves",
             "Price elasticity, income elasticity and cross elasticity of demand",
@@ -703,7 +703,7 @@
           ]
         },
         {
-          "topicName": "Government Microeconomic Intervention",
+          "topicName": "(AS) Government Microeconomic Intervention",
           "subtopics": [
             "Reasons for government intervention",
             "Methods of government intervention",
@@ -711,7 +711,7 @@
           ]
         },
         {
-          "topicName": "The Macroeconomy",
+          "topicName": "(AS) The Macroeconomy",
           "subtopics": [
             "National income statistics",
             "The circular flow of income",
@@ -722,7 +722,7 @@
           ]
         },
         {
-          "topicName": "Government Macroeconomic Intervention",
+          "topicName": "(AS) Government Macroeconomic Intervention",
           "subtopics": [
             "Fiscal policy",
             "Monetary policy",
@@ -731,7 +731,7 @@
           ]
         },
         {
-          "topicName": "International Economic Issues",
+          "topicName": "(AS) International Economic Issues",
           "subtopics": [
             "The balance of payments",
             "Exchange rates",
@@ -745,7 +745,7 @@
       "levelName": "A Level",
       "topics": [
         {
-          "topicName": "The Price System and the Microeconomy",
+          "topicName": "(A) The Price System and the Microeconomy",
           "subtopics": [
             "Utility",
             "Indifference curves and budget lines",
@@ -759,7 +759,7 @@
           ]
         },
         {
-          "topicName": "Government Microeconomic Intervention",
+          "topicName": "(A) Government Microeconomic Intervention",
           "subtopics": [
             "Government policies to achieve efficient resource allocation",
             "Correcting market failure",
@@ -768,7 +768,7 @@
           ]
         },
         {
-          "topicName": "The Macroeconomy",
+          "topicName": "(A) The Macroeconomy",
           "subtopics": [
             "National income statistics",
             "The circular flow of income",
@@ -780,7 +780,7 @@
           ]
         },
         {
-          "topicName": "Government Macroeconomic Intervention",
+          "topicName": "(A) Government Macroeconomic Intervention",
           "subtopics": [
             "Fiscal policy",
             "Monetary policy",
@@ -789,7 +789,7 @@
           ]
         },
         {
-          "topicName": "International Economic Issues",
+          "topicName": "(A) International Economic Issues",
           "subtopics": [
             "The reasons for international trade",
             "Policies to correct disequilibrium in the balance of payments",
@@ -905,7 +905,7 @@
       "levelName": "AS Level",
       "topics": [
         {
-          "topicName": "Physical chemistry",
+          "topicName": "(AS) Physical chemistry",
           "subtopics": [
             "Atomic structure",
             "Atoms, molecules and stoichiometry",
@@ -918,7 +918,7 @@
           ]
         },
         {
-          "topicName": "Inorganic chemistry",
+          "topicName": "(AS) Inorganic chemistry",
           "subtopics": [
             "The Periodic Table: chemical periodicity",
             "Group 2",
@@ -927,7 +927,7 @@
           ]
         },
         {
-          "topicName": "Organic chemistry",
+          "topicName": "(AS) Organic chemistry",
           "subtopics": [
             "An introduction to AS Level organic chemistry",
             "Hydrocarbons",
@@ -941,7 +941,7 @@
           ]
         },
         {
-          "topicName": "Analysis",
+          "topicName": "(AS) Analysis",
           "subtopics": [
             "Analytical techniques"
           ]
@@ -952,7 +952,7 @@
       "levelName": "A Level",
       "topics": [
         {
-          "topicName": "Physical chemistry",
+          "topicName": "(A) Physical chemistry",
           "subtopics": [
             "Chemical energetics",
             "Electrochemistry",
@@ -961,14 +961,14 @@
           ]
         },
         {
-          "topicName": "Inorganic chemistry",
+          "topicName": "(A) Inorganic chemistry",
           "subtopics": [
             "Group 2",
             "Chemistry of transition elements"
           ]
         },
         {
-          "topicName": "Organic chemistry",
+          "topicName": "(A) Organic chemistry",
           "subtopics": [
             "An introduction to A Level organic chemistry",
             "Hydrocarbons",
@@ -981,7 +981,7 @@
           ]
         },
         {
-          "topicName": "Analysis",
+          "topicName": "(A) Analysis",
           "subtopics": [
             "Analytical techniques"
           ]

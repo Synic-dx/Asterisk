@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   Box,
   Button,
+  Center,
   Select,
   VStack,
   Heading,
@@ -78,6 +79,9 @@ const Practice = () => {
         levels = levels.filter((level) => level.levelName === "AS Level");
       } else if (aLevel) {
         levels = levels.filter((level) => level.levelName === "A Level");
+      } else if (bothLevels) {
+        // Include both AS and A Levels
+        levels = selectedSubject.levels;
       }
 
       // Flatten the topics into a single array of topics
@@ -93,7 +97,7 @@ const Practice = () => {
       setSelectedTopics([]);
       setSelectedSubtopics([]);
     }
-  }, [selectedSubject, asLevel, aLevel]);
+  }, [selectedSubject, asLevel, aLevel, bothLevels]);
 
   useEffect(() => {
     if (selectedSubject?.levels) {
@@ -270,7 +274,7 @@ const Practice = () => {
             ))}
           </VStack>
         ) : (
-          <Box mt={8} textAlign="center">
+          <Center mt={8} textAlign="center">
             <Text
               mb={4}
               fontFamily={textFont}
@@ -287,7 +291,7 @@ const Practice = () => {
             >
               Go to Personalise
             </Button>
-          </Box>
+          </Center>
         )}
       </Box>
       {selectedSubjects.length > 0 && selectedSubject ? (
