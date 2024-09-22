@@ -18,7 +18,7 @@ const SignInPage: NextPage = () => {
           px="8"
         >
           <Image
-            src="https://raw.githubusercontent.com/Synic-dx/Asterisk/next/public/Images/hourglassMan.png"
+            src="https://raw.githubusercontent.com/Synic-dx/IMGCDN/master/public/Images/hourglassMan.png"
             alt="Graphic"
             w={{ base: "none", md: "35%" }}
             mb={{ base: "6", md: "0" }}

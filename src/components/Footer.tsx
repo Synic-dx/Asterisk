@@ -65,7 +65,7 @@ const Footer: React.FC = () => {
             mt={{ base: 5, md: 0 }}
           >
             <Image
-              src={`https://raw.githubusercontent.com/Synic-dx/Asterisk/d52d9480186477ee868633e66fabe0dd51ac39fa/public/Images/Logo.svg`}
+              src={`https://raw.githubusercontent.com/Synic-dx/IMGCDN/7e18a16456957ef16c05bac4af699f66982df7e0/public/Images/Logo.svg`}
               alt="Asterisk Logo"
               boxSize={{ base: "110px", md: "200px" }}
               draggable={false}
