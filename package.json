@@ -29,7 +29,7 @@
     "@shadcn/ui": "^0.0.4",
     "@uidotdev/usehooks": "^2.4.1",
     "ai": "^3.2.33",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "better-react-mathjax": "^2.0.3",
