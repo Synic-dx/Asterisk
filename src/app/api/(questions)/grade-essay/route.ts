@@ -14,7 +14,7 @@ dotenv.config();
 export async function POST(req: NextRequest) {
   try {
     // Get session
-    const session = await getServerSession({ req, ...authOptions });
+    const session = await getServerSession(authOptions);
 
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

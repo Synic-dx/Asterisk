@@ -16,7 +16,7 @@ export interface Level {
 export interface Subject extends Document {
   subjectCode: string; // Unique code for the subject
   subjectName: string; // Name of the subject
-  levels: Level[]; // Array of Level objects
+  levels: Level[]; // Array of Level object
 }
 
 // Define the Mongoose schemas

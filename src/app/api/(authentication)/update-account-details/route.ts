@@ -38,11 +38,7 @@ export async function PUT(req: NextRequest) {
 
   try {
     // Get user session
-    const session = await getServerSession({
-      req,
-      res: NextResponse,
-      ...authOptions,
-    });
+    const session = await getServerSession(authOptions);
 
     if (!session || !session.user || !session.user._id) {
       console.error("Session or user not found.");

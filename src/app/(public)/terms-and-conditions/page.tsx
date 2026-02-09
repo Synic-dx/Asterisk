@@ -22,7 +22,7 @@ const TermsConditionsPage: NextPage = () => {
           services, you agree to comply with these terms. <br />
           <br />
           <b>Note:</b> Throughout these Terms and Conditions, as well as on the
-          platform, the terms "we" and "us" refer exclusively to Asterisk
+          platform, the terms &quot;we&quot; and &quot;us&quot; refer exclusively to Asterisk
           Academy, and not to any individual or group.
         </Text>
 

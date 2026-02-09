@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
   await dbConnect();
 
   // Retrieve session
-  const session = await getServerSession({ req, ...authOptions }); // Use spread operator
+  const session = await getServerSession(authOptions);
 
   // Validate session
   if (!session?.user?.id) {
