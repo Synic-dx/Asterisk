@@ -13,7 +13,7 @@ export interface Level {
   topics: Topics; // Array of Topic objects
 }
 
-export interface Subject extends Document {}
+export interface Subject extends Document {
   subjectCode: string; // Unique code for the subject
   subjectName: string; // Name of the subject
   levels: Level[]; // Array of Level object

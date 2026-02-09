@@ -62,7 +62,7 @@ const Grader: NextPage = () => {
     return (
       <Center mt={8} textAlign="center">
         <Text mb={4} fontFamily={textFont} fontSize={textSize} color={textColor}>
-          Oops, you don't seem to have grader access yet...
+          Oops, you don&apos;t seem to have grader access yet...
         </Text>
         <Button
           bg="#271144"

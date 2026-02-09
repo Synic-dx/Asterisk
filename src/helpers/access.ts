@@ -1,13 +1,11 @@
-import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 
-const { data: session } = useSession();
-
-export const hasPremiumAccess =
+export const hasPremiumAccess = (session: Session | null) =>
     session &&
     session.user.premiumAccess.valid &&
-    session.user.premiumAccess.accessTill > new Date;
+    session.user.premiumAccess.accessTill > new Date();
 
-export const hasGraderAccess =
+export const hasGraderAccess = (session: Session | null) =>
     session &&
     session.user.graderAccess.valid &&
-    session.user.graderAccess.accessTill > new Date;
+    session.user.graderAccess.accessTill > new Date();

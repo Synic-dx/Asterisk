@@ -34,7 +34,7 @@ class ErrorBoundary extends Component<Props, State> {
             Something went wrong.
           </Heading>
           <Text mb={4}>
-            We're sorry, but something went wrong. Please try again later.
+            We&apos;re sorry, but something went wrong. Please try again later.
           </Text>
           <Button onClick={() => window.location.reload()}>Reload Page</Button>
         </Box>
