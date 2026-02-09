@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
   } = await req.json();
 
   // Authenticate the user
-  const session = await getServerSession({ req, res: NextResponse, ...authOptions });
+  const session = await getServerSession(authOptions);
   if (!session || !session.user || !session.user._id) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }

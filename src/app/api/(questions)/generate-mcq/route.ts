@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
   let session;
   try {
     // Retrieve session
-    session = await getServerSession({ req, ...authOptions });
+    session = await getServerSession(authOptions);
   } catch (error) {
     console.error("Session retrieval error:", error);
     return NextResponse.json({ error: "Failed to retrieve session" }, { status: 500 });

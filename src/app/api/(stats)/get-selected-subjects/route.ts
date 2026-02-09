@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     console.log('Database connection established.');
 
     // Get user session
-    const session = await getServerSession({ req, ...authOptions });
+    const session = await getServerSession(authOptions);
     console.log('Session retrieved:', session);
 
     if (!session || !session.user || !session.user.userName) {
